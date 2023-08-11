@@ -1,15 +1,28 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShipStatsUI : MonoBehaviour
 {
 
     public ShipStats shipStats;
     public TextMeshProUGUI textShowStats;
+    public Button buttonPlaceNewShip;
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
+        ShipStats.OnShipUpdated += OnShipUpdated;
+    }
+
+    private void OnDisable()
+    {
+        ShipStats.OnShipUpdated -= OnShipUpdated;
+    }
+
+    private void OnShipUpdated()
+    {
+        buttonPlaceNewShip.gameObject.SetActive(shipStats.shipLost);
+
         if (!shipStats.shipLost)
         {
             textShowStats.text = string.Format("Schiff: {0}/{1}\nCrew: {2}/{3}\nNahrung: {4}/{5}\nMoral {6}/{7}\nGold: {8}",
@@ -23,4 +36,5 @@ public class ShipStatsUI : MonoBehaviour
             textShowStats.text = "";
         }
     }
+
 }

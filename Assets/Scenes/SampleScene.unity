@@ -109479,6 +109479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipStats: {fileID: 974539787}
   textShowStats: {fileID: 1940248511}
+  buttonPlaceNewShip: {fileID: 821309025}
 --- !u!1 &633064633
 GameObject:
   m_ObjectHideFlags: 0
@@ -110446,7 +110447,6 @@ MonoBehaviour:
   foodPerCrewPerDay: 0.5
   moralLossOnSea: 1
   moralLossAtCoast: 0.5
-  buttonPlaceNewShip: {fileID: 821309025}
   shipLost: 1
 --- !u!114 &974539788
 MonoBehaviour:

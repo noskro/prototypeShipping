@@ -26,9 +26,6 @@ public class ShipStats : MonoBehaviour
     public float moralLossOnSea;
     public float moralLossAtCoast;
 
-    [Header("References")]
-    public Button buttonPlaceNewShip;
-
     private ShipVisual shipVisual;
 
     [HideInInspector]
@@ -36,6 +33,8 @@ public class ShipStats : MonoBehaviour
 
     public GameMapHandler.Direction? direction;
 
+    public delegate void ShipUpdated();
+    public static event ShipUpdated OnShipUpdated;
 
     private void Awake()
     {
@@ -53,8 +52,11 @@ public class ShipStats : MonoBehaviour
         MoralStatus = currentShip.MoralStatusMax;
 
         shipLost = false;
-        buttonPlaceNewShip.gameObject.SetActive(false);
 
+        if (OnShipUpdated != null)
+        {
+            OnShipUpdated();
+        }
     }
 
     public void NextTurn(CustomTile newTile)
@@ -77,8 +79,11 @@ public class ShipStats : MonoBehaviour
         if (ShipStatus < 0 || CrewCount < 0 || MoralStatus < 0 || FoodStatus < 0)
         {
             shipLost = true;
+        }
 
-            buttonPlaceNewShip.gameObject.SetActive(true);
+        if (OnShipUpdated != null)
+        {
+            OnShipUpdated();
         }
     }
 }

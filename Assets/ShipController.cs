@@ -16,11 +16,20 @@ public class ShipController : MonoBehaviour
         shipSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
     }
 
+    private void OnEnable()
+    {
+        ShipStats.OnShipUpdated += UpdateShip;
+    }
+
+    private void OnDisable()
+    {
+        ShipStats.OnShipUpdated -= UpdateShip;
+    }
+
     // Update is called once per frame
     void Update()
     {
         HandleInput();
-        UpdateShip();
     }
 
     void HandleInput()
