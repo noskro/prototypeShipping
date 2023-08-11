@@ -9,4 +9,7 @@ public class CustomTile : RuleTile
 
     public EnumTileMovability movability;
 
+    public EnumTileType type;
+
+
 }

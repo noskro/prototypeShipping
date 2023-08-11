@@ -18,3 +18,4 @@ MonoBehaviour:
   m_TilingRules: []
   fogOfWarStatus: 0
   movability: 2
+  type: 2

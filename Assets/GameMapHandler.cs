@@ -18,9 +18,10 @@ public class GameMapHandler : MonoBehaviour
     public Transform ship;
     public Transform MoveToIcon;
     public Transform CoinIcon;
+    public TradeController tradeController;
 
-    int mapHeight = 63;
-    int mapWidth = 33;
+    public int mapHeight = 63;
+    public int mapWidth = 33;
     EnumFogOfWar[,] fowMap;
 
     [HideInInspector]
@@ -45,13 +46,6 @@ public class GameMapHandler : MonoBehaviour
         }
 
         IsShipMooving = false;
-
-        shipCoordinates = new Vector3Int(5, 4, 0);
-        ship.transform.position = tilemapFOW.GetCellCenterWorld(shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
-        DiscoverNewAreaByShip(shipCoordinates);
-        UpdateFOWMap();
-
-        MoveShipTocoords(new Vector3Int(5, 5, 0));
     }
 
     private void Update()
@@ -64,6 +58,7 @@ public class GameMapHandler : MonoBehaviour
             if (shipMovingTimer <= 0)
             {
                 IsShipMooving = false;
+                ship.GetComponent<ShipVisual>().ShowShipMoving(false);
 
                 ship.transform.position = shipTargetTransform; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
 
@@ -73,7 +68,7 @@ public class GameMapHandler : MonoBehaviour
         }
     }
 
-    internal void MoveShipTocoords(Vector3Int coordinates)
+    internal CustomTile ClickOnCoords(Vector3Int coordinates)
     {
         coordinates.z = 0;
         if (IsNeighbour(coordinates, shipCoordinates))
@@ -83,12 +78,22 @@ public class GameMapHandler : MonoBehaviour
                 shipStartTransform = tilemapFOW.GetCellCenterWorld(shipCoordinates);
                 shipTargetTransform = tilemapFOW.GetCellCenterWorld(coordinates);
 
+                ship.GetComponent<ShipVisual>().ShowShipMoving(true);
                 IsShipMooving = true;
                 shipMovingTimer = 1f;
 
                 shipCoordinates = coordinates;
+
+                return (CustomTile)tilemapMap.GetTile(coordinates);
+            }
+            else if (((CustomTile)tilemapObjects.GetTile(coordinates)).movability.Equals(EnumTileMovability.TradeVillage))
+            {
+                tradeController.ShowTrade(tilemapObjects.GetCellCenterWorld(coordinates));
+                return null; // no new moved to cell
             }
         }
+
+        return null;
     }
 
     internal void ShowMouseCursor(Vector3Int cursorCoords)
@@ -103,12 +108,12 @@ public class GameMapHandler : MonoBehaviour
             {
                 Vector3 worldPosition = tilemapMap.GetCellCenterWorld(cursorCoords);
 
-                if (tilemapMap.GetTile<CustomTile>(cursorCoords).movability.Equals(EnumTileMovability.ShipMoveable))
+                if (tilemapMap.GetTile<CustomTile>(cursorCoords) != null && tilemapMap.GetTile<CustomTile>(cursorCoords).movability.Equals(EnumTileMovability.ShipMoveable))
                 {
                     MoveToIcon.position = worldPosition;
                     MoveToIcon.gameObject.SetActive(true);
                 }
-                else if (tilemapObjects.GetTile<CustomTile>(cursorCoords).movability.Equals(EnumTileMovability.TradeVillage))
+                else if (tilemapObjects.GetTile<CustomTile>(cursorCoords) != null && tilemapObjects.GetTile<CustomTile>(cursorCoords).movability.Equals(EnumTileMovability.TradeVillage))
                 {
                     Debug.Log("Village");
                     CoinIcon.position = worldPosition;
@@ -120,22 +125,6 @@ public class GameMapHandler : MonoBehaviour
                 }
             }
         }
-
-        //if (tilemap != null && tileMoveTo != null)
-        //{
-        //    tilemapObjects.ClearAllTiles();
-
-        //        cursorCoords = new Vector3Int(cursorCoords.x, cursorCoords.y, 0);
-
-        //        if (IsNeighbour(cursorCoords, shipCoordinates))
-        //        {
-        //            if (tilemapMap.GetTile<CustomTile>(cursorCoords).movability.Equals(EnumTileMovability.ShipMoveable))
-        //            {
-        //                tilemapObjects.SetTile(cursorCoords, tileMoveTo);
-        //            }
-        //        }
-        //    }
-        //}
     }
 
     private Vector2Int HexGridToAxial(Vector3Int pos)
@@ -179,7 +168,7 @@ public class GameMapHandler : MonoBehaviour
         return false;
     }
 
-    private void DiscoverNewAreaByShip(Vector3Int coords)
+    internal void DiscoverNewAreaByShip(Vector3Int coords)
     {
         fowMap[coords.x, coords.y] = EnumFogOfWar.Discovered;
 
@@ -208,7 +197,7 @@ public class GameMapHandler : MonoBehaviour
         }
     }
 
-    private void UpdateFOWMap()
+    internal void UpdateFOWMap()
     {
         if (tilemapFOW != null)
         {
