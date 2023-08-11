@@ -22,7 +22,8 @@ public class GameMapHandler : MonoBehaviour
 
     public int mapHeight = 63;
     public int mapWidth = 33;
-    EnumFogOfWar[,] fowMap;
+    [HideInInspector]
+    public GameMapData[,] gameMapData;
 
     [HideInInspector]
     public Vector3Int shipCoordinates;
@@ -36,16 +37,27 @@ public class GameMapHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        fowMap = new EnumFogOfWar[mapWidth, mapHeight];
+        gameMapData = new GameMapData[mapWidth, mapHeight];
         for (int x = 0; x < mapWidth; x++)
         {
             for (int y = 0; y < mapHeight; y++)
             {
-                fowMap[x,y] = EnumFogOfWar.Undiscovered;
+                gameMapData[x, y] = new GameMapData(); //.fow = EnumFogOfWar.Undiscovered;
             }
         }
 
         IsShipMooving = false;
+    }
+
+    public void NewRun()
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                gameMapData[x, y].newRun();
+            }
+        }
     }
 
     private void Update()
@@ -68,34 +80,6 @@ public class GameMapHandler : MonoBehaviour
         }
     }
 
-    internal CustomTile ClickOnCoords(Vector3Int coordinates)
-    {
-        coordinates.z = 0;
-        if (IsNeighbour(coordinates, shipCoordinates))
-        {
-            if (((CustomTile)tilemapMap.GetTile(coordinates)).movability.Equals(EnumTileMovability.ShipMoveable))
-            {
-                shipStartTransform = tilemapFOW.GetCellCenterWorld(shipCoordinates);
-                shipTargetTransform = tilemapFOW.GetCellCenterWorld(coordinates);
-
-                ship.GetComponent<ShipVisual>().ShowShipMoving(true);
-                IsShipMooving = true;
-                shipMovingTimer = 1f;
-
-                shipCoordinates = coordinates;
-
-                return (CustomTile)tilemapMap.GetTile(coordinates);
-            }
-            else if (((CustomTile)tilemapObjects.GetTile(coordinates)).movability.Equals(EnumTileMovability.TradeVillage))
-            {
-                tradeController.ShowTrade(tilemapObjects.GetCellCenterWorld(coordinates));
-                return null; // no new moved to cell
-            }
-        }
-
-        return null;
-    }
-
     internal void ShowMouseCursor(Vector3Int cursorCoords)
     {
         cursorCoords.z = 0;
@@ -108,14 +92,15 @@ public class GameMapHandler : MonoBehaviour
             {
                 Vector3 worldPosition = tilemapMap.GetCellCenterWorld(cursorCoords);
 
+                CustomTile objectTile = tilemapObjects.GetTile<CustomTile>(cursorCoords);
+
                 if (tilemapMap.GetTile<CustomTile>(cursorCoords) != null && tilemapMap.GetTile<CustomTile>(cursorCoords).movability.Equals(EnumTileMovability.ShipMoveable))
                 {
                     MoveToIcon.position = worldPosition;
                     MoveToIcon.gameObject.SetActive(true);
                 }
-                else if (tilemapObjects.GetTile<CustomTile>(cursorCoords) != null && tilemapObjects.GetTile<CustomTile>(cursorCoords).movability.Equals(EnumTileMovability.TradeVillage))
+                else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[cursorCoords.x, cursorCoords.y].hasVillageTraded == false)
                 {
-                    Debug.Log("Village");
                     CoinIcon.position = worldPosition;
                     CoinIcon.gameObject.SetActive(true);
                 }
@@ -126,6 +111,37 @@ public class GameMapHandler : MonoBehaviour
             }
         }
     }
+
+    internal CustomTile ClickOnCoords(Vector3Int coordinates)
+    {
+        coordinates.z = 0;
+        if (IsNeighbour(coordinates, shipCoordinates))
+        {
+            CustomTile objectTile = tilemapObjects.GetTile<CustomTile>(coordinates);
+
+            if ((CustomTile)tilemapMap.GetTile(coordinates) != null && ((CustomTile)tilemapMap.GetTile(coordinates)).movability.Equals(EnumTileMovability.ShipMoveable))
+            {
+                shipStartTransform = tilemapFOW.GetCellCenterWorld(shipCoordinates);
+                shipTargetTransform = tilemapFOW.GetCellCenterWorld(coordinates);
+
+                ship.GetComponent<ShipVisual>().ShowShipMoving(true);
+                IsShipMooving = true;
+                shipMovingTimer = 1f;
+
+                shipCoordinates = coordinates;
+
+                return (CustomTile)tilemapMap.GetTile(coordinates);
+            }
+            else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[coordinates.x, coordinates.y].hasVillageTraded == false)
+            {
+                tradeController.ShowTrade(tilemapObjects.GetCellCenterWorld(coordinates), ref gameMapData[coordinates.x, coordinates.y]);
+                return null; // no new moved to cell
+            }
+        }
+
+        return null;
+    }
+
 
     private Vector2Int HexGridToAxial(Vector3Int pos)
     {
@@ -170,7 +186,7 @@ public class GameMapHandler : MonoBehaviour
 
     internal void DiscoverNewAreaByShip(Vector3Int coords)
     {
-        fowMap[coords.x, coords.y] = EnumFogOfWar.Discovered;
+        gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Discovered;
 
         CheckNeighbourForBorderDiscovery(coords.x, coords.y+1, coords);
         CheckNeighbourForBorderDiscovery(coords.x, coords.y, coords);
@@ -185,13 +201,13 @@ public class GameMapHandler : MonoBehaviour
 
     private void CheckNeighbourForBorderDiscovery(int x, int y, Vector3Int center)
     {
-        if (x >= 0 && x < fowMap.GetLength(0) && y >= 0 && y < fowMap.GetLength(1))
+        if (x >= 0 && x < gameMapData.GetLength(0) && y >= 0 && y < gameMapData.GetLength(1))
         {
-            if (fowMap[x, y] == EnumFogOfWar.Undiscovered)
+            if (gameMapData[x, y].fow == EnumFogOfWar.Undiscovered)
             {
                 if (IsNeighbour(new Vector3Int(x, y, 0), center))
                 {
-                    fowMap[x, y] = EnumFogOfWar.BorderArea;
+                    gameMapData[x, y].fow = EnumFogOfWar.BorderArea;
                 }
             }
         }
@@ -207,11 +223,11 @@ public class GameMapHandler : MonoBehaviour
             {
                 for (int y = 0; y < mapHeight; y++)
                 {
-                    if (fowMap[x, y].Equals(EnumFogOfWar.Undiscovered))
+                    if (gameMapData[x, y].fow.Equals(EnumFogOfWar.Undiscovered))
                     {
                         tilemapFOW.SetTile(new Vector3Int(x, y, 0), tileBlack);
                     }
-                    else if (fowMap[x, y].Equals(EnumFogOfWar.BorderArea))
+                    else if (gameMapData[x, y].fow.Equals(EnumFogOfWar.BorderArea))
                     {
                         tilemapFOW.SetTile(new Vector3Int(x, y, 0), tileHalf);
                     }

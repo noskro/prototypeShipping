@@ -35,8 +35,11 @@ public class DemoController : MonoBehaviour
 
     public void PlaceNewShip()
     {
+        gameMapHandler.NewRun();
+
         // place Ship
         shipStats.SetShip(demoShipModel);
+        shipStats.Gold = 0;
 
         gameMapHandler.shipCoordinates = new Vector3Int((int)Mathf.Round(gameMapHandler.mapWidth / 2), (int)Mathf.Round(gameMapHandler.mapHeight / 2), 0);
         gameMapHandler.ship.transform.position = tilemapFOW.GetCellCenterWorld(gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);

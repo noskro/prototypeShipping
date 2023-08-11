@@ -32,7 +32,7 @@ public class ShipController : MonoBehaviour
                 coordinates.z = 0;
                 gameMapHandler.ShowMouseCursor(coordinates);
 
-                if (!gameMapHandler.IsShipMooving && Input.GetMouseButton(0))
+                if (!gameMapHandler.IsShipMooving && !gameMapHandler.tradeController.IsTrading && Input.GetMouseButton(0))
                 {
                     Vector3Int previousShipCoordinates = gameMapHandler.shipCoordinates;
 

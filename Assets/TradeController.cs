@@ -16,14 +16,19 @@ public class TradeController : MonoBehaviour
 
     public ShipStats shipStats;
 
+    public bool IsTrading { get; internal set; }
+    private GameMapData villageGameMapData;
+
     // Start is called before the first frame update
     void Start()
     {
         this.gameObject.SetActive(false);
     }
 
-    public void ShowTrade(Vector3 pos)
+    public void ShowTrade(Vector3 pos, ref GameMapData dataVillage)
     {
+        this.villageGameMapData = dataVillage;
+        IsTrading = true;
         this.transform.position = pos;
 
         trade1.sprite = spriteTradeGold;
@@ -75,6 +80,13 @@ public class TradeController : MonoBehaviour
 
     public void ClickTrade(int id)
     {
+        if (id == 0)
+        {
+            IsTrading = false;
+            this.gameObject.SetActive(false);
+            return;
+        }
+
         SpriteRenderer selectedSR = null;
         if (id == 1)
         {
@@ -110,6 +122,8 @@ public class TradeController : MonoBehaviour
             shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + (int)(Mathf.Round(Random.value*2)+1), shipStats.currentShip.MoralStatusMax);
         }
 
+        villageGameMapData.hasVillageTraded = true;
+        IsTrading = false;
         this.gameObject.SetActive(false);
     }
 }
