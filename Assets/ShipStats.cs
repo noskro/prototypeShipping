@@ -35,6 +35,8 @@ public class ShipStats : MonoBehaviour
     [HideInInspector]
     public bool shipLost = true;
 
+    public GameMapHandler.Direction? direction;
+
 
     private void Awake()
     {

@@ -19,6 +19,12 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleInput();
+        UpdateShip();
+    }
+
+    void HandleInput()
+    {
         if (GetComponent<ShipStats>().shipLost)
         {
             shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
@@ -27,64 +33,84 @@ public class ShipController : MonoBehaviour
         }
         else
         {
-            Vector3 mousePositin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3Int mouseCellCoordinates = tilemap_World.WorldToCell(mouseWorldPosition);
 
-            Vector3Int coordinates = tilemap_World.WorldToCell(mousePositin);
-
-            if (coordinates != null && coordinates.x >= 0 && coordinates.y >= 0)
+            if (mouseCellCoordinates != null && mouseCellCoordinates.x >= 0 && mouseCellCoordinates.y >= 0)
             {
-                coordinates.z = 0;
-                gameMapHandler.ShowMouseCursor(coordinates);
+                mouseCellCoordinates.z = 0;
+                gameMapHandler.ShowMouseCursor(mouseCellCoordinates);
 
                 if (!gameMapHandler.IsShipMoving && !gameMapHandler.tradeController.IsTrading && Input.GetMouseButton(0))
                 {
                     Vector3Int previousShipCoordinates = gameMapHandler.shipCoordinates;
 
-                    var direction = gameMapHandler.GetDirection(previousShipCoordinates, coordinates);
 
-                    float rotation = 0;
-                    shipSpriteRenderer.flipX = false;
 
-                    switch (direction)
-                    {
-                        case GameMapHandler.Direction.North:
-                            Debug.Log("North");
-                            rotation = -90;
-                            break;
-                        case GameMapHandler.Direction.NorthEast:
-                            Debug.Log("NorthEast");
-                            shipSpriteRenderer.flipX = true;
-                            rotation = 30;
-                            break;
-                        case GameMapHandler.Direction.NorthWest:
-                            Debug.Log("NorthWest");
-                            rotation = -30;
-                            break;
-                        case GameMapHandler.Direction.South:
-                            Debug.Log("South");
-                            rotation = 90;
-                            break;
-                        case GameMapHandler.Direction.SouthEast:
-                            Debug.Log("SouthEast");
-                            shipSpriteRenderer.flipX = true;
-                            rotation = -30;
-                            break;
-                        case GameMapHandler.Direction.SouthWest:
-                            Debug.Log("SouthWest");
-                            rotation = 30;
-                            break;
-                    }
+                    var direction = gameMapHandler.GetDirection(previousShipCoordinates, mouseCellCoordinates);
 
-                    CustomTile targetTile = gameMapHandler.ClickOnCoords(coordinates);
+                    GetComponent<ShipStats>().direction = direction;
+
+                    CustomTile targetTile = gameMapHandler.ClickOnCoords(mouseCellCoordinates);
                     if (targetTile != null) // if ship was moved)
                     {
-                        shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
 
                         shipStats.NextTurn(targetTile);
                     }
                 }
             }
         }
+
+    }
+
+    void UpdateShip()
+    {
+        if (GetComponent<ShipStats>().shipLost)
+        {
+            shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            gameMapHandler.ShowMouseCursor(new Vector3Int(-1, -1, -1));
+
+        }
+        else
+        {
+
+            float rotation = 0;
+            shipSpriteRenderer.flipX = false;
+
+            switch (GetComponent<ShipStats>().direction)
+            {
+                case GameMapHandler.Direction.North:
+                    Debug.Log("North");
+                    rotation = -90;
+                    break;
+                case GameMapHandler.Direction.NorthEast:
+                    Debug.Log("NorthEast");
+                    shipSpriteRenderer.flipX = true;
+                    rotation = 30;
+                    break;
+                case GameMapHandler.Direction.NorthWest:
+                    Debug.Log("NorthWest");
+                    rotation = -30;
+                    break;
+                case GameMapHandler.Direction.South:
+                    Debug.Log("South");
+                    rotation = 90;
+                    break;
+                case GameMapHandler.Direction.SouthEast:
+                    Debug.Log("SouthEast");
+                    shipSpriteRenderer.flipX = true;
+                    rotation = -30;
+                    break;
+                case GameMapHandler.Direction.SouthWest:
+                    Debug.Log("SouthWest");
+                    rotation = 30;
+                    break;
+            }
+
+            shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+
+        }
+
     }
 }
 
