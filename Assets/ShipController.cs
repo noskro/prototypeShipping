@@ -25,7 +25,11 @@ public class ShipController : MonoBehaviour
 
     void HandleInput()
     {
-        if (gameMapHandler.IsShipMoving)
+        if (shipStats.shipLost)
+        {
+            // no input while ship is lost
+        }
+        else if (gameMapHandler.IsShipMoving)
         {
             // no input while ship is moving
         }

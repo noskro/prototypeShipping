@@ -28,7 +28,6 @@ public class ShipStats : MonoBehaviour
 
     [Header("References")]
     public Button buttonPlaceNewShip;
-    public TextMeshProUGUI textShowStats;
 
     private ShipVisual shipVisual;
 
@@ -80,24 +79,6 @@ public class ShipStats : MonoBehaviour
             shipLost = true;
 
             buttonPlaceNewShip.gameObject.SetActive(true);
-        }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (shipLost == false)
-        {
-            textShowStats.text = string.Format("Schiff: {0}/{1}\nCrew: {2}/{3}\nNahrung: {4}/{5}\nMoral {6}/{7}\nGold: {8}",
-                Mathf.Ceil(ShipStatus), currentShip.ShipStatusMax,
-                Mathf.Ceil(CrewCount), currentShip.CrewCountMax,
-                Mathf.Ceil(FoodStatus), currentShip.FoodStatusMax,
-                Mathf.Ceil(MoralStatus), currentShip.MoralStatusMax,
-                Gold);
-        }
-        else
-        {
-            textShowStats.text = "";
         }
     }
 }
