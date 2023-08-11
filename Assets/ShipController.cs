@@ -25,11 +25,13 @@ public class ShipController : MonoBehaviour
 
     void HandleInput()
     {
-        if (GetComponent<ShipStats>().shipLost)
+        if (gameMapHandler.IsShipMoving)
         {
-            shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            gameMapHandler.ShowMouseCursor(new Vector3Int(-1, -1, -1));
-
+            // no input while ship is moving
+        }
+        else if (gameMapHandler.tradeController.IsTrading)
+        {
+            // handled by tradeController
         }
         else
         {
@@ -41,20 +43,15 @@ public class ShipController : MonoBehaviour
                 mouseCellCoordinates.z = 0;
                 gameMapHandler.ShowMouseCursor(mouseCellCoordinates);
 
-                if (!gameMapHandler.IsShipMoving && !gameMapHandler.tradeController.IsTrading && Input.GetMouseButton(0))
+                if (Input.GetMouseButton(0))
                 {
                     Vector3Int previousShipCoordinates = gameMapHandler.shipCoordinates;
 
-
-
-                    var direction = gameMapHandler.GetDirection(previousShipCoordinates, mouseCellCoordinates);
-
-                    GetComponent<ShipStats>().direction = direction;
+                    shipStats.direction = gameMapHandler.GetDirection(previousShipCoordinates, mouseCellCoordinates);
 
                     CustomTile targetTile = gameMapHandler.ClickOnCoords(mouseCellCoordinates);
                     if (targetTile != null) // if ship was moved)
                     {
-
                         shipStats.NextTurn(targetTile);
                     }
                 }
@@ -65,19 +62,16 @@ public class ShipController : MonoBehaviour
 
     void UpdateShip()
     {
-        if (GetComponent<ShipStats>().shipLost)
+        if (shipStats.shipLost)
         {
             shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            gameMapHandler.ShowMouseCursor(new Vector3Int(-1, -1, -1));
-
         }
         else
         {
-
             float rotation = 0;
             shipSpriteRenderer.flipX = false;
 
-            switch (GetComponent<ShipStats>().direction)
+            switch (shipStats.direction)
             {
                 case GameMapHandler.Direction.North:
                     Debug.Log("North");

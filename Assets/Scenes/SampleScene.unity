@@ -110236,7 +110236,7 @@ GameObject:
   - component: {fileID: 940572145}
   - component: {fileID: 940572144}
   m_Layer: 0
-  m_Name: AbordTrade
+  m_Name: AbortTrade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111157,7 +111157,7 @@ MonoBehaviour:
   mapHeight: 63
   mapWidth: 33
   shipCoordinates: {x: 0, y: 0, z: 0}
-  IsShipMooving: 0
+  IsShipMoving: 0
   shipMovingTimer: 0
   shipStartTransform: {x: 0, y: 0, z: 0}
   shipTargetTransform: {x: 0, y: 0, z: 0}

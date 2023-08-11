@@ -89,23 +89,25 @@ public class GameMapHandler : MonoBehaviour
         {
             if (IsNeighbour(cursorCoords, shipCoordinates))
             {
-                Vector3 worldPosition = tilemapMap.GetCellCenterWorld(cursorCoords);
-
+                CustomTile mapTile = tilemapMap.GetTile<CustomTile>(cursorCoords);
                 CustomTile objectTile = tilemapObjects.GetTile<CustomTile>(cursorCoords);
 
-                if (tilemapMap.GetTile<CustomTile>(cursorCoords) != null && tilemapMap.GetTile<CustomTile>(cursorCoords).movability.Equals(EnumTileMovability.ShipMoveable))
+                if (mapTile != null && mapTile.movability.Equals(EnumTileMovability.ShipMoveable))
                 {
-                    MoveToIcon.position = worldPosition;
+                    MoveToIcon.position = tilemapMap.GetCellCenterWorld(cursorCoords);
                     MoveToIcon.gameObject.SetActive(true);
                 }
-                else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[cursorCoords.x, cursorCoords.y].hasVillageTraded == false)
+                else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage))
                 {
-                    CoinIcon.position = worldPosition;
-                    CoinIcon.gameObject.SetActive(true);
+                    if (gameMapData[cursorCoords.x, cursorCoords.y].hasVillageTraded == false)
+                    {
+                        CoinIcon.position = tilemapMap.GetCellCenterWorld(cursorCoords);
+                        CoinIcon.gameObject.SetActive(true);
+                    }
                 }
                 else
                 {
-                    Debug.Log("Tile movability: " + tilemapMap.GetTile<CustomTile>(cursorCoords).movability);
+                    // Debug.Log("Tile movability: " + tilemapMap.GetTile<CustomTile>(cursorCoords).movability);
                 }
             }
         }
