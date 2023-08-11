@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -21,7 +19,13 @@ public class ShipController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GetComponent<ShipStats>().shipLost)
+        if (GetComponent<ShipStats>().shipLost)
+        {
+            shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            gameMapHandler.ShowMouseCursor(new Vector3Int(-1, -1, -1));
+
+        }
+        else
         {
             Vector3 mousePositin = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -32,64 +36,54 @@ public class ShipController : MonoBehaviour
                 coordinates.z = 0;
                 gameMapHandler.ShowMouseCursor(coordinates);
 
-                if (!gameMapHandler.IsShipMooving && !gameMapHandler.tradeController.IsTrading && Input.GetMouseButton(0))
+                if (!gameMapHandler.IsShipMoving && !gameMapHandler.tradeController.IsTrading && Input.GetMouseButton(0))
                 {
                     Vector3Int previousShipCoordinates = gameMapHandler.shipCoordinates;
 
-                    CustomTile targetTile = gameMapHandler.ClickOnCoords(coordinates);
+                    var direction = gameMapHandler.GetDirection(previousShipCoordinates, coordinates);
 
+                    float rotation = 0;
+                    shipSpriteRenderer.flipX = false;
+
+                    switch (direction)
+                    {
+                        case GameMapHandler.Direction.North:
+                            Debug.Log("North");
+                            rotation = -90;
+                            break;
+                        case GameMapHandler.Direction.NorthEast:
+                            Debug.Log("NorthEast");
+                            shipSpriteRenderer.flipX = true;
+                            rotation = 30;
+                            break;
+                        case GameMapHandler.Direction.NorthWest:
+                            Debug.Log("NorthWest");
+                            rotation = -30;
+                            break;
+                        case GameMapHandler.Direction.South:
+                            Debug.Log("South");
+                            rotation = 90;
+                            break;
+                        case GameMapHandler.Direction.SouthEast:
+                            Debug.Log("SouthEast");
+                            shipSpriteRenderer.flipX = true;
+                            rotation = -30;
+                            break;
+                        case GameMapHandler.Direction.SouthWest:
+                            Debug.Log("SouthWest");
+                            rotation = 30;
+                            break;
+                    }
+
+                    CustomTile targetTile = gameMapHandler.ClickOnCoords(coordinates);
                     if (targetTile != null) // if ship was moved)
                     {
-                        float rotation = 0;
-                        shipSpriteRenderer.transform.localScale = new Vector3(1, 1, 1);
-
-                        if (coordinates.y > previousShipCoordinates.y)
-                        {
-                            shipSpriteRenderer.transform.localScale = new Vector3(-1, 1, 1);
-
-                            if (coordinates.x < previousShipCoordinates.x)
-                            {
-                                rotation = -30;
-                            }
-                            else if (coordinates.x > previousShipCoordinates.x)
-                            {
-                                rotation = 30;
-                            }
-                        }
-                        else if (coordinates.y < previousShipCoordinates.y)
-                        {
-                            if (coordinates.x < previousShipCoordinates.x)
-                            {
-                                rotation = 30;
-                            }
-                            else if (coordinates.x > previousShipCoordinates.x)
-                            {
-                                rotation = -30;
-                            }
-                        }
-                        else
-                        {
-                            if (coordinates.x < previousShipCoordinates.x)
-                            {
-                                rotation = 90;
-                            }
-                            else if (coordinates.x > previousShipCoordinates.x)
-                            {
-                                rotation = -90;
-                            }
-                        }
-
                         shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
 
                         shipStats.NextTurn(targetTile);
                     }
                 }
             }
-        }
-        else // ship lost
-        {
-            shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-            gameMapHandler.ShowMouseCursor(new Vector3Int(-1,-1,-1));
         }
     }
 }

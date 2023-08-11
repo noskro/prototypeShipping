@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -12,7 +9,7 @@ public class GameMapHandler : MonoBehaviour
 
     public RuleTile tileBlack;
     public RuleTile tileHalf;
-    
+
     //public Tile tileMoveTo;
 
     public Transform ship;
@@ -29,10 +26,12 @@ public class GameMapHandler : MonoBehaviour
     public Vector3Int shipCoordinates;
 
     [HideInInspector]
-    public bool IsShipMooving = false;
+    public bool IsShipMoving = false;
     public float shipMovingTimer = 0f;
     public Vector3 shipStartTransform;
     public Vector3 shipTargetTransform;
+
+    public enum Direction { North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest } // East & West are not used
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +45,7 @@ public class GameMapHandler : MonoBehaviour
             }
         }
 
-        IsShipMooving = false;
+        IsShipMoving = false;
     }
 
     public void NewRun()
@@ -62,14 +61,14 @@ public class GameMapHandler : MonoBehaviour
 
     private void Update()
     {
-        if (IsShipMooving)
+        if (IsShipMoving)
         {
             ship.transform.position = Vector3.Lerp(shipTargetTransform, shipStartTransform, shipMovingTimer);
             shipMovingTimer -= Time.deltaTime * 2;
 
             if (shipMovingTimer <= 0)
             {
-                IsShipMooving = false;
+                IsShipMoving = false;
                 ship.GetComponent<ShipVisual>().ShowShipMoving(false);
 
                 ship.transform.position = shipTargetTransform; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
@@ -125,7 +124,7 @@ public class GameMapHandler : MonoBehaviour
                 shipTargetTransform = tilemapFOW.GetCellCenterWorld(coordinates);
 
                 ship.GetComponent<ShipVisual>().ShowShipMoving(true);
-                IsShipMooving = true;
+                IsShipMoving = true;
                 shipMovingTimer = 1f;
 
                 shipCoordinates = coordinates;
@@ -184,19 +183,52 @@ public class GameMapHandler : MonoBehaviour
         return false;
     }
 
+    internal Direction? GetDirection(Vector3Int start, Vector3Int dest)
+    {
+        Vector2Int p0 = HexGridToAxial(start);
+        Vector2Int p1 = HexGridToAxial(dest);
+
+        if (p1 == (p0 + new Vector2(1, 0)))
+        {
+            return Direction.North;
+        }
+        else if (p1 == (p0 + new Vector2(1, -1)))
+        {
+            return Direction.NorthWest;
+        }
+        else if (p1 == (p0 + new Vector2(0, -1)))
+        {
+            return Direction.SouthWest;
+        }
+        else if (p1 == (p0 + new Vector2(-1, 0)))
+        {
+            return Direction.South;
+        }
+        else if (p1 == (p0 + new Vector2(-1, +1)))
+        {
+            return Direction.SouthEast;
+        }
+        else if (p1 == (p0 + new Vector2(0, 1)))
+        {
+            return Direction.NorthEast;
+        }
+
+        return null;
+    }
+
     internal void DiscoverNewAreaByShip(Vector3Int coords)
     {
         gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Discovered;
 
-        CheckNeighbourForBorderDiscovery(coords.x, coords.y+1, coords);
+        CheckNeighbourForBorderDiscovery(coords.x, coords.y + 1, coords);
         CheckNeighbourForBorderDiscovery(coords.x, coords.y, coords);
-        CheckNeighbourForBorderDiscovery(coords.x, coords.y-1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x+1, coords.y+1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x+1, coords.y, coords);
-        CheckNeighbourForBorderDiscovery(coords.x+1, coords.y-1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x-1, coords.y+1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x-1, coords.y, coords);
-        CheckNeighbourForBorderDiscovery(coords.x-1, coords.y-1, coords);
+        CheckNeighbourForBorderDiscovery(coords.x, coords.y - 1, coords);
+        CheckNeighbourForBorderDiscovery(coords.x + 1, coords.y + 1, coords);
+        CheckNeighbourForBorderDiscovery(coords.x + 1, coords.y, coords);
+        CheckNeighbourForBorderDiscovery(coords.x + 1, coords.y - 1, coords);
+        CheckNeighbourForBorderDiscovery(coords.x - 1, coords.y + 1, coords);
+        CheckNeighbourForBorderDiscovery(coords.x - 1, coords.y, coords);
+        CheckNeighbourForBorderDiscovery(coords.x - 1, coords.y - 1, coords);
     }
 
     private void CheckNeighbourForBorderDiscovery(int x, int y, Vector3Int center)
