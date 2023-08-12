@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67d50c6c98639a84190862cf18902fd0, type: 3}
-  m_Name: StarterShip
+  m_Name: ExplorerShip
   m_EditorClassIdentifier: 
   ShipStatusMax: 3
   CrewCountMax: 5
@@ -18,5 +18,5 @@ MonoBehaviour:
   MoralStatusMax: 10
   ShipSpeed: 3
   ShipPrice: 1
-  ViewRange: 0
-  DiscoverRange: 1
+  ViewRange: 2
+  DiscoverRange: 5

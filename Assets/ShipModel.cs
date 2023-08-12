@@ -11,4 +11,7 @@ public class ShipModelSO : ScriptableObject
     public int ShipSpeed; // amount of fields a ship can move at one virtual "day"
 
     public int ShipPrice; // value of ship to unlock/sell or something like that
+
+    public int ViewRange;
+    public int DiscoverRange;
 }

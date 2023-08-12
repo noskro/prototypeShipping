@@ -52,7 +52,7 @@ public class DemoController : MonoBehaviour
         gameMapHandler.shipCoordinates = new Vector3Int((int)Mathf.Round(gameMapHandler.mapWidth / 2), (int)Mathf.Round(gameMapHandler.mapHeight / 2), 0);
         gameMapHandler.ship.transform.position = tilemapFOW.GetCellCenterWorld(gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         gameMapHandler.ship.gameObject.SetActive(true);
-        gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates);
+        gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, demoShipModel);
         gameMapHandler.UpdateFOWMap();
 
         // place Ship

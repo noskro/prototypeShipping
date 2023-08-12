@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -22,7 +23,6 @@ public class GameMapHandler : MonoBehaviour
     [HideInInspector]
     public GameMapData[,] gameMapData;
 
-    [HideInInspector]
     public Vector3Int shipCoordinates;
 
     [HideInInspector]
@@ -73,7 +73,7 @@ public class GameMapHandler : MonoBehaviour
 
                 ship.transform.position = shipTargetTransform; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
 
-                DiscoverNewAreaByShip(shipCoordinates);
+                DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.demoShipModel);
                 UpdateFOWMap();
             }
         }
@@ -155,35 +155,16 @@ public class GameMapHandler : MonoBehaviour
 
     private bool IsNeighbour(Vector3Int cell, Vector3Int center)
     {
-        Vector2Int p0 = HexGridToAxial(center);
-        Vector2Int p1 = HexGridToAxial(cell);
-
-        if (p1 == (p0 + new Vector2(1, 0)))
+        if (GetNeighbors(center, 1).Contains(cell))
         {
+            Debug.Log("yes");
             return true;
         }
-        else if (p1 == (p0 + new Vector2(1, -1)))
+        else
         {
-            return true;
+            Debug.Log("no");
+            return false;
         }
-        else if (p1 == (p0 + new Vector2(0, -1)))
-        {
-            return true;
-        }
-        else if (p1 == (p0 + new Vector2(-1, 0)))
-        {
-            return true;
-        }
-        else if (p1 == (p0 + new Vector2(-1, +1)))
-        {
-            return true;
-        }
-        else if (p1 == (p0 + new Vector2(0, 1)))
-        {
-            return true;
-        }
-
-        return false;
     }
 
     internal Direction? GetDirection(Vector3Int start, Vector3Int dest)
@@ -219,33 +200,34 @@ public class GameMapHandler : MonoBehaviour
         return null;
     }
 
-    internal void DiscoverNewAreaByShip(Vector3Int coords)
+    internal void DiscoverNewAreaByShip(Vector3Int coords, ShipModelSO ship)
     {
-        gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Discovered;
+        gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Visible;
 
-        CheckNeighbourForBorderDiscovery(coords.x, coords.y + 1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x, coords.y, coords);
-        CheckNeighbourForBorderDiscovery(coords.x, coords.y - 1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x + 1, coords.y + 1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x + 1, coords.y, coords);
-        CheckNeighbourForBorderDiscovery(coords.x + 1, coords.y - 1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x - 1, coords.y + 1, coords);
-        CheckNeighbourForBorderDiscovery(coords.x - 1, coords.y, coords);
-        CheckNeighbourForBorderDiscovery(coords.x - 1, coords.y - 1, coords);
-    }
-
-    private void CheckNeighbourForBorderDiscovery(int x, int y, Vector3Int center)
-    {
-        if (x >= 0 && x < gameMapData.GetLength(0) && y >= 0 && y < gameMapData.GetLength(1))
+        var farNeighbors = GetNeighbors(coords, ship.DiscoverRange);
+        foreach (var neighbor in farNeighbors)
         {
-            if (gameMapData[x, y].fow == EnumFogOfWar.Undiscovered)
-            {
-                if (IsNeighbour(new Vector3Int(x, y, 0), center))
-                {
-                    gameMapData[x, y].fow = EnumFogOfWar.BorderArea;
-                }
+            if (isWithinMap(neighbor)) { 
+                gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Fog;
+                tilemapFOW.SetTileFlags(neighbor, TileFlags.None);
+                tilemapFOW.SetColor(neighbor, Color.white);
             }
         }
+        var nearNeighbors = GetNeighbors(coords, ship.ViewRange);
+        foreach (var neighbor in nearNeighbors)
+        {
+            if (isWithinMap(neighbor))
+            {
+                gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Visible;
+                tilemapFOW.SetTileFlags(neighbor, TileFlags.None);
+                tilemapFOW.SetColor(neighbor, Color.white);
+            }
+        }
+    }
+
+    private bool isWithinMap(Vector3Int coords)
+    {
+        return coords.x >= 0 && coords.x < mapWidth && coords.y >= 0 && coords.y < mapHeight;
     }
 
     internal void UpdateFOWMap()
@@ -262,13 +244,58 @@ public class GameMapHandler : MonoBehaviour
                     {
                         tilemapFOW.SetTile(new Vector3Int(x, y, 0), tileBlack);
                     }
-                    else if (gameMapData[x, y].fow.Equals(EnumFogOfWar.BorderArea))
+                    else if (gameMapData[x, y].fow.Equals(EnumFogOfWar.Fog))
                     {
                         tilemapFOW.SetTile(new Vector3Int(x, y, 0), tileHalf);
                     }
                 }
             }
         }
+    }
+
+    private List<Vector3Int> GetNeighbors(Vector3Int unityCell, int range)
+    {
+        var centerCubePos = UnityCellToCube(unityCell);
+
+        var result = new List<Vector3Int>();
+
+        int min = -range, max = range;
+
+        for (int x = min; x <= max; x++)
+        {
+            for (int y = min; y <= max; y++)
+            {
+                var z = -x - y;
+                if (z < min || z > max)
+                {
+                    continue;
+                }
+
+                var cubePosOffset = new Vector3Int(x, y, z);
+                result.Add(CubeToUnityCell(centerCubePos + cubePosOffset));
+            }
+
+        }
+
+        return result;
+    }
+    private Vector3Int UnityCellToCube(Vector3Int cell)
+    {
+        var yCell = cell.x;
+        var xCell = cell.y;
+        var x = yCell - (xCell - (xCell & 1)) / 2;
+        var z = xCell;
+        var y = -x - z;
+        return new Vector3Int(x, y, z);
+    }
+    private Vector3Int CubeToUnityCell(Vector3Int cube)
+    {
+        var x = cube.x;
+        var z = cube.z;
+        var col = x + (z - (z & 1)) / 2;
+        var row = z;
+
+        return new Vector3Int(col, row, 0);
     }
 
 }

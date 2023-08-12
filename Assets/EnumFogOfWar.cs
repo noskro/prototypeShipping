@@ -2,7 +2,7 @@
 {
     Undiscovered,
     FarBorderArea,
-    BorderArea,
-    Discovered,
+    Fog,
+    Visible,
     Active
 }
