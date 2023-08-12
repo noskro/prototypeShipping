@@ -49,15 +49,15 @@ public class DemoController : MonoBehaviour
     {
         gameMapHandler.NewRun();
 
-        // place Ship
-        shipStats.SetShip(demoShipModel);
-        shipStats.Gold = 0;
-
         gameMapHandler.shipCoordinates = new Vector3Int((int)Mathf.Round(gameMapHandler.mapWidth / 2), (int)Mathf.Round(gameMapHandler.mapHeight / 2), 0);
         gameMapHandler.ship.transform.position = tilemapFOW.GetCellCenterWorld(gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         gameMapHandler.ship.gameObject.SetActive(true);
         gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates);
         gameMapHandler.UpdateFOWMap();
+
+        // place Ship
+        shipStats.Gold = 0;
+        shipStats.SetShip(demoShipModel);
     }
 
     // Update is called once per frame
@@ -73,11 +73,13 @@ public class DemoController : MonoBehaviour
     {
         if (gameMapHandler.tilemapMap.GetTile<CustomTile>(gameMapHandler.shipCoordinates).type == EnumTileType.CoastalWater)
         {
+            Debug.Log("Coastal");
             coastal.gameObject.SetActive(true);
             openSea.gameObject.SetActive(false);
         }
         else
         {
+            Debug.Log("Open Sea");
             coastal.gameObject.SetActive(false);
             openSea.gameObject.SetActive(true);
         }

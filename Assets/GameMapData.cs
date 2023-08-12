@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-public class GameMapData: MonoBehaviour
+public class GameMapData
 {
     public EnumFogOfWar fow = EnumFogOfWar.Undiscovered;
     public bool hasVillageTraded = false;
