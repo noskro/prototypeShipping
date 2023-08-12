@@ -119,8 +119,9 @@ public class GameMapHandler : MonoBehaviour
         if (IsNeighbour(coordinates, shipCoordinates))
         {
             CustomTile objectTile = tilemapObjects.GetTile<CustomTile>(coordinates);
+            CustomTile mapTile = tilemapMap.GetTile<CustomTile>(coordinates);
 
-            if ((CustomTile)tilemapMap.GetTile(coordinates) != null && ((CustomTile)tilemapMap.GetTile(coordinates)).movability.Equals(EnumTileMovability.ShipMoveable))
+            if (mapTile != null && mapTile.movability.Equals(EnumTileMovability.ShipMoveable))
             {
                 shipStartTransform = tilemapFOW.GetCellCenterWorld(shipCoordinates);
                 shipTargetTransform = tilemapFOW.GetCellCenterWorld(coordinates);
@@ -131,7 +132,7 @@ public class GameMapHandler : MonoBehaviour
 
                 shipCoordinates = coordinates;
 
-                return (CustomTile)tilemapMap.GetTile(coordinates);
+                return mapTile;
             }
             else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[coordinates.x, coordinates.y].hasVillageTraded == false)
             {

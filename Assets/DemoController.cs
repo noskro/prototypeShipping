@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,8 @@ public class DemoController : MonoBehaviour
     public Tilemap tilemapFOW;
     public ShipModelSO demoShipModel;
     public ShipStats shipStats;
+    public CinemachineVirtualCamera coastal;
+    public CinemachineVirtualCamera openSea;
 
     private static DemoController instance;
 
@@ -20,8 +23,7 @@ public class DemoController : MonoBehaviour
         }
     }
 
-    [HideInInspector]
-    public GameMapHandler gameMapHandler;
+    private GameMapHandler gameMapHandler;
     // Start is called before the first frame update
     void Start()
     {
@@ -55,5 +57,17 @@ public class DemoController : MonoBehaviour
         {
             Application.Quit();
         }
+
+        if (gameMapHandler.tilemapMap.GetTile<CustomTile>(gameMapHandler.shipCoordinates).type == EnumTileType.CoastalWater)
+        {
+            coastal.gameObject.SetActive(true);
+            openSea.gameObject.SetActive(false);
+        }
+        else
+        {
+            coastal.gameObject.SetActive(false);
+            openSea.gameObject.SetActive(true);
+        }
+
     }
 }
