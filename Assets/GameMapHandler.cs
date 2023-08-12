@@ -157,12 +157,10 @@ public class GameMapHandler : MonoBehaviour
     {
         if (GetNeighbors(center, 1).Contains(cell))
         {
-            Debug.Log("yes");
             return true;
         }
         else
         {
-            Debug.Log("no");
             return false;
         }
     }
@@ -207,7 +205,7 @@ public class GameMapHandler : MonoBehaviour
         var farNeighbors = GetNeighbors(coords, ship.DiscoverRange);
         foreach (var neighbor in farNeighbors)
         {
-            if (isWithinMap(neighbor)) { 
+            if (isWithinMap(neighbor) && gameMapData[neighbor.x, neighbor.y].fow != EnumFogOfWar.Visible) { // don't hide already visible tiles
                 gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Fog;
                 tilemapFOW.SetTileFlags(neighbor, TileFlags.None);
                 tilemapFOW.SetColor(neighbor, Color.white);
@@ -255,6 +253,8 @@ public class GameMapHandler : MonoBehaviour
 
     private List<Vector3Int> GetNeighbors(Vector3Int unityCell, int range)
     {
+        // from https://github.com/Unity-Technologies/2d-extras/issues/69#issuecomment-684190243
+
         var centerCubePos = UnityCellToCube(unityCell);
 
         var result = new List<Vector3Int>();
