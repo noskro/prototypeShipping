@@ -23,6 +23,16 @@ public class DemoController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        ShipStats.OnShipUpdated += UpdateZoom;
+    }
+
+    private void OnDisable()
+    {
+        ShipStats.OnShipUpdated -= UpdateZoom;
+    }
+
     private GameMapHandler gameMapHandler;
     // Start is called before the first frame update
     void Start()
@@ -57,7 +67,10 @@ public class DemoController : MonoBehaviour
         {
             Application.Quit();
         }
+    }
 
+    private void UpdateZoom()
+    {
         if (gameMapHandler.tilemapMap.GetTile<CustomTile>(gameMapHandler.shipCoordinates).type == EnumTileType.CoastalWater)
         {
             coastal.gameObject.SetActive(true);
@@ -68,6 +81,5 @@ public class DemoController : MonoBehaviour
             coastal.gameObject.SetActive(false);
             openSea.gameObject.SetActive(true);
         }
-
     }
 }

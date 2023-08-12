@@ -113,30 +113,30 @@ public class GameMapHandler : MonoBehaviour
         }
     }
 
-    internal CustomTile ClickOnCoords(Vector3Int coordinates)
+    internal CustomTile ClickOnCoords(Vector3Int destinationCoords)
     {
-        coordinates.z = 0;
-        if (IsNeighbour(coordinates, shipCoordinates))
+        destinationCoords.z = 0;
+        if (IsNeighbour(destinationCoords, shipCoordinates))
         {
-            CustomTile objectTile = tilemapObjects.GetTile<CustomTile>(coordinates);
-            CustomTile mapTile = tilemapMap.GetTile<CustomTile>(coordinates);
+            CustomTile objectTile = tilemapObjects.GetTile<CustomTile>(destinationCoords);
+            CustomTile mapTile = tilemapMap.GetTile<CustomTile>(destinationCoords);
 
             if (mapTile != null && mapTile.movability.Equals(EnumTileMovability.ShipMoveable))
             {
                 shipStartTransform = tilemapFOW.GetCellCenterWorld(shipCoordinates);
-                shipTargetTransform = tilemapFOW.GetCellCenterWorld(coordinates);
+                shipTargetTransform = tilemapFOW.GetCellCenterWorld(destinationCoords);
 
                 ship.GetComponent<ShipVisual>().ShowShipMoving(true);
                 IsShipMoving = true;
                 shipMovingTimer = 1f;
 
-                shipCoordinates = coordinates;
+                shipCoordinates = destinationCoords;
 
                 return mapTile;
             }
-            else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[coordinates.x, coordinates.y].hasVillageTraded == false)
+            else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[destinationCoords.x, destinationCoords.y].hasVillageTraded == false)
             {
-                tradeController.ShowTrade(tilemapObjects.GetCellCenterWorld(coordinates), ref gameMapData[coordinates.x, coordinates.y]);
+                tradeController.ShowTrade(tilemapObjects.GetCellCenterWorld(destinationCoords), ref gameMapData[destinationCoords.x, destinationCoords.y]);
                 return null; // no new moved to cell
             }
         }
