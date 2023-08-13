@@ -107,19 +107,19 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeRepair))
         {
-            shipStats.ShipStatus = Mathf.Min(shipStats.ShipStatus + 1, shipStats.currentShip.ShipStatusMax);
+            shipStats.ShipStatus = Mathf.Min(shipStats.ShipStatus + 1, shipStats.shipModel.ShipStatusMax);
         }
         else if (selectedSR.sprite.Equals(spriteTradeCrew))
         {
-            shipStats.CrewCount = Mathf.Min(shipStats.CrewCount + 1, shipStats.currentShip.CrewCountMax);
+            shipStats.CrewCount = Mathf.Min(shipStats.CrewCount + 1, shipStats.shipModel.CrewCountMax);
         }
         else if (selectedSR.sprite.Equals(spriteTradeFood))
         {
-            shipStats.FoodStatus = Mathf.Min(shipStats.FoodStatus + 2, shipStats.currentShip.FoodStatusMax);
+            shipStats.FoodStatus = Mathf.Min(shipStats.FoodStatus + 2, shipStats.shipModel.FoodStatusMax);
         }
         else if (selectedSR.sprite.Equals(spriteTradeRum))
         {
-            shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + (int)(Mathf.Round(Random.value*2)+1), shipStats.currentShip.MoralStatusMax);
+            shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + (int)(Mathf.Round(Random.value*2)+1), shipStats.shipModel.MoralStatusMax);
         }
 
         villageGameMapData.hasVillageTraded = true;

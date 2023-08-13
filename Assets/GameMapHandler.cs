@@ -57,6 +57,13 @@ public class GameMapHandler : MonoBehaviour
                 gameMapData[x, y].newRun();
             }
         }
+
+        shipCoordinates = new Vector2Int((int)Mathf.Round(mapWidth / 2), (int)Mathf.Round(mapHeight / 2));
+        ship.transform.position = tilemapFOW.GetCellCenterWorld((Vector3Int)shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+        ship.gameObject.SetActive(true);
+        DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats.shipModel);
+        UpdateFOWMap();
+
     }
 
     private void Update()
@@ -241,10 +248,16 @@ public class GameMapHandler : MonoBehaviour
         }
     }
 
-    private bool IsWithinMap(Vector2Int coords)
+    internal bool IsWithinMap(Vector2Int coords)
     {
-        return coords.x >= 0 && coords.x < mapWidth && coords.y >= 0 && coords.y < mapHeight;
+        return coords != null && coords.x >= 0 && coords.x < mapWidth && coords.y >= 0 && coords.y < mapHeight;
     }
+
+    public EnumTileType GetShipTileType()
+    {
+        return tilemapMap.GetTile<CustomTile>((Vector3Int)shipCoordinates).type;
+    }
+
 
     internal void UpdateFOWMap()
     {

@@ -18,15 +18,13 @@ public class ShipStats : MonoBehaviour
     [HideInInspector]
     public int Gold;
 
-    public ShipModelSO currentShip;
+    public ShipModelSO shipModel;
 
     [Header("Settings")]
     public float shipDamagePerDayfromSailing;
     public float foodPerCrewPerDay;
     public float moralLossOnSea;
     public float moralLossAtCoast;
-
-    private ShipVisual shipVisual;
 
     [HideInInspector]
     public bool shipLost = true;
@@ -36,32 +34,24 @@ public class ShipStats : MonoBehaviour
     public delegate void ShipUpdated();
     public static event ShipUpdated OnShipUpdated;
 
-    private void Awake()
-    {
-        shipVisual = GetComponent<ShipVisual>();
-    }
-
     public void SetShip(ShipModelSO newShipModel)
     {
-        this.currentShip = newShipModel;
+        this.shipModel = newShipModel;
         // shipVisual.ShowShipidle();
 
-        ShipStatus = currentShip.ShipStatusMax;
-        CrewCount = (int)Mathf.Ceil(currentShip.CrewCountMax / 2);
-        FoodStatus = currentShip.FoodStatusMax;
-        MoralStatus = currentShip.MoralStatusMax;
+        ShipStatus = shipModel.ShipStatusMax;
+        CrewCount = (int)Mathf.Ceil(shipModel.CrewCountMax / 2);
+        FoodStatus = shipModel.FoodStatusMax;
+        MoralStatus = shipModel.MoralStatusMax;
 
         shipLost = false;
 
-        if (OnShipUpdated != null)
-        {
-            OnShipUpdated();
-        }
+        OnShipUpdated?.Invoke();
     }
 
     public void NextTurn(CustomTile newTile)
     {
-        float partOfDay = 1f / currentShip.ShipSpeed;
+        float partOfDay = 1f / shipModel.ShipSpeed;
 
         ShipStatus -= shipDamagePerDayfromSailing * partOfDay;
         FoodStatus -= foodPerCrewPerDay * partOfDay;
@@ -81,9 +71,6 @@ public class ShipStats : MonoBehaviour
             shipLost = true;
         }
 
-        if (OnShipUpdated != null)
-        {
-            OnShipUpdated();
-        }
+        OnShipUpdated?.Invoke();
     }
 }

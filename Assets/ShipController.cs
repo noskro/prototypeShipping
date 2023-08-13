@@ -52,7 +52,7 @@ public class ShipController : MonoBehaviour
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2Int mouseCellCoordinates = (Vector2Int)tilemap_World.WorldToCell(mouseWorldPosition);
 
-            if (mouseCellCoordinates != null && mouseCellCoordinates.x >= 0 && mouseCellCoordinates.y >= 0)
+            if (gameMapHandler.IsWithinMap(mouseCellCoordinates))
             {
                 gameMapHandler.ShowMouseCursor(mouseCellCoordinates);
 
