@@ -5,9 +5,9 @@ public class ShipVisual : MonoBehaviour
 {
     private SpriteRenderer shipSpriteRenderer;
 
-    public Sprite shipIdle;
-    public Sprite shipMoving;
-    public Sprite shipLost;
+    //public Sprite shipIdle;
+    //public Sprite shipMoving;
+    //public Sprite shipLost;
 
     public ShipModelSO ship;
     private ShipStats shipStats;

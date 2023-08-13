@@ -50,7 +50,6 @@ public class GameMapHandler : MonoBehaviour
         }
         DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats.shipModel);
         UpdateFOWMap();
-
     }
 
     internal bool CanNavigate(Vector2Int cursorCoords)

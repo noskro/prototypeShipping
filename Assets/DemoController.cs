@@ -84,8 +84,8 @@ public class DemoController : MonoBehaviour
         shipController.transform.position = tilemapFOW.GetCellCenterWorld((Vector3Int)shipController.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         shipController.gameObject.SetActive(true);
 
+        SetGameState(GameStates.ShipIdle);
         gameMapHandler.NewRun();
-
     }
 
     // Update is called once per frame
