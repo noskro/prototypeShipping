@@ -12,8 +12,31 @@ public class DemoController : MonoBehaviour
     public ShipStats shipStats;
     public CinemachineVirtualCamera coastal;
     public CinemachineVirtualCamera openSea;
+    public TradeController tradeController;
+    public ShipController shipController;
 
     private static DemoController instance;
+
+    public enum GameStates
+    {
+        Start,
+        ShipIdle,
+        ShipMoving,
+        ShipLost,
+        ShipTrading,
+        GameOver
+    }
+
+    public GameStates GameState { get; private set; }
+
+    public delegate void GameStateChanged(GameStates gameStates);
+    public static event GameStateChanged OnGameStateChanged;
+
+    public void SetGameState(GameStates newGameState)
+    {
+        GameState = newGameState;
+        OnGameStateChanged?.Invoke(GameState);
+    }
 
     public static DemoController Instance
     {
@@ -45,6 +68,8 @@ public class DemoController : MonoBehaviour
         gameMapHandler = GetComponent<GameMapHandler>();
         tilemapFOW.gameObject.SetActive(true);
 
+        GameState = GameStates.ShipIdle;
+
         PlaceNewShip();
     }
 
@@ -53,6 +78,11 @@ public class DemoController : MonoBehaviour
         // place Ship
         shipStats.Gold = 0;
         shipStats.SetShip(demoShipModel);
+
+        shipController.shipCoordinates = gameMapHandler.GetMapCenter();
+        gameMapHandler.shipCoordinates = shipController.shipCoordinates; // this seems redundant
+        shipController.transform.position = tilemapFOW.GetCellCenterWorld((Vector3Int)shipController.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+        shipController.gameObject.SetActive(true);
 
         gameMapHandler.NewRun();
 
@@ -67,7 +97,7 @@ public class DemoController : MonoBehaviour
         }
     }
 
-    private void UpdateZoom()
+    private void UpdateZoom(ShipStats stats)
     {
         if (gameMapHandler.GetShipTileType() == EnumTileType.CoastalWater)
         {

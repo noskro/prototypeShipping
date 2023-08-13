@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class ShipVisual : MonoBehaviour
@@ -9,26 +10,37 @@ public class ShipVisual : MonoBehaviour
     public Sprite shipLost;
 
     public ShipModelSO ship;
+    private ShipStats shipStats;
+    private DemoController.GameStates state;
 
-    // Start is called before the first frame update
     void Start()
     {
         ship = DemoController.Instance.demoShipModel;
+        DemoController.OnGameStateChanged += (state) =>
+        {
+            this.state = state;
+            UpdateSprite();
+        };
+        ShipStats.OnShipUpdated += (stats) =>
+        {
+            shipStats = stats;
+            UpdateSprite();
+        };
 
         shipSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         shipSpriteRenderer.sprite = ship.ShipSpriteIdle;
+
     }
 
-    private void Update()
+    private void UpdateSprite()
     {
-        var shipstats = GetComponent<ShipStats>();
-        if (shipstats.shipLost)
+        if (state == DemoController.GameStates.ShipLost)
         {
             shipSpriteRenderer.sprite = ship.ShipSpriteLost;
         }
         else
         {
-            shipSpriteRenderer.sprite = shipstats.direction switch
+            shipSpriteRenderer.sprite = shipStats.direction switch
             {
                 GameMapHandler.Direction.North => ship.ShipSpriteMovingNorth,
                 GameMapHandler.Direction.NorthEast => ship.ShipSpriteMovingNorthEast,
@@ -38,23 +50,6 @@ public class ShipVisual : MonoBehaviour
                 GameMapHandler.Direction.SouthWest => ship.ShipSpriteMovingSouthWest,
                 _ => ship.ShipSpriteIdle,
             };
-        }
-    }
-
-    public void ShowShipidle()
-    {
-        shipSpriteRenderer.sprite = ship.ShipSpriteIdle;
-    }
-
-    public void ShowShipMoving(bool moving)
-    {
-        if (moving)
-        {
-            shipSpriteRenderer.sprite = shipMoving;
-        }
-        else
-        {
-            shipSpriteRenderer.sprite = shipIdle;
         }
     }
 }

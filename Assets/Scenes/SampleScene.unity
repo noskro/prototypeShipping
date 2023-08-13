@@ -110423,9 +110423,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilemap_World: {fileID: 907308238}
   gameMapHandler: {fileID: 1758241113}
-  shipStats: {fileID: 0}
-  shipSpriteRenderer: {fileID: 0}
+  shipCoordinates: {x: 0, y: 0}
+  shipStartPosition: {x: 0, y: 0, z: 0}
+  shipTargetPosition: {x: 0, y: 0, z: 0}
   doShipRotate: 0
+  shipMovingTimer: 0
 --- !u!114 &974539787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110443,12 +110445,11 @@ MonoBehaviour:
   FoodStatus: 5
   MoralStatus: 10
   Gold: 0
-  currentShip: {fileID: 11400000, guid: 30a25dbf505004647be927cb76c1b5bb, type: 2}
+  shipModel: {fileID: 0}
   shipDamagePerDayfromSailing: 0.4
   foodPerCrewPerDay: 0.5
   moralLossOnSea: 1
   moralLossAtCoast: 0.5
-  shipLost: 1
 --- !u!114 &974539788
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111305,17 +111306,11 @@ MonoBehaviour:
   tilemapFOW: {fileID: 69672694}
   tileBlack: {fileID: 11400000, guid: 2b2b96e80d6ad0c4590a4532740a3e51, type: 2}
   tileHalf: {fileID: 11400000, guid: 380f61cb5de020b48b39ee850c84c29c, type: 2}
-  ship: {fileID: 974539785}
   MoveToIcon: {fileID: 227353557}
   CoinIcon: {fileID: 1996401947}
-  tradeController: {fileID: 771602149}
   mapHeight: 63
   mapWidth: 33
-  shipCoordinates: {x: 0, y: 0, z: 0}
-  IsShipMoving: 0
-  shipMovingTimer: 0
-  shipStartTransform: {x: 0, y: 0, z: 0}
-  shipTargetTransform: {x: 0, y: 0, z: 0}
+  shipCoordinates: {x: 0, y: 0}
 --- !u!4 &1758241114
 Transform:
   m_ObjectHideFlags: 0
@@ -111348,6 +111343,8 @@ MonoBehaviour:
   shipStats: {fileID: 974539787}
   coastal: {fileID: 244434648}
   openSea: {fileID: 1754561751}
+  tradeController: {fileID: 771602149}
+  shipController: {fileID: 974539786}
 --- !u!1 &1938637679
 GameObject:
   m_ObjectHideFlags: 0

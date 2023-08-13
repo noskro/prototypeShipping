@@ -7,7 +7,7 @@ public class GameMapData
     public EnumFogOfWar fow = EnumFogOfWar.Undiscovered;
     public bool hasVillageTraded = false;
 
-    internal void newRun()
+    internal void Reset()
     {
         hasVillageTraded = false;
     }

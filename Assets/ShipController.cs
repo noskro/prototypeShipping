@@ -3,18 +3,26 @@ using UnityEngine.Tilemaps;
 
 public class ShipController : MonoBehaviour
 {
-    public Tilemap tilemap_World;
     public GameMapHandler gameMapHandler;
     private ShipStats shipStats;
     private SpriteRenderer shipSpriteRenderer;
+    private TradeController tradeController;
+    private DemoController demoController;
+    public Vector2Int shipCoordinates;
 
+    public Vector3 shipStartPosition;
+    public Vector3 shipTargetPosition;
     public bool doShipRotate;
+    public float shipMovingTimer = 0f;
+
 
     // Start is called before the first frame update
     void Start()
     {
         shipStats = GetComponent<ShipStats>();
         shipSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        tradeController = DemoController.Instance.tradeController;
+        demoController = DemoController.Instance;
     }
 
     private void OnEnable()
@@ -31,26 +39,42 @@ public class ShipController : MonoBehaviour
     void Update()
     {
         HandleInput();
+
+        if (demoController.GameState == DemoController.GameStates.ShipMoving)
+        {
+            transform.position = Vector3.Lerp(shipTargetPosition, shipStartPosition, shipMovingTimer);
+            shipMovingTimer -= Time.deltaTime * 2;
+
+            if (shipMovingTimer <= 0)
+            {
+                demoController.SetGameState(DemoController.GameStates.ShipIdle);
+                // ship.GetComponent<ShipVisual>().ShowShipMoving(false);
+
+                transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+
+                gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, DemoController.Instance.demoShipModel);
+            }
+        }
     }
 
     void HandleInput()
     {
-        if (shipStats.shipLost)
+        if (demoController.GameState == DemoController.GameStates.ShipLost)
         {
-            // no input while ship is lost
+            // no game input while ship is lost
         }
-        else if (gameMapHandler.IsShipMoving)
+        else if (demoController.GameState == DemoController.GameStates.ShipMoving)
         {
-            // no input while ship is moving
+            // no game input while ship is moving
         }
-        else if (gameMapHandler.tradeController.IsTrading)
+        else if (tradeController.IsTrading) // maybe handle this in DemoController instead?
         {
             // handled by tradeController
         }
         else
         {
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2Int mouseCellCoordinates = (Vector2Int)tilemap_World.WorldToCell(mouseWorldPosition);
+            Vector2Int mouseCellCoordinates = gameMapHandler.GetCellCoords(mouseWorldPosition);
 
             if (gameMapHandler.IsWithinMap(mouseCellCoordinates))
             {
@@ -60,11 +84,26 @@ public class ShipController : MonoBehaviour
                 {
                     Vector2Int currentShipCoords = gameMapHandler.shipCoordinates;
 
-                    CustomTile targetTile = gameMapHandler.ClickOnCoords(mouseCellCoordinates);
-                    if (targetTile != null) // if ship was moved)
+                    if (gameMapHandler.CanNavigate(mouseCellCoordinates))
                     {
+                        gameMapHandler.SetDestination(mouseCellCoordinates);
+                        shipStartPosition = transform.position;
+                        shipTargetPosition = gameMapHandler.GetCellPosition(mouseCellCoordinates);
+
+                        demoController.SetGameState(DemoController.GameStates.ShipMoving);
+                        shipMovingTimer = 1f;
+
+                        CustomTile targetTile = gameMapHandler.GetMapTile(mouseCellCoordinates);
                         shipStats.direction = gameMapHandler.GetDirection(currentShipCoords, mouseCellCoordinates);
                         shipStats.NextTurn(targetTile);
+                    }
+                    else if (gameMapHandler.CanTrade(mouseCellCoordinates))
+                    {
+                        tradeController.ShowTrade(gameMapHandler.GetCellPosition(mouseCellCoordinates), ref gameMapHandler.gameMapData[mouseCellCoordinates.x, mouseCellCoordinates.y]);
+                    }
+                    else
+                    {
+                        Debug.Log("Can't navigate or trade here");
                     }
                 }
             }
@@ -72,14 +111,14 @@ public class ShipController : MonoBehaviour
 
     }
 
-    void UpdateShip()
+    void UpdateShip(ShipStats stats)
     {
         if (doShipRotate)
         {
-            if (shipStats.shipLost)
+            if (demoController.GameState == DemoController.GameStates.ShipLost)
             {
 
-                shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);  // probably not needed
             }
             else
             {

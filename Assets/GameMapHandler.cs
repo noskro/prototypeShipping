@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -13,10 +14,8 @@ public class GameMapHandler : MonoBehaviour
 
     //public Tile tileMoveTo;
 
-    public Transform ship;
     public Transform MoveToIcon;
     public Transform CoinIcon;
-    public TradeController tradeController;
 
     public int mapHeight = 63;
     public int mapWidth = 33;
@@ -24,12 +23,6 @@ public class GameMapHandler : MonoBehaviour
     public GameMapData[,] gameMapData;
 
     public Vector2Int shipCoordinates;
-
-    [HideInInspector]
-    public bool IsShipMoving = false;
-    public float shipMovingTimer = 0f;
-    public Vector3 shipStartTransform;
-    public Vector3 shipTargetTransform;
 
     public enum Direction { North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest } // East & West are not used
 
@@ -44,8 +37,6 @@ public class GameMapHandler : MonoBehaviour
                 gameMapData[x, y] = new GameMapData(); //.fow = EnumFogOfWar.Undiscovered;
             }
         }
-
-        IsShipMoving = false;
     }
 
     public void NewRun()
@@ -54,36 +45,12 @@ public class GameMapHandler : MonoBehaviour
         {
             for (int y = 0; y < mapHeight; y++)
             {
-                gameMapData[x, y].newRun();
+                gameMapData[x, y].Reset();
             }
         }
-
-        shipCoordinates = new Vector2Int((int)Mathf.Round(mapWidth / 2), (int)Mathf.Round(mapHeight / 2));
-        ship.transform.position = tilemapFOW.GetCellCenterWorld((Vector3Int)shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
-        ship.gameObject.SetActive(true);
         DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats.shipModel);
         UpdateFOWMap();
 
-    }
-
-    private void Update()
-    {
-        if (IsShipMoving)
-        {
-            ship.transform.position = Vector3.Lerp(shipTargetTransform, shipStartTransform, shipMovingTimer);
-            shipMovingTimer -= Time.deltaTime * 2;
-
-            if (shipMovingTimer <= 0)
-            {
-                IsShipMoving = false;
-                // ship.GetComponent<ShipVisual>().ShowShipMoving(false);
-
-                ship.transform.position = shipTargetTransform; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
-
-                DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.demoShipModel);
-                UpdateFOWMap();
-            }
-        }
     }
 
     internal bool CanNavigate(Vector2Int cursorCoords)
@@ -137,35 +104,15 @@ public class GameMapHandler : MonoBehaviour
     }
 
 
-    internal CustomTile ClickOnCoords(Vector2Int destinationCoords)
+    internal void SetDestination(Vector2Int destinationCoords)
     {
         if (IsNeighbour(destinationCoords, shipCoordinates))
         {
-            CustomTile mapTile = tilemapMap.GetTile<CustomTile>((Vector3Int)destinationCoords);
-
             if (CanNavigate(destinationCoords))
             {
-                shipStartTransform = tilemapFOW.GetCellCenterWorld((Vector3Int)shipCoordinates);
-                shipTargetTransform = tilemapFOW.GetCellCenterWorld((Vector3Int)destinationCoords);
-
-                // ship.GetComponent<ShipVisual>().ShowShipMoving(true);
-                IsShipMoving = true;
-                shipMovingTimer = 1f;
-
                 shipCoordinates = destinationCoords;
-
-                return mapTile;
-
             }
-            else if (CanTrade(destinationCoords))
-            {
-                tradeController.ShowTrade(tilemapObjects.GetCellCenterWorld((Vector3Int)destinationCoords), ref gameMapData[destinationCoords.x, destinationCoords.y]);
-                return null; // no new moved to cell
-            }
-
         }
-
-        return null;
     }
 
 
@@ -246,6 +193,8 @@ public class GameMapHandler : MonoBehaviour
                 tilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
             }
         }
+
+        UpdateFOWMap();
     }
 
     internal bool IsWithinMap(Vector2Int coords)
@@ -332,4 +281,23 @@ public class GameMapHandler : MonoBehaviour
         return new Vector2Int(col, row);
     }
 
+    internal Vector2Int GetMapCenter()
+    {
+        return new Vector2Int(mapWidth / 2, mapHeight / 2);
+    }
+
+    internal Vector2Int GetCellCoords(Vector3 mouseWorldPosition)
+    {
+        return (Vector2Int)tilemapMap.WorldToCell(mouseWorldPosition);
+    }
+
+    internal Vector3 GetCellPosition(Vector2Int mouseCellCoordinates)
+    {
+        return tilemapMap.GetCellCenterWorld((Vector3Int)mouseCellCoordinates);
+    }
+
+    internal CustomTile GetMapTile(Vector2Int mouseCellCoordinates)
+    {
+        return tilemapMap.GetTile<CustomTile>((Vector3Int)mouseCellCoordinates);
+    }
 }
