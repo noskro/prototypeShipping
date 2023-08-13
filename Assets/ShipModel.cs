@@ -14,4 +14,15 @@ public class ShipModelSO : ScriptableObject
 
     public int ViewRange;
     public int DiscoverRange;
+
+    public Sprite ShipSpriteIdle;
+    public Sprite ShipSpriteLost;
+
+    public Sprite ShipSpriteMovingNorth;
+    public Sprite ShipSpriteMovingNorthEast;
+    public Sprite ShipSpriteMovingSouthEast;
+    public Sprite ShipSpriteMovingSouth;
+    public Sprite ShipSpriteMovingSouthWest;
+    public Sprite ShipSpriteMovingNorthWest;
+
 }

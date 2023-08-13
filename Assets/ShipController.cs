@@ -5,9 +5,10 @@ public class ShipController : MonoBehaviour
 {
     public Tilemap tilemap_World;
     public GameMapHandler gameMapHandler;
-    public ShipStats shipStats;
-    public SpriteRenderer shipSpriteRenderer;
+    private ShipStats shipStats;
+    private SpriteRenderer shipSpriteRenderer;
 
+    public bool doShipRotate;
 
     // Start is called before the first frame update
     void Start()
@@ -65,6 +66,7 @@ public class ShipController : MonoBehaviour
                     CustomTile targetTile = gameMapHandler.ClickOnCoords(mouseCellCoordinates);
                     if (targetTile != null) // if ship was moved)
                     {
+                        shipStats.direction = gameMapHandler.GetDirection(currentShipCoords, mouseCellCoordinates);
                         shipStats.NextTurn(targetTile);
                     }
                 }
@@ -75,8 +77,11 @@ public class ShipController : MonoBehaviour
 
     void UpdateShip()
     {
+        if (doShipRotate)
+        {
         if (shipStats.shipLost)
         {
+
             shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
         else
@@ -116,6 +121,7 @@ public class ShipController : MonoBehaviour
 
             shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
 
+        }
         }
 
     }

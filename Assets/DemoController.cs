@@ -23,6 +23,11 @@ public class DemoController : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     private void OnEnable()
     {
         ShipStats.OnShipUpdated += UpdateZoom;
@@ -37,8 +42,6 @@ public class DemoController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        instance = this;
-
         gameMapHandler = GetComponent<GameMapHandler>();
         tilemapFOW.gameObject.SetActive(true);
 

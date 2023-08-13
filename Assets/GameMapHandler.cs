@@ -69,7 +69,7 @@ public class GameMapHandler : MonoBehaviour
             if (shipMovingTimer <= 0)
             {
                 IsShipMoving = false;
-                ship.GetComponent<ShipVisual>().ShowShipMoving(false);
+                // ship.GetComponent<ShipVisual>().ShowShipMoving(false);
 
                 ship.transform.position = shipTargetTransform; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
 

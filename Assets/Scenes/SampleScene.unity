@@ -110425,6 +110425,7 @@ MonoBehaviour:
   gameMapHandler: {fileID: 1758241113}
   shipStats: {fileID: 0}
   shipSpriteRenderer: {fileID: 0}
+  doShipRotate: 0
 --- !u!114 &974539787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110463,6 +110464,7 @@ MonoBehaviour:
   shipIdle: {fileID: 21300000, guid: 4f777520591fd5a4abd1920c38a33aa6, type: 3}
   shipMoving: {fileID: 21300000, guid: 67985847c8f14724895027f88d45b680, type: 3}
   shipLost: {fileID: 21300000, guid: dd6ed28adf90db741b6d30a63f51a530, type: 3}
+  ship: {fileID: 0}
 --- !u!1 &978563383
 GameObject:
   m_ObjectHideFlags: 0
@@ -111814,7 +111816,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 30
-  m_Sprite: {fileID: 21300000, guid: 4f777520591fd5a4abd1920c38a33aa6, type: 3}
+  m_Sprite: {fileID: 947321497, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -111822,6 +111824,6 @@ SpriteRenderer:
   m_Size: {x: 1.52, y: 1.31}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
