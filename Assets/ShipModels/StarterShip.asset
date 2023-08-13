@@ -18,5 +18,13 @@ MonoBehaviour:
   MoralStatusMax: 10
   ShipSpeed: 3
   ShipPrice: 1
-  ViewRange: 0
-  DiscoverRange: 1
+  ViewRange: 1
+  DiscoverRange: 2
+  ShipSpriteIdle: {fileID: 518642141, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
+  ShipSpriteLost: {fileID: 0}
+  ShipSpriteMovingNorth: {fileID: 518642141, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
+  ShipSpriteMovingNorthEast: {fileID: 574056571, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
+  ShipSpriteMovingSouthEast: {fileID: 1481181030, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
+  ShipSpriteMovingSouth: {fileID: 1114147933, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
+  ShipSpriteMovingSouthWest: {fileID: 1708490485, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
+  ShipSpriteMovingNorthWest: {fileID: 1794430926, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}

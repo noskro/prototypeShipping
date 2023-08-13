@@ -50,18 +50,15 @@ public class ShipController : MonoBehaviour
         else
         {
             Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int mouseCellCoordinates = tilemap_World.WorldToCell(mouseWorldPosition);
+            Vector2Int mouseCellCoordinates = (Vector2Int)tilemap_World.WorldToCell(mouseWorldPosition);
 
             if (mouseCellCoordinates != null && mouseCellCoordinates.x >= 0 && mouseCellCoordinates.y >= 0)
             {
-                mouseCellCoordinates.z = 0;
                 gameMapHandler.ShowMouseCursor(mouseCellCoordinates);
 
                 if (Input.GetMouseButton(0))
                 {
-                    Vector3Int previousShipCoordinates = gameMapHandler.shipCoordinates;
-
-                    shipStats.direction = gameMapHandler.GetDirection(previousShipCoordinates, mouseCellCoordinates);
+                    Vector2Int currentShipCoords = gameMapHandler.shipCoordinates;
 
                     CustomTile targetTile = gameMapHandler.ClickOnCoords(mouseCellCoordinates);
                     if (targetTile != null) // if ship was moved)
@@ -79,49 +76,49 @@ public class ShipController : MonoBehaviour
     {
         if (doShipRotate)
         {
-        if (shipStats.shipLost)
-        {
-
-            shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
-        }
-        else
-        {
-            float rotation = 0;
-            shipSpriteRenderer.flipX = false;
-
-            switch (shipStats.direction)
+            if (shipStats.shipLost)
             {
-                case GameMapHandler.Direction.North:
-                    Debug.Log("North");
-                    rotation = -90;
-                    break;
-                case GameMapHandler.Direction.NorthEast:
-                    Debug.Log("NorthEast");
-                    shipSpriteRenderer.flipX = true;
-                    rotation = 30;
-                    break;
-                case GameMapHandler.Direction.NorthWest:
-                    Debug.Log("NorthWest");
-                    rotation = -30;
-                    break;
-                case GameMapHandler.Direction.South:
-                    Debug.Log("South");
-                    rotation = 90;
-                    break;
-                case GameMapHandler.Direction.SouthEast:
-                    Debug.Log("SouthEast");
-                    shipSpriteRenderer.flipX = true;
-                    rotation = -30;
-                    break;
-                case GameMapHandler.Direction.SouthWest:
-                    Debug.Log("SouthWest");
-                    rotation = 30;
-                    break;
+
+                shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
+            else
+            {
+                float rotation = 0;
+                shipSpriteRenderer.flipX = false;
 
-            shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+                switch (shipStats.direction)
+                {
+                    case GameMapHandler.Direction.North:
+                        Debug.Log("North");
+                        rotation = -90;
+                        break;
+                    case GameMapHandler.Direction.NorthEast:
+                        Debug.Log("NorthEast");
+                        shipSpriteRenderer.flipX = true;
+                        rotation = 30;
+                        break;
+                    case GameMapHandler.Direction.NorthWest:
+                        Debug.Log("NorthWest");
+                        rotation = -30;
+                        break;
+                    case GameMapHandler.Direction.South:
+                        Debug.Log("South");
+                        rotation = 90;
+                        break;
+                    case GameMapHandler.Direction.SouthEast:
+                        Debug.Log("SouthEast");
+                        shipSpriteRenderer.flipX = true;
+                        rotation = -30;
+                        break;
+                    case GameMapHandler.Direction.SouthWest:
+                        Debug.Log("SouthWest");
+                        rotation = 30;
+                        break;
+                }
 
-        }
+                shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+
+            }
         }
 
     }

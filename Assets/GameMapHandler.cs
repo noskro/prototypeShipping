@@ -23,7 +23,7 @@ public class GameMapHandler : MonoBehaviour
     [HideInInspector]
     public GameMapData[,] gameMapData;
 
-    public Vector3Int shipCoordinates;
+    public Vector2Int shipCoordinates;
 
     [HideInInspector]
     public bool IsShipMoving = false;
@@ -79,73 +79,90 @@ public class GameMapHandler : MonoBehaviour
         }
     }
 
-    internal void ShowMouseCursor(Vector3Int cursorCoords)
+    internal bool CanNavigate(Vector2Int cursorCoords)
     {
-        cursorCoords.z = 0;
-        MoveToIcon.gameObject.SetActive(false);
-        CoinIcon.gameObject.SetActive(false);
-
         if (cursorCoords.x >= 0 && cursorCoords.x < mapWidth && cursorCoords.y >= 0 && cursorCoords.y < mapHeight)
         {
             if (IsNeighbour(cursorCoords, shipCoordinates))
             {
-                CustomTile mapTile = tilemapMap.GetTile<CustomTile>(cursorCoords);
-                CustomTile objectTile = tilemapObjects.GetTile<CustomTile>(cursorCoords);
+                CustomTile mapTile = tilemapMap.GetTile<CustomTile>((Vector3Int)cursorCoords);
 
                 if (mapTile != null && mapTile.movability.Equals(EnumTileMovability.ShipMoveable))
                 {
-                    MoveToIcon.position = tilemapMap.GetCellCenterWorld(cursorCoords);
-                    MoveToIcon.gameObject.SetActive(true);
-                }
-                else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage))
-                {
-                    if (gameMapData[cursorCoords.x, cursorCoords.y].hasVillageTraded == false)
-                    {
-                        CoinIcon.position = tilemapMap.GetCellCenterWorld(cursorCoords);
-                        CoinIcon.gameObject.SetActive(true);
-                    }
-                }
-                else
-                {
-                    // Debug.Log("Tile movability: " + tilemapMap.GetTile<CustomTile>(cursorCoords).movability);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    internal CustomTile ClickOnCoords(Vector3Int destinationCoords)
+    internal bool CanTrade(Vector2Int cursorCoords)
     {
-        destinationCoords.z = 0;
+        if (cursorCoords.x >= 0 && cursorCoords.x < mapWidth && cursorCoords.y >= 0 && cursorCoords.y < mapHeight)
+        {
+            if (IsNeighbour(cursorCoords, shipCoordinates))
+            {
+                CustomTile objectTile = tilemapObjects.GetTile<CustomTile>((Vector3Int)cursorCoords);
+
+                if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[cursorCoords.x, cursorCoords.y].hasVillageTraded == false)
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    internal void ShowMouseCursor(Vector2Int cursorCoords)
+    {
+        MoveToIcon.gameObject.SetActive(false);
+        CoinIcon.gameObject.SetActive(false);
+
+        if (CanNavigate(cursorCoords))
+        {
+            MoveToIcon.position = tilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
+            MoveToIcon.gameObject.SetActive(true);
+        }
+        else if (CanTrade(cursorCoords))
+        {
+            CoinIcon.position = tilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
+            CoinIcon.gameObject.SetActive(true);
+        }
+    }
+
+
+    internal CustomTile ClickOnCoords(Vector2Int destinationCoords)
+    {
         if (IsNeighbour(destinationCoords, shipCoordinates))
         {
-            CustomTile objectTile = tilemapObjects.GetTile<CustomTile>(destinationCoords);
-            CustomTile mapTile = tilemapMap.GetTile<CustomTile>(destinationCoords);
+            CustomTile mapTile = tilemapMap.GetTile<CustomTile>((Vector3Int)destinationCoords);
 
-            if (mapTile != null && mapTile.movability.Equals(EnumTileMovability.ShipMoveable))
+            if (CanNavigate(destinationCoords))
             {
-                shipStartTransform = tilemapFOW.GetCellCenterWorld(shipCoordinates);
-                shipTargetTransform = tilemapFOW.GetCellCenterWorld(destinationCoords);
+                shipStartTransform = tilemapFOW.GetCellCenterWorld((Vector3Int)shipCoordinates);
+                shipTargetTransform = tilemapFOW.GetCellCenterWorld((Vector3Int)destinationCoords);
 
-                ship.GetComponent<ShipVisual>().ShowShipMoving(true);
+                // ship.GetComponent<ShipVisual>().ShowShipMoving(true);
                 IsShipMoving = true;
                 shipMovingTimer = 1f;
 
                 shipCoordinates = destinationCoords;
 
                 return mapTile;
+
             }
-            else if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[destinationCoords.x, destinationCoords.y].hasVillageTraded == false)
+            else if (CanTrade(destinationCoords))
             {
-                tradeController.ShowTrade(tilemapObjects.GetCellCenterWorld(destinationCoords), ref gameMapData[destinationCoords.x, destinationCoords.y]);
+                tradeController.ShowTrade(tilemapObjects.GetCellCenterWorld((Vector3Int)destinationCoords), ref gameMapData[destinationCoords.x, destinationCoords.y]);
                 return null; // no new moved to cell
             }
+
         }
 
         return null;
     }
 
 
-    private Vector2Int HexGridToAxial(Vector3Int pos)
+    private Vector2Int HexGridToAxial(Vector2Int pos)
     {
         int c = (int)Mathf.Abs(pos.y) % 2;
         float q = pos.x - (pos.y - c) / 2f;
@@ -153,7 +170,7 @@ public class GameMapHandler : MonoBehaviour
         return new Vector2Int((int)Mathf.RoundToInt(q), (int)Mathf.RoundToInt(r));
     }
 
-    private bool IsNeighbour(Vector3Int cell, Vector3Int center)
+    private bool IsNeighbour(Vector2Int cell, Vector2Int center)
     {
         if (GetNeighbors(center, 1).Contains(cell))
         {
@@ -165,7 +182,7 @@ public class GameMapHandler : MonoBehaviour
         }
     }
 
-    internal Direction? GetDirection(Vector3Int start, Vector3Int dest)
+    internal Direction? GetDirection(Vector2Int start, Vector2Int dest)
     {
         Vector2Int p0 = HexGridToAxial(start);
         Vector2Int p1 = HexGridToAxial(dest);
@@ -198,32 +215,33 @@ public class GameMapHandler : MonoBehaviour
         return null;
     }
 
-    internal void DiscoverNewAreaByShip(Vector3Int coords, ShipModelSO ship)
+    internal void DiscoverNewAreaByShip(Vector2Int coords, ShipModelSO ship)
     {
         gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Visible;
 
         var farNeighbors = GetNeighbors(coords, ship.DiscoverRange);
         foreach (var neighbor in farNeighbors)
         {
-            if (isWithinMap(neighbor) && gameMapData[neighbor.x, neighbor.y].fow != EnumFogOfWar.Visible) { // don't hide already visible tiles
+            if (IsWithinMap(neighbor) && gameMapData[neighbor.x, neighbor.y].fow != EnumFogOfWar.Visible)
+            { // don't hide already visible tiles
                 gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Fog;
-                tilemapFOW.SetTileFlags(neighbor, TileFlags.None);
-                tilemapFOW.SetColor(neighbor, Color.white);
+                tilemapFOW.SetTileFlags((Vector3Int)neighbor, TileFlags.None);
+                tilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
             }
         }
         var nearNeighbors = GetNeighbors(coords, ship.ViewRange);
-        foreach (var neighbor in nearNeighbors)
+        foreach (Vector2Int neighbor in nearNeighbors)
         {
-            if (isWithinMap(neighbor))
+            if (IsWithinMap(neighbor))
             {
                 gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Visible;
-                tilemapFOW.SetTileFlags(neighbor, TileFlags.None);
-                tilemapFOW.SetColor(neighbor, Color.white);
+                tilemapFOW.SetTileFlags((Vector3Int)neighbor, TileFlags.None);
+                tilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
             }
         }
     }
 
-    private bool isWithinMap(Vector3Int coords)
+    private bool IsWithinMap(Vector2Int coords)
     {
         return coords.x >= 0 && coords.x < mapWidth && coords.y >= 0 && coords.y < mapHeight;
     }
@@ -251,13 +269,13 @@ public class GameMapHandler : MonoBehaviour
         }
     }
 
-    private List<Vector3Int> GetNeighbors(Vector3Int unityCell, int range)
+    private List<Vector2Int> GetNeighbors(Vector2Int unityCell, int range, bool includeSelf = false)
     {
         // from https://github.com/Unity-Technologies/2d-extras/issues/69#issuecomment-684190243
 
         var centerCubePos = UnityCellToCube(unityCell);
 
-        var result = new List<Vector3Int>();
+        var result = new List<Vector2Int>();
 
         int min = -range, max = range;
 
@@ -272,14 +290,17 @@ public class GameMapHandler : MonoBehaviour
                 }
 
                 var cubePosOffset = new Vector3Int(x, y, z);
+                if (!includeSelf && cubePosOffset == Vector3Int.zero)
+                {
+                    continue;
+                }
                 result.Add(CubeToUnityCell(centerCubePos + cubePosOffset));
             }
 
         }
-
         return result;
     }
-    private Vector3Int UnityCellToCube(Vector3Int cell)
+    private Vector3Int UnityCellToCube(Vector2Int cell)
     {
         var yCell = cell.x;
         var xCell = cell.y;
@@ -288,14 +309,14 @@ public class GameMapHandler : MonoBehaviour
         var y = -x - z;
         return new Vector3Int(x, y, z);
     }
-    private Vector3Int CubeToUnityCell(Vector3Int cube)
+    private Vector2Int CubeToUnityCell(Vector3Int cube)
     {
         var x = cube.x;
         var z = cube.z;
         var col = x + (z - (z & 1)) / 2;
         var row = z;
 
-        return new Vector3Int(col, row, 0);
+        return new Vector2Int(col, row);
     }
 
 }

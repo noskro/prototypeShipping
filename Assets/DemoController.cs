@@ -52,8 +52,8 @@ public class DemoController : MonoBehaviour
     {
         gameMapHandler.NewRun();
 
-        gameMapHandler.shipCoordinates = new Vector3Int((int)Mathf.Round(gameMapHandler.mapWidth / 2), (int)Mathf.Round(gameMapHandler.mapHeight / 2), 0);
-        gameMapHandler.ship.transform.position = tilemapFOW.GetCellCenterWorld(gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+        gameMapHandler.shipCoordinates = new Vector2Int((int)Mathf.Round(gameMapHandler.mapWidth / 2), (int)Mathf.Round(gameMapHandler.mapHeight / 2));
+        gameMapHandler.ship.transform.position = tilemapFOW.GetCellCenterWorld((Vector3Int)gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         gameMapHandler.ship.gameObject.SetActive(true);
         gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, demoShipModel);
         gameMapHandler.UpdateFOWMap();
@@ -74,7 +74,7 @@ public class DemoController : MonoBehaviour
 
     private void UpdateZoom()
     {
-        if (gameMapHandler.tilemapMap.GetTile<CustomTile>(gameMapHandler.shipCoordinates).type == EnumTileType.CoastalWater)
+        if (gameMapHandler.tilemapMap.GetTile<CustomTile>((Vector3Int)gameMapHandler.shipCoordinates).type == EnumTileType.CoastalWater)
         {
             Debug.Log("Coastal");
             coastal.gameObject.SetActive(true);
