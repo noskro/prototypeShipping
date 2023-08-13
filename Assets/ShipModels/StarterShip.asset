@@ -21,7 +21,7 @@ MonoBehaviour:
   ViewRange: 1
   DiscoverRange: 2
   ShipSpriteIdle: {fileID: 518642141, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
-  ShipSpriteLost: {fileID: 0}
+  ShipSpriteLost: {fileID: 21300000, guid: dd6ed28adf90db741b6d30a63f51a530, type: 3}
   ShipSpriteMovingNorth: {fileID: 518642141, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
   ShipSpriteMovingNorthEast: {fileID: 574056571, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
   ShipSpriteMovingSouthEast: {fileID: 1481181030, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}

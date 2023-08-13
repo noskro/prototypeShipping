@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class CustomTile : RuleTile
+public class CustomTile : HexagonalRuleTile
 {
     public EnumTileMovability movability;
 
