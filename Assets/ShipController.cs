@@ -40,14 +40,14 @@ public class ShipController : MonoBehaviour
     {
         HandleInput();
 
-        if (demoController.GameState == DemoController.GameStates.ShipMoving)
+        if (demoController.GameState == EnumGameStates.ShipMoving)
         {
             transform.position = Vector3.Lerp(shipTargetPosition, shipStartPosition, shipMovingTimer);
             shipMovingTimer -= Time.deltaTime * 2;
 
             if (shipMovingTimer <= 0)
             {
-                demoController.SetGameState(DemoController.GameStates.ShipIdle);
+                demoController.SetGameState(EnumGameStates.ShipIdle);
                 // ship.GetComponent<ShipVisual>().ShowShipMoving(false);
 
                 transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
@@ -59,11 +59,11 @@ public class ShipController : MonoBehaviour
 
     void HandleInput()
     {
-        if (demoController.GameState == DemoController.GameStates.ShipLost)
+        if (demoController.GameState == EnumGameStates.ShipLost)
         {
             // no game input while ship is lost
         }
-        else if (demoController.GameState == DemoController.GameStates.ShipMoving)
+        else if (demoController.GameState == EnumGameStates.ShipMoving)
         {
             // no game input while ship is moving
         }
@@ -90,7 +90,7 @@ public class ShipController : MonoBehaviour
                         shipStartPosition = transform.position;
                         shipTargetPosition = gameMapHandler.GetCellPosition(mouseCellCoordinates);
 
-                        demoController.SetGameState(DemoController.GameStates.ShipMoving);
+                        demoController.SetGameState(EnumGameStates.ShipMoving);
                         shipMovingTimer = 1f;
 
                         CustomTile targetTile = gameMapHandler.GetMapTile(mouseCellCoordinates);
@@ -115,7 +115,7 @@ public class ShipController : MonoBehaviour
     {
         if (doShipRotate)
         {
-            if (demoController.GameState == DemoController.GameStates.ShipLost)
+            if (demoController.GameState == EnumGameStates.ShipLost)
             {
 
                 shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);  // probably not needed

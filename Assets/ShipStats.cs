@@ -63,7 +63,7 @@ public class ShipStats : MonoBehaviour
 
         if (ShipStatus < 0 || CrewCount < 0 || MoralStatus < 0 || FoodStatus < 0)
         {
-            DemoController.Instance.SetGameState(DemoController.GameStates.ShipLost);
+            DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
         }
 
         OnShipUpdated?.Invoke(this);

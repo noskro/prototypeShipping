@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class ShipStatsUI : MonoBehaviour
 {
-
     public ShipStats shipStats;
     public TextMeshProUGUI textShowStats;
     public Button buttonPlaceNewShip;
@@ -21,7 +20,7 @@ public class ShipStatsUI : MonoBehaviour
 
     private void OnShipUpdated(ShipStats stats)
     {
-        bool shipLost = DemoController.Instance.GameState == DemoController.GameStates.ShipLost;
+        bool shipLost = DemoController.Instance.GameState == EnumGameStates.ShipLost;
 
         buttonPlaceNewShip.gameObject.SetActive(shipLost);
 

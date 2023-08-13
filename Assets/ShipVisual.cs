@@ -11,7 +11,7 @@ public class ShipVisual : MonoBehaviour
 
     public ShipModelSO ship;
     private ShipStats shipStats;
-    private DemoController.GameStates state;
+    private EnumGameStates state;
 
     void Start()
     {
@@ -34,7 +34,7 @@ public class ShipVisual : MonoBehaviour
 
     private void UpdateSprite()
     {
-        if (state == DemoController.GameStates.ShipLost)
+        if (state == EnumGameStates.ShipLost)
         {
             shipSpriteRenderer.sprite = ship.ShipSpriteLost;
         }

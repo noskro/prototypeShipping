@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class DemoController : MonoBehaviour
+public partial class DemoController : MonoBehaviour
 {
     public Tilemap tilemapFOW;
     public ShipModelSO demoShipModel;
@@ -17,22 +17,12 @@ public class DemoController : MonoBehaviour
 
     private static DemoController instance;
 
-    public enum GameStates
-    {
-        Start,
-        ShipIdle,
-        ShipMoving,
-        ShipLost,
-        ShipTrading,
-        GameOver
-    }
+    public EnumGameStates GameState { get; private set; }
 
-    public GameStates GameState { get; private set; }
-
-    public delegate void GameStateChanged(GameStates gameStates);
+    public delegate void GameStateChanged(EnumGameStates gameStates);
     public static event GameStateChanged OnGameStateChanged;
 
-    public void SetGameState(GameStates newGameState)
+    public void SetGameState(EnumGameStates newGameState)
     {
         GameState = newGameState;
         OnGameStateChanged?.Invoke(GameState);
@@ -68,7 +58,7 @@ public class DemoController : MonoBehaviour
         gameMapHandler = GetComponent<GameMapHandler>();
         tilemapFOW.gameObject.SetActive(true);
 
-        GameState = GameStates.ShipIdle;
+        GameState = EnumGameStates.ShipIdle;
 
         PlaceNewShip();
     }
@@ -77,6 +67,8 @@ public class DemoController : MonoBehaviour
     {
         // place Ship
         shipStats.Gold = 0;
+        shipStats.SetShip(demoShipModel); // these 3 lines need refactoring. The GameState can initially only been set AFTER the ShiStats have been set. But I need to set the ShipStats AFTER setting the GameState, because it uses that value to update the button. Oner call needs to be done manually, but main brain wouldn't do that now
+        SetGameState(EnumGameStates.ShipIdle);
         shipStats.SetShip(demoShipModel);
 
         shipController.shipCoordinates = gameMapHandler.GetMapCenter();
@@ -84,7 +76,7 @@ public class DemoController : MonoBehaviour
         shipController.transform.position = tilemapFOW.GetCellCenterWorld((Vector3Int)shipController.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         shipController.gameObject.SetActive(true);
 
-        SetGameState(GameStates.ShipIdle);
+
         gameMapHandler.NewRun();
     }
 

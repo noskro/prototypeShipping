@@ -48,6 +48,7 @@ public class GameMapHandler : MonoBehaviour
                 gameMapData[x, y].Reset();
             }
         }
+
         DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats.shipModel);
         UpdateFOWMap();
     }
