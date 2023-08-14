@@ -36,7 +36,7 @@ public class ShipStats : MonoBehaviour
         this.shipModel = newShipModel;
         // shipVisual.ShowShipidle();
 
-        ShipStatus = shipModel.ShipStatusMax;
+        ShipStatus = shipModel.ShipDurabilityMax;
         CrewCount = (int)Mathf.Ceil(shipModel.CrewCountMax / 2);
         FoodStatus = shipModel.FoodStatusMax;
         MoralStatus = shipModel.MoralStatusMax;

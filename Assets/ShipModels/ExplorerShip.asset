@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d50c6c98639a84190862cf18902fd0, type: 3}
   m_Name: ExplorerShip
   m_EditorClassIdentifier: 
+  ShipModelName: Explorer
   ShipStatusMax: 3
   CrewCountMax: 5
   FoodStatusMax: 5
@@ -20,3 +21,11 @@ MonoBehaviour:
   ShipPrice: 1
   ViewRange: 2
   DiscoverRange: 5
+  ShipSpriteIdle: {fileID: 0}
+  ShipSpriteLost: {fileID: 0}
+  ShipSpriteMovingNorth: {fileID: 0}
+  ShipSpriteMovingNorthEast: {fileID: 0}
+  ShipSpriteMovingSouthEast: {fileID: 0}
+  ShipSpriteMovingSouth: {fileID: 0}
+  ShipSpriteMovingSouthWest: {fileID: 0}
+  ShipSpriteMovingNorthWest: {fileID: 0}

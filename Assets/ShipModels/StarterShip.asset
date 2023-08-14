@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d50c6c98639a84190862cf18902fd0, type: 3}
   m_Name: StarterShip
   m_EditorClassIdentifier: 
-  ShipStatusMax: 3
-  CrewCountMax: 5
-  FoodStatusMax: 5
+  ShipModelName: Starter Ship
+  ShipDurabilityMax: 3
+  CrewCountMax: 3
+  FoodStatusMax: 3
   MoralStatusMax: 10
   ShipSpeed: 3
   ShipPrice: 1
-  ViewRange: 1
-  DiscoverRange: 2
+  ViewRange: 0
+  DiscoverRange: 1
   ShipSpriteIdle: {fileID: 518642141, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}
   ShipSpriteLost: {fileID: 21300000, guid: dd6ed28adf90db741b6d30a63f51a530, type: 3}
   ShipSpriteMovingNorth: {fileID: 518642141, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}

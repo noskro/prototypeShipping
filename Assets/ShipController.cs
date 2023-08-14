@@ -52,7 +52,7 @@ public class ShipController : MonoBehaviour
 
                 transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
 
-                gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, DemoController.Instance.demoShipModel);
+                gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, DemoController.Instance.currentShipModel);
             }
         }
     }

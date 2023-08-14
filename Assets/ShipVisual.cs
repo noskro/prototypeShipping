@@ -9,13 +9,13 @@ public class ShipVisual : MonoBehaviour
     //public Sprite shipMoving;
     //public Sprite shipLost;
 
-    public ShipModelSO ship;
+    //private ShipModelSO _ship;
     private ShipStats shipStats;
     private EnumGameStates state;
 
     void Start()
     {
-        ship = DemoController.Instance.demoShipModel;
+        //_ship = shipStats.shipModel; // DemoController.Instance.currentShipModel;
         DemoController.OnGameStateChanged += (state) =>
         {
             this.state = state;
@@ -28,28 +28,31 @@ public class ShipVisual : MonoBehaviour
         };
 
         shipSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        shipSpriteRenderer.sprite = ship.ShipSpriteIdle;
+        //shipSpriteRenderer.sprite = _ship.ShipSpriteIdle;
 
     }
 
     private void UpdateSprite()
     {
-        if (state == EnumGameStates.ShipLost)
+        if (shipSpriteRenderer != null && shipStats != null)
         {
-            shipSpriteRenderer.sprite = ship.ShipSpriteLost;
-        }
-        else
-        {
-            shipSpriteRenderer.sprite = shipStats.direction switch
+            if (state == EnumGameStates.ShipLost)
             {
-                GameMapHandler.Direction.North => ship.ShipSpriteMovingNorth,
-                GameMapHandler.Direction.NorthEast => ship.ShipSpriteMovingNorthEast,
-                GameMapHandler.Direction.NorthWest => ship.ShipSpriteMovingNorthWest,
-                GameMapHandler.Direction.South => ship.ShipSpriteMovingSouth,
-                GameMapHandler.Direction.SouthEast => ship.ShipSpriteMovingSouthEast,
-                GameMapHandler.Direction.SouthWest => ship.ShipSpriteMovingSouthWest,
-                _ => ship.ShipSpriteIdle,
-            };
+                shipSpriteRenderer.sprite = shipStats.shipModel.ShipSpriteLost;
+            }
+            else
+            {
+                shipSpriteRenderer.sprite = shipStats.direction switch
+                {
+                    GameMapHandler.Direction.North => shipStats.shipModel.ShipSpriteMovingNorth,
+                    GameMapHandler.Direction.NorthEast => shipStats.shipModel.ShipSpriteMovingNorthEast,
+                    GameMapHandler.Direction.NorthWest => shipStats.shipModel.ShipSpriteMovingNorthWest,
+                    GameMapHandler.Direction.South => shipStats.shipModel.ShipSpriteMovingSouth,
+                    GameMapHandler.Direction.SouthEast => shipStats.shipModel.ShipSpriteMovingSouthEast,
+                    GameMapHandler.Direction.SouthWest => shipStats.shipModel.ShipSpriteMovingSouthWest,
+                    _ => shipStats.shipModel.ShipSpriteIdle,
+                };
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ public class ShipStatsUI : MonoBehaviour
 {
     public ShipStats shipStats;
     public TextMeshProUGUI textShowStats;
-    public Button buttonPlaceNewShip;
+    public RunEndUIController runEndUIController;
 
     private void OnEnable()
     {
@@ -22,16 +22,14 @@ public class ShipStatsUI : MonoBehaviour
     {
         bool shipLost = DemoController.Instance.GameState == EnumGameStates.ShipLost;
 
-        buttonPlaceNewShip.gameObject.SetActive(shipLost);
-
         if (shipLost)
         {
-            textShowStats.text = "";
+            runEndUIController.RunEnded(stats);
         }
         else
         {
             textShowStats.text = string.Format("Schiff: {0}/{1}\nCrew: {2}/{3}\nNahrung: {4}/{5}\nMoral {6}/{7}\nGold: {8}",
-                Mathf.Ceil(shipStats.ShipStatus), shipStats.shipModel.ShipStatusMax,
+                Mathf.Ceil(shipStats.ShipStatus), shipStats.shipModel.ShipDurabilityMax,
                 Mathf.Ceil(shipStats.CrewCount), shipStats.shipModel.CrewCountMax,
                 Mathf.Ceil(shipStats.FoodStatus), shipStats.shipModel.FoodStatusMax,
                 Mathf.Ceil(shipStats.MoralStatus), shipStats.shipModel.MoralStatusMax, shipStats.Gold);

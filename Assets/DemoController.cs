@@ -8,12 +8,15 @@ using UnityEngine.Tilemaps;
 public partial class DemoController : MonoBehaviour
 {
     public Tilemap tilemapFOW;
-    public ShipModelSO demoShipModel;
-    public ShipStats shipStats;
     public CinemachineVirtualCamera coastal;
     public CinemachineVirtualCamera openSea;
     public TradeController tradeController;
     public ShipController shipController;
+
+    public ShipStats shipStats;
+    [HideInInspector]
+    public ShipModelSO currentShipModel;
+    public List<ShipModelSO> shipProgressionList;
 
     private static DemoController instance;
 
@@ -59,6 +62,7 @@ public partial class DemoController : MonoBehaviour
         tilemapFOW.gameObject.SetActive(true);
 
         GameState = EnumGameStates.ShipIdle;
+        currentShipModel = shipProgressionList[0];
 
         PlaceNewShip();
     }
@@ -67,9 +71,9 @@ public partial class DemoController : MonoBehaviour
     {
         // place Ship
         shipStats.Gold = 0;
-        shipStats.SetShip(demoShipModel); // these 3 lines need refactoring. The GameState can initially only been set AFTER the ShiStats have been set. But I need to set the ShipStats AFTER setting the GameState, because it uses that value to update the button. Oner call needs to be done manually, but main brain wouldn't do that now
+
         SetGameState(EnumGameStates.ShipIdle);
-        shipStats.SetShip(demoShipModel);
+        shipStats.SetShip(currentShipModel);
 
         shipController.shipCoordinates = gameMapHandler.GetMapCenter();
         gameMapHandler.shipCoordinates = shipController.shipCoordinates; // this seems redundant
@@ -78,6 +82,23 @@ public partial class DemoController : MonoBehaviour
 
 
         gameMapHandler.NewRun();
+    }
+
+    internal ShipModelSO GetCurrentShipModel()
+    {
+        return currentShipModel;
+    }
+
+    internal ShipModelSO GetNextShipModel()
+    {    
+        int index = shipProgressionList.IndexOf(currentShipModel);
+
+        if (index >= 0 && index < shipProgressionList.Count)
+        {
+            return shipProgressionList[index + 1];
+        }
+
+        return null;
     }
 
     // Update is called once per frame

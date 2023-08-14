@@ -3,7 +3,8 @@
 [CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ShipModel", order = 1)]
 public class ShipModelSO : ScriptableObject
 {
-    public int ShipStatusMax; // how much damage the ship can take
+    public string ShipModelName;
+    public int ShipDurabilityMax; // how much damage the ship can take
     public int CrewCountMax;
     public int FoodStatusMax;
     public int MoralStatusMax; // moral is maybe not dependent on ship? maybe upgrades, like a pool on board or a gaming room or so :D
