@@ -33,12 +33,12 @@ public class TradeController : MonoBehaviour
 
         trade1.sprite = spriteTradeGold;
 
-        int selection2 = Mathf.RoundToInt(Random.value * 3);
+        int selection2 = Random.Range(0,2);
         int selection3 = selection2;
 
         while (selection3 == selection2)
         {
-            selection3 = Mathf.RoundToInt(Random.value * 3);
+            selection3 = Random.Range(0, 2);
         }
 
         if (selection2 == 0)
@@ -103,7 +103,7 @@ public class TradeController : MonoBehaviour
 
         if (selectedSR.sprite.Equals(spriteTradeGold))
         {
-            shipStats.Gold += (int)Mathf.Round(Random.value * 5) + 8;
+            shipStats.Gold += Random.Range(8,14);
         }
         else if (selectedSR.sprite.Equals(spriteTradeRepair))
         {
@@ -119,8 +119,10 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeRum))
         {
-            shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + (int)(Mathf.Round(Random.value*2)+1), shipStats.shipModel.MoralStatusMax);
+            shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + Random.Range(1,2), shipStats.shipModel.MoralStatusMax);
         }
+
+        shipStats.TriggerShipUpdated();
 
         villageGameMapData.hasVillageTraded = true;
         IsTrading = false;

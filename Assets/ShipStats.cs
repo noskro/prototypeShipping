@@ -68,4 +68,9 @@ public class ShipStats : MonoBehaviour
 
         OnShipUpdated?.Invoke(this);
     }
+
+    public void TriggerShipUpdated()
+    {
+        OnShipUpdated?.Invoke(this);
+    }
 }
