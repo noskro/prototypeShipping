@@ -112673,7 +112673,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7723d659d49d9944850b4edbe653ad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ShipStatus: 3
+  ShipDurability: 0
   CrewCount: 3
   FoodStatus: 5
   MoralStatus: 10
@@ -115244,6 +115244,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 096fa2549a6fe8746913edd1e558dd37, type: 2}
   - {fileID: 11400000, guid: ce4eabd6fa246fa4b81066ecb0717cde, type: 2}
   - {fileID: 11400000, guid: 3a0d688b19cefbe40b2261bdc3866b30, type: 2}
+  randomMapEventList:
+  - {fileID: 11400000, guid: bc58bbf1b74c19649bfc8f7bfcf305d3, type: 2}
+  - {fileID: 11400000, guid: 9dbfda0d6b80e8642ac9592272ab8683, type: 2}
 --- !u!1 &1853064238
 GameObject:
   m_ObjectHideFlags: 0

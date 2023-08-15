@@ -22,6 +22,8 @@ public partial class DemoController : MonoBehaviour
     private int currentCartographyLevel;
     public List<CartographyLevelSO> cartographyProgressionList;
 
+    public List<RandomMapEventSO> randomMapEventList;
+
     private static DemoController instance;
 
     public EnumGameStates GameState { get; private set; }

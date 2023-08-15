@@ -47,12 +47,16 @@ public class ShipController : MonoBehaviour
 
             if (shipMovingTimer <= 0)
             {
-                demoController.SetGameState(EnumGameStates.ShipIdle);
                 // ship.GetComponent<ShipVisual>().ShowShipMoving(false);
 
                 transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
 
                 gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, DemoController.Instance.currentShipModel);
+
+                // handle random events               
+                gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
+
+                demoController.SetGameState(EnumGameStates.ShipIdle);
             }
         }
     }

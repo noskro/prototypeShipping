@@ -107,7 +107,7 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeRepair))
         {
-            shipStats.ShipStatus = Mathf.Min(shipStats.ShipStatus + 1, shipStats.shipModel.ShipDurabilityMax);
+            shipStats.ShipDurability = Mathf.Min(shipStats.ShipDurability + 1, shipStats.shipModel.ShipDurabilityMax);
         }
         else if (selectedSR.sprite.Equals(spriteTradeCrew))
         {

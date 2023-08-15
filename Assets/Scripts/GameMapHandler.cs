@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Random = UnityEngine.Random;
 
 public class GameMapHandler : MonoBehaviour
 {
@@ -49,8 +50,60 @@ public class GameMapHandler : MonoBehaviour
             }
         }
 
+        // place random events
+        foreach (RandomMapEventSO e in DemoController.Instance.randomMapEventList)
+        {
+            int randomOccurence = Random.Range(e.EventMinOccurence, e.EventMaxOccurence);
+
+            if (randomOccurence > 0)
+            {
+                for (int i = 0; i < randomOccurence; i++)
+                {
+                    bool placed = false;
+
+                    do
+                    {
+                        int x = Random.Range(0, mapWidth);
+                        int y = Random.Range(0, mapHeight);
+
+                        if (e.placedOnAnyTile.Contains(GetMapTile(x, y)) && GetObjectTile(x, y) == null)
+                        {
+                            tilemapObjects.SetTile(new Vector3Int(x, y, 0), e.eventTile);
+                            placed = true;
+                        }
+                    } while (placed == false);
+                }
+            }
+        }
+
         DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats.shipModel);
         UpdateFOWMap();
+    }
+
+    internal void HandleRandomEvents(Vector2Int shipCoordinates)
+    {
+        CustomTile tile = GetObjectTile(shipCoordinates.x, shipCoordinates.y); 
+
+        if (tile != null)
+        {
+            foreach(RandomMapEventSO e in DemoController.Instance.randomMapEventList)
+            { 
+                if (e.eventTile.Equals(tile))
+                {
+                    // event triggered;
+                    int reResultIndex = Random.Range(0, e.RandomEventResultList.Count);
+                    RandomEventResult reResult = e.RandomEventResultList[reResultIndex];
+
+                    DemoController.Instance.shipStats.AddStatsModifier(reResult);
+                    
+                    if (!e.EventRepeatable)
+                    {
+                        tilemapObjects.SetTile(new Vector3Int(shipCoordinates.x, shipCoordinates.y, 0), null);
+                    }
+                }
+            }
+        }
+
     }
 
     internal bool CanNavigate(Vector2Int cursorCoords)
@@ -308,6 +361,16 @@ public class GameMapHandler : MonoBehaviour
     internal Vector3 GetCellPosition(Vector2Int mouseCellCoordinates)
     {
         return tilemapMap.GetCellCenterWorld((Vector3Int)mouseCellCoordinates);
+    }
+
+    internal CustomTile GetObjectTile(int x, int y)
+    {
+        return tilemapObjects.GetTile<CustomTile>(new Vector3Int(x, y, 0));
+    }
+
+    internal CustomTile GetMapTile(int x, int y)
+    {
+        return GetMapTile(new Vector2Int(x, y));
     }
 
     internal CustomTile GetMapTile(Vector2Int mouseCellCoordinates)
