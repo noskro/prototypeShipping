@@ -11,8 +11,13 @@ public class RunEndUIController : MonoBehaviour
     private TextMeshProUGUI textGold;
 
     private TextMeshProUGUI textButtonUpgradeDocks;
-    private DocksShipStatsUI dockShipCurrentShip;
-    private DocksShipStatsUI dockShipNextShip;
+    public DocksShipStatsUI dockShipCurrentShip;
+    public DocksShipStatsUI dockShipNextShip;
+
+    private TextMeshProUGUI textButtonUpgradeCartograph;
+    public CartographyLevelUI cartographyCurrentLevel;
+    public CartographyLevelUI cartographyNextLevel;
+
 
     private ShipStats currentShipStats;
 
@@ -25,11 +30,13 @@ public class RunEndUIController : MonoBehaviour
         canvasGroup = this.GetComponent<CanvasGroup>();
         textGold = transform.Find("TotalGold").Find("TextGold").GetComponent<TextMeshProUGUI>();
 
-        textButtonUpgradeDocks = this.transform.Find("ButtonUpgradeDocks").GetComponentInChildren<TextMeshProUGUI>();
-        dockShipCurrentShip = transform.Find("DocksCurrentShip").GetComponent<DocksShipStatsUI>();
+        textButtonUpgradeDocks = this.transform.Find("PanelDock").Find("ButtonUpgradeDocks").GetComponentInChildren<TextMeshProUGUI>();
         dockShipCurrentShip.Init();
-        dockShipNextShip = transform.Find("DocksNextShip").GetComponent<DocksShipStatsUI>();
         dockShipNextShip.Init();
+
+        textButtonUpgradeCartograph = this.transform.Find("PanelCartograph").Find("ButtonUpgradeCartograph").GetComponentInChildren<TextMeshProUGUI>();
+        cartographyCurrentLevel.Init();
+        cartographyNextLevel.Init();
 
         this.gameObject.SetActive(false);
     }
@@ -54,10 +61,7 @@ public class RunEndUIController : MonoBehaviour
 
         ShipStatsPanel.gameObject.SetActive(false);
 
-        textGold.text = stats.Gold.ToString();
-
-        ShowUpgradeDockStatus();
-
+        ShowData();
         
         this.gameObject.SetActive(true);
         this.canvasGroup.alpha = 0;
@@ -77,7 +81,30 @@ public class RunEndUIController : MonoBehaviour
             textGold.text = currentShipStats.Gold.ToString();
         }
 
+        ShowData();
+    }
+
+    public void ClickUpgradeCartography()
+    {
+        CartographyLevelSO nextCartographyLevel = DemoController.Instance.GetNextCartograhpyLevel();
+
+        if (currentShipStats.Gold >= nextCartographyLevel.UpgradePrice)
+        {
+            DemoController.Instance.UpgradeCartographyLevel();
+
+            currentShipStats.Gold -= nextCartographyLevel.UpgradePrice;
+            textGold.text = currentShipStats.Gold.ToString();
+        }
+
+        ShowData();
+    }
+
+    private void ShowData()
+    {
+        textGold.text = currentShipStats.Gold.ToString();
+
         ShowUpgradeDockStatus();
+        ShowUpgradeCartographyStatus();
     }
 
     private void ShowUpgradeDockStatus()
@@ -89,11 +116,28 @@ public class RunEndUIController : MonoBehaviour
 
         if (nextShipModel != null)
         {
-            textButtonUpgradeDocks.text = "Upgrade Docks (" + nextShipModel.ShipPrice + " gold)";            
+            textButtonUpgradeDocks.text = "Werft verbessern (" + nextShipModel.ShipPrice + " Gold)";            
         }
         else
         {
-            textButtonUpgradeDocks.text = "Docks at maximum";
+            textButtonUpgradeDocks.text = "Werft auf max. Stufe";
+        }
+    }
+
+    private void ShowUpgradeCartographyStatus()
+    {
+        cartographyCurrentLevel.ShowCartographyLevel(DemoController.Instance.GetCurrentCartograhpyLevel());
+        cartographyNextLevel.ShowCartographyLevel(DemoController.Instance.GetNextCartograhpyLevel());
+
+        CartographyLevelSO nextCartographyLevel = DemoController.Instance.GetNextCartograhpyLevel();
+
+        if (nextCartographyLevel != null)
+        {
+            textButtonUpgradeCartograph.text = "Kartograph aufwerten (" + nextCartographyLevel.UpgradePrice + " Gold)";            
+        }
+        else
+        {
+            textButtonUpgradeCartograph.text = "Kartograph auf max. Stufe";
         }
     }
 

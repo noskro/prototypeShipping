@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d50c6c98639a84190862cf18902fd0, type: 3}
+  m_Name: ExplorerShip
+  m_EditorClassIdentifier: 
+  ShipModelName: Explorer
+  ShipStatusMax: 3
+  CrewCountMax: 5
+  FoodStatusMax: 5
+  MoralStatusMax: 10
+  ShipSpeed: 3
+  ShipPrice: 1
+  ViewRange: 2
+  DiscoverRange: 5
+  ShipSpriteIdle: {fileID: 0}
+  ShipSpriteLost: {fileID: 0}
+  ShipSpriteMovingNorth: {fileID: 0}
+  ShipSpriteMovingNorthEast: {fileID: 0}
+  ShipSpriteMovingSouthEast: {fileID: 0}
+  ShipSpriteMovingSouth: {fileID: 0}
+  ShipSpriteMovingSouthWest: {fileID: 0}
+  ShipSpriteMovingNorthWest: {fileID: 0}

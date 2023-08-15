@@ -14,9 +14,13 @@ public partial class DemoController : MonoBehaviour
     public ShipController shipController;
 
     public ShipStats shipStats;
+
     [HideInInspector]
     public ShipModelSO currentShipModel;
     public List<ShipModelSO> shipProgressionList;
+
+    private int currentCartographyLevel;
+    public List<CartographyLevelSO> cartographyProgressionList;
 
     private static DemoController instance;
 
@@ -64,6 +68,8 @@ public partial class DemoController : MonoBehaviour
         GameState = EnumGameStates.ShipIdle;
         currentShipModel = shipProgressionList[0];
 
+        currentCartographyLevel = 0;
+
         PlaceNewShip();
     }
 
@@ -75,7 +81,7 @@ public partial class DemoController : MonoBehaviour
         SetGameState(EnumGameStates.ShipIdle);
         shipStats.SetShip(currentShipModel);
 
-        shipController.shipCoordinates = gameMapHandler.GetMapCenter();
+        shipController.shipCoordinates = gameMapHandler.GetMapStartingCoordinates();
         gameMapHandler.shipCoordinates = shipController.shipCoordinates; // this seems redundant
         shipController.transform.position = tilemapFOW.GetCellCenterWorld((Vector3Int)shipController.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         shipController.gameObject.SetActive(true);
@@ -123,6 +129,34 @@ public partial class DemoController : MonoBehaviour
             Debug.Log("Open Sea");
             coastal.gameObject.SetActive(false);
             openSea.gameObject.SetActive(true);
+        }
+    }
+
+    internal CartographyLevelSO GetCurrentCartograhpyLevel()
+    {
+        if (cartographyProgressionList.Count > currentCartographyLevel)
+        {
+            return cartographyProgressionList[currentCartographyLevel];
+        }
+
+        return null;
+    }
+
+    internal CartographyLevelSO GetNextCartograhpyLevel()
+    {
+        if (cartographyProgressionList.Count > currentCartographyLevel + 1)
+        {
+            return cartographyProgressionList[currentCartographyLevel + 1];
+        }
+
+        return null;
+    }
+
+    internal void UpgradeCartographyLevel()
+    {
+        if (cartographyProgressionList.Count > currentCartographyLevel + 1)
+        {
+            currentCartographyLevel += 1;
         }
     }
 }

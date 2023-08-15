@@ -45,7 +45,7 @@ public class GameMapHandler : MonoBehaviour
         {
             for (int y = 0; y < mapHeight; y++)
             {
-                gameMapData[x, y].Reset();
+                gameMapData[x, y].Reset(DistanceBetweenCells(new Vector2Int(x,y), GetMapStartingCoordinates()));
             }
         }
 
@@ -281,7 +281,21 @@ public class GameMapHandler : MonoBehaviour
         return new Vector2Int(col, row);
     }
 
-    internal Vector2Int GetMapCenter()
+    private float DistanceBetweenCells(Vector2Int cellA, Vector2Int cellB)
+    {
+        int xd = cellA.x - cellB.x;
+        int yd = cellA.y - cellB.y;
+        float dist = MathF.Sqrt((xd*xd) + (yd*yd)); 
+
+
+
+        //int xd = cellA.x - cellB.x;
+        //int yd = cellA.y - ((cellA.x + (cellA.x & 1)) / 2) - (cellB.y - (cellB.x + (cellB.x & 1)) / 2);
+        //int dist = (Mathf.Abs(xd) + Mathf.Abs(xd + yd) + Mathf.Abs(yd)) / 2;
+        return Mathf.RoundToInt(dist);
+    }
+
+    internal Vector2Int GetMapStartingCoordinates()
     {
         return new Vector2Int(mapWidth / 2, mapHeight / 2);
     }

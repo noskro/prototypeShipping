@@ -15,7 +15,6 @@ public class DocksShipStatsUI : MonoBehaviour
     private TextMeshProUGUI textShipViewRange;
     private TextMeshProUGUI textShipDiscoverRange;
 
-
     public  void Init()
     {
         textShipName = this.transform.Find("TextShipName").GetComponent<TextMeshProUGUI>();
@@ -36,6 +35,5 @@ public class DocksShipStatsUI : MonoBehaviour
         textShipSpeed.text = "Geschw.:" + model.ShipSpeed;
         textShipViewRange.text = "Sicht:" + model.ViewRange;
         textShipDiscoverRange.text = "Erkunden:" + model.DiscoverRange;
-
     }
 }
