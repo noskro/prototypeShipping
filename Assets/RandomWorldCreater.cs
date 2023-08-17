@@ -68,8 +68,8 @@ public class RandomWorldCreater : MonoBehaviour
                     else
                     {
                         canPlaceIslandHere = false;
-                        x = int.MaxValue;
-                        y = int.MaxValue;
+                        x = randomX + islandWidth + 1;
+                        break;
                     }
                 }
             }
