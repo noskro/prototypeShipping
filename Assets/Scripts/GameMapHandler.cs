@@ -60,7 +60,7 @@ public class GameMapHandler : MonoBehaviour
                 for (int i = 0; i < randomOccurence; i++)
                 {
                     bool placed = false;
-
+                    int iAttempts = 0;
                     do
                     {
                         int x = Random.Range(0, mapWidth);
@@ -71,7 +71,8 @@ public class GameMapHandler : MonoBehaviour
                             tilemapObjects.SetTile(new Vector3Int(x, y, 0), e.eventTile);
                             placed = true;
                         }
-                    } while (placed == false);
+                        iAttempts++;
+                    } while (iAttempts <= 10 && placed == false);
                 }
             }
         }

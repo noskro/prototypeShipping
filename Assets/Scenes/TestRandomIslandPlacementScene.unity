@@ -114987,6 +114987,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1687757950}
   - component: {fileID: 1687757949}
+  - component: {fileID: 1687757951}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -115026,6 +115027,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1687757951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687757948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40d6b350997193d458026cf5180e9e8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AvailableIslands:
+  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
+  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
+  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
+  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
+  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
+  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
+  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
+  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
+  tileBackgroundWater: {fileID: 11400000, guid: 59dda9e839ab34a4ba58d1361bb3969e, type: 2}
+  tilemapMap: {fileID: 262676300}
+  tilemapObjects: {fileID: 907308238}
 --- !u!1 &1706637761
 GameObject:
   m_ObjectHideFlags: 0

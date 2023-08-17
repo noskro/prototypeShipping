@@ -65,6 +65,15 @@ public partial class DemoController : MonoBehaviour
     void Start()
     {
         gameMapHandler = GetComponent<GameMapHandler>();
+
+        RandomWorldCreater worldCreator = tilemapFOW.GetComponentInParent<RandomWorldCreater>();
+
+        if (worldCreator != null) 
+        {
+            worldCreator.GenerateNewworld(gameMapHandler.mapWidth, gameMapHandler.mapHeight);
+        }
+        // else it shoudl be a static map
+
         tilemapFOW.gameObject.SetActive(true);
 
         GameState = EnumGameStates.ShipIdle;
