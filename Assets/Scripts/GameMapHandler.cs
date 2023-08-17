@@ -146,6 +146,32 @@ public class GameMapHandler : MonoBehaviour
 
         if (CanNavigate(cursorCoords))
         {
+            Direction? direction = this.GetDirection(shipCoordinates, cursorCoords);
+
+            int rotation = 0;
+            if (direction.Equals(Direction.South))
+            {
+                rotation = 180;
+            }
+            else if (direction.Equals(Direction.NorthEast))
+            {
+                rotation = 300;
+            }
+            else if (direction.Equals(Direction.SouthEast))
+            {
+                rotation = 240;
+            }
+            else if (direction.Equals(Direction.NorthWest))
+            {
+                rotation = 60;
+            }
+            else if (direction.Equals(Direction.SouthWest))
+            {
+                rotation = 120;
+            }
+
+            MoveToIcon.transform.localRotation = Quaternion.Euler(0, 0, rotation);          
+
             MoveToIcon.position = tilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
             MoveToIcon.gameObject.SetActive(true);
         }
