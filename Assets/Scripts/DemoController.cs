@@ -24,6 +24,8 @@ public partial class DemoController : MonoBehaviour
 
     public List<RandomMapEventSO> randomMapEventList;
 
+    public List<ArtefactBeacon> artecaftBeaconList;
+
     private static DemoController instance;
 
     public EnumGameStates GameState { get; private set; }

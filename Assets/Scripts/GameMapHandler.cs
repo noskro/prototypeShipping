@@ -77,8 +77,26 @@ public class GameMapHandler : MonoBehaviour
             }
         }
 
+        // place random beacon
+        foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
+        {
+            int randomX = Random.Range(0, mapWidth);
+            int randomY = Random.Range(0, mapHeight);
+            beacon.PlaceBeacon(new Vector2Int(randomX, randomY), tilemapMap.CellToWorld(new Vector3Int(randomX, randomY, 0)));
+
+            beacon.SetShipCoordinates(tilemapMap, shipCoordinates);
+        }
+
         DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats.shipModel);
         UpdateFOWMap();
+    }
+
+    internal void UpdateBeacons(Vector2Int shipCoordinates)
+    {
+        foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
+        {
+            beacon.SetShipCoordinates(tilemapMap, shipCoordinates);
+        }
     }
 
     internal void HandleRandomEvents(Vector2Int shipCoordinates)

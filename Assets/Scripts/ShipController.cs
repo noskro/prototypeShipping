@@ -53,6 +53,8 @@ public class ShipController : MonoBehaviour
 
                 gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, DemoController.Instance.currentShipModel);
 
+                gameMapHandler.UpdateBeacons(gameMapHandler.shipCoordinates);
+
                 // handle random events               
                 gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
 
