@@ -248,6 +248,7 @@ public class GameMapHandler : MonoBehaviour
         }
 
         UpdateFOWMap();
+        tilemapFOW.GetComponent<TilemapMask>().DoIt();
     }
 
     internal bool IsWithinMap(Vector2Int coords)
