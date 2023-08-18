@@ -113146,6 +113146,134 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1077265269}
   m_CullTransparentMesh: 1
+--- !u!1 &1152391458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1152391459}
+  - component: {fileID: 1152391460}
+  m_Layer: 0
+  m_Name: Audio Source
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1152391459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152391458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1363377528}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1152391460
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1152391458}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 616e682963d7c7540b9d2d680c443ba6, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1158195371
 GameObject:
   m_ObjectHideFlags: 0
@@ -113863,6 +113991,38 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1363377527
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1363377528}
+  m_Layer: 0
+  m_Name: AudioController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1363377528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363377527}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23.37084, y: 8.550177, z: -0.08943239}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1152391459}
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1428858149
 GameObject:
   m_ObjectHideFlags: 0
@@ -114994,6 +115154,7 @@ GameObject:
   - component: {fileID: 1687757950}
   - component: {fileID: 1687757949}
   - component: {fileID: 1687757951}
+  - component: {fileID: 1687757952}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -115045,17 +115206,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d6b350997193d458026cf5180e9e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AvailableIslands:
+  AllExistingIslandPrefabs:
   - {fileID: 7887138028428539175, guid: cff60ee5d978bd64cbb018fa0626dd36, type: 3}
   - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
-  - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
-  - {fileID: 7887138028428539175, guid: 9e1b266fce9b2104d962548ec483b902, type: 3}
   - {fileID: 7887138028428539175, guid: 9e1b266fce9b2104d962548ec483b902, type: 3}
   - {fileID: 7887138028428539175, guid: 877c3e655ab17b849a71bc5ce4551e7f, type: 3}
-  - {fileID: 7887138028428539175, guid: 877c3e655ab17b849a71bc5ce4551e7f, type: 3}
-  tileBackgroundWater: {fileID: 11400000, guid: 59dda9e839ab34a4ba58d1361bb3969e, type: 2}
-  tilemapMap: {fileID: 262676300}
-  tilemapObjects: {fileID: 907308238}
+--- !u!114 &1687757952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687757948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e7e295e1fcfff4e982c1f91dd232ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TilemapMap: {fileID: 262676300}
+  TilemapObjects: {fileID: 907308238}
+  TilemapFOW: {fileID: 69672694}
+  CustomTileWater: {fileID: 11400000, guid: 59dda9e839ab34a4ba58d1361bb3969e, type: 2}
+  CustomTileCoastalWater: {fileID: 11400000, guid: 5ae3795b2dfaf1e4c844f2253359cf7f, type: 2}
+  CustomTileBlack: {fileID: 11400000, guid: 2b2b96e80d6ad0c4590a4532740a3e51, type: 2}
+  CustomTileBlackFog: {fileID: 11400000, guid: 380f61cb5de020b48b39ee850c84c29c, type: 2}
+  CustomTileVillage: {fileID: 11400000, guid: fda355beb698dba43b07816f89feb048, type: 2}
+  CityLabelPrefab: {fileID: 7554710093863615896, guid: 31a45a7bbf7d89d4ea5899bf5bd9c627, type: 3}
+  mapHeight: 63
+  mapWidth: 33
+  UsedIslands:
+  - {fileID: 0}
 --- !u!1 &1706637761
 GameObject:
   m_ObjectHideFlags: 0
@@ -115405,15 +115585,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3049867656b7e5f45975a517c68a5181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemapMap: {fileID: 262676300}
-  tilemapObjects: {fileID: 907308238}
-  tilemapFOW: {fileID: 69672694}
-  tileBlack: {fileID: 11400000, guid: 2b2b96e80d6ad0c4590a4532740a3e51, type: 2}
-  tileHalf: {fileID: 11400000, guid: 380f61cb5de020b48b39ee850c84c29c, type: 2}
   MoveToIcon: {fileID: 227353557}
   CoinIcon: {fileID: 1996401947}
-  mapHeight: 63
-  mapWidth: 33
   shipCoordinates: {x: 0, y: 0}
 --- !u!4 &1758241114
 Transform:
@@ -115464,6 +115637,7 @@ MonoBehaviour:
   randomMapEventList:
   - {fileID: 11400000, guid: bc58bbf1b74c19649bfc8f7bfcf305d3, type: 2}
   - {fileID: 11400000, guid: 9dbfda0d6b80e8642ac9592272ab8683, type: 2}
+  artecaftBeaconList: []
 --- !u!1 &1853064238
 GameObject:
   m_ObjectHideFlags: 0

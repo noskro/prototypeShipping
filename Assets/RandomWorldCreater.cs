@@ -7,43 +7,61 @@ using Random = UnityEngine.Random;
 
 public class RandomWorldCreater : MonoBehaviour
 {
-    public List<IslandPrefabController> AvailableIslands;
-    public CustomTile tileBackgroundWater;
+    public List<IslandPrefab> AllExistingIslandPrefabs;
 
-    public Tilemap tilemapMap;
-    public Tilemap tilemapObjects;
+    //private List<IslandPrefabController> AvailableIslands;
+    private List<PersistentIslandData> AvailableIslands = new List<PersistentIslandData>();
 
-    private int mapWidth;
-    private int mapHeight;
-
-    public void GenerateNewworld(int width, int height)
+    public void AddNewIslandPrefabsToAvailable(EnumIslandUnlockEvent unlockEvent)
     {
-        this.mapWidth = width;
-        this.mapHeight = height;
-
-        tilemapMap.ClearAllTiles();
-        tilemapObjects.ClearAllTiles();
-
-        for (int x = 0; x < width; x++) 
-        { 
-            for (int y = 0; y < height; y++)
+        // get the new IslandPrefabs, create a PersistentIslandData for each and fill it city CityDataSO for each city. Then add it to availableIslands
+        foreach(IslandPrefab islandPrefab in AllExistingIslandPrefabs)
+        {
+            if (unlockEvent.Equals(islandPrefab.unlockEvent))
             {
-                tilemapMap.SetTile(new Vector3Int(x,y,0), tileBackgroundWater);
+                PersistentIslandData islandData = new PersistentIslandData(islandPrefab);
+                AvailableIslands.Add(islandData);
+            }
+        }
+    }
+
+
+    public void GenerateNewWorld()
+    {
+        StaticTileDataContainer.Instance.TilemapMap.ClearAllTiles();
+        StaticTileDataContainer.Instance.TilemapObjects.ClearAllTiles();
+
+        foreach (Transform child in StaticTileDataContainer.Instance.TilemapObjects.transform)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+
+
+        for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++) 
+        { 
+            for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+            {
+                StaticTileDataContainer.Instance.TilemapMap.SetTile(new Vector3Int(x,y,0), StaticTileDataContainer.Instance.CustomTileWater);
+                StaticTileDataContainer.Instance.gameMapData[x, y].Reset(0);
             }
         }
 
-        foreach(IslandPrefabController island in AvailableIslands)
+        foreach(PersistentIslandData island in AvailableIslands)
         {
+            island.Reset(); // reset all run specific temporary data
             TryPlaceIslandAtRandomPosition(island);
         }
     }
 
-    private void TryPlaceIslandAtRandomPosition(IslandPrefabController island)
+    private void TryPlaceIslandAtRandomPosition(PersistentIslandData islandData)
     {
-        int islandWidth = island.GetTotalWidth();
-        int islandHeight = island.GetTotalHeight();
+        StaticTileDataContainer.Instance.UsedIslands.Clear();
 
-        Tuple<Dictionary<Vector3Int, CustomTile>, Dictionary<Vector3Int, CustomTile>> islandTilesTuple = island.GetAllTiles();
+        IslandPrefab islandPrefab = islandData.prefab;
+        int islandWidth = islandPrefab.GetTotalWidth();
+        int islandHeight = islandPrefab.GetTotalHeight();
+
+        Tuple<Dictionary<Vector3Int, CustomTile>, Dictionary<Vector3Int, CustomTile>> islandTilesTuple = islandPrefab.GetAllTiles();
 
         Dictionary<Vector3Int, CustomTile> islandTilesMap = islandTilesTuple.Item1;
         Dictionary<Vector3Int, CustomTile> islandTilesObjects = islandTilesTuple.Item2;
@@ -54,14 +72,14 @@ public class RandomWorldCreater : MonoBehaviour
         int iAttempts = 0;
         do
         {
-            randomX = Mathf.RoundToInt(Random.Range(0, mapWidth - islandWidth)); 
-            randomY = (Mathf.RoundToInt(Random.Range(0, mapHeight - islandHeight)) / 2) *2; // only draw to even number columns
+            randomX = Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapWidth - islandWidth)); 
+            randomY = (Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapHeight - islandHeight)) / 2) *2; // only draw to even number columns
 
             for (int x = randomX; x <= randomX + islandWidth; x++)
             {
                 for (int y = randomY; y <= randomY + islandHeight; y++)
                 {
-                    if (tileBackgroundWater.Equals(tilemapMap.GetTile<CustomTile>(new Vector3Int(x, y, 0))))
+                    if (StaticTileDataContainer.Instance.CustomTileWater.Equals(StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(new Vector3Int(x, y, 0))))
                     {
                         // can place
                     }
@@ -80,14 +98,24 @@ public class RandomWorldCreater : MonoBehaviour
         {
             foreach(KeyValuePair<Vector3Int, CustomTile> kvp in islandTilesMap)
             {
-                tilemapMap.SetTile(kvp.Key + new Vector3Int(randomX, randomY, 0), kvp.Value);
+                StaticTileDataContainer.Instance.TilemapMap.SetTile(kvp.Key + new Vector3Int(randomX, randomY, 0), kvp.Value);
             }
+
+            int iCityIndex = 0;
             foreach(KeyValuePair<Vector3Int, CustomTile> kvp in islandTilesObjects)
             {
-                tilemapObjects.SetTile(kvp.Key + new Vector3Int(randomX, randomY, 0), kvp.Value);
+                StaticTileDataContainer.Instance.TilemapObjects.SetTile(kvp.Key + new Vector3Int(randomX, randomY, 0), kvp.Value);
+                StaticTileDataContainer.Instance.gameMapData[kvp.Key.x + randomX, kvp.Key.y + randomY].setCityData(islandData, iCityIndex); // .SetTile(kvp.Key + new Vector3Int(randomX, randomY, 0), kvp.Value);
+
+                // show city labels
+                Transform newCityLabel = Instantiate(StaticTileDataContainer.Instance.CityLabelPrefab, StaticTileDataContainer.Instance.TilemapObjects.transform);
+                newCityLabel.position = StaticTileDataContainer.Instance.TilemapObjects.CellToWorld(new Vector3Int(kvp.Key.x + randomX, kvp.Key.y + randomY, 0));
+                newCityLabel.GetComponent<CityLabelView>().SetCityData(islandData.PersistentCityDataList[iCityIndex]);
+
+                iCityIndex++;
             }
-            //tilemapMap.SetTilesBlock(new BoundsInt(randomX, randomY, 0, islandWidth, islandHeight, 1), islandTilesMap);
-            //tilemapObjects.SetTilesBlock(new BoundsInt(randomX, randomY, 0, islandWidth, islandHeight, 1), islandTilesObjects);
+
+            StaticTileDataContainer.Instance.UsedIslands.Add(islandData);
         }
     }
 }

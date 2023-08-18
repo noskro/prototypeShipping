@@ -243,6 +243,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915fb940f1ca53e46a212f3ea8d672c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockEvent: 0
+  cityDataList:
+  - {fileID: 11400000, guid: 8e054c1904d60e64cac420ae27435e6e, type: 2}
+  - {fileID: 11400000, guid: fc7e1a87e69f5de46a4861a360621fb4, type: 2}
+  - {fileID: 11400000, guid: 496619434a568a744bdb027c582dffdf, type: 2}
   tilemapMap: {fileID: 6337959835539090929}
   tilemapObjects: {fileID: 3823546673260854133}
 --- !u!1 &6874038288032650674

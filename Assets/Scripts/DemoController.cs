@@ -33,6 +33,7 @@ public partial class DemoController : MonoBehaviour
     public delegate void GameStateChanged(EnumGameStates gameStates);
     public static event GameStateChanged OnGameStateChanged;
 
+    private RandomWorldCreater worldCreator;
     public void SetGameState(EnumGameStates newGameState)
     {
         GameState = newGameState;
@@ -50,6 +51,7 @@ public partial class DemoController : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        worldCreator = tilemapFOW.GetComponentInParent<RandomWorldCreater>();
     }
 
     private void OnEnable()
@@ -67,26 +69,33 @@ public partial class DemoController : MonoBehaviour
     void Start()
     {
         gameMapHandler = GetComponent<GameMapHandler>();
-
-        RandomWorldCreater worldCreator = tilemapFOW.GetComponentInParent<RandomWorldCreater>();
-
+              
         if (worldCreator != null) 
         {
-            worldCreator.GenerateNewworld(gameMapHandler.mapWidth, gameMapHandler.mapHeight);
+            worldCreator.AddNewIslandPrefabsToAvailable(EnumIslandUnlockEvent.StarterIsland);
         }
         // else it shoudl be a static map
 
         tilemapFOW.gameObject.SetActive(true);
-
-        GameState = EnumGameStates.ShipIdle;
         currentShipModel = shipProgressionList[0];
-
         currentCartographyLevel = 0;
+
+        GenerateNewRun();
+    }
+
+    public void GenerateNewRun()
+    {
+        RandomWorldCreater worldCreator = tilemapFOW.GetComponentInParent<RandomWorldCreater>();
+
+        if (worldCreator != null)
+        {
+            worldCreator.GenerateNewWorld();
+        }
 
         PlaceNewShip();
     }
 
-    public void PlaceNewShip()
+    private void PlaceNewShip()
     {
         // place Ship
         shipStats.Gold = 0;

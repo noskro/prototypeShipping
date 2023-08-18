@@ -6,49 +6,24 @@ using Random = UnityEngine.Random;
 
 public class GameMapHandler : MonoBehaviour
 {
-    public Tilemap tilemapMap;
-    public Tilemap tilemapObjects;
-    public Tilemap tilemapFOW;
-
-    public RuleTile tileBlack;
-    public RuleTile tileHalf;
-
-    //public Tile tileMoveTo;
-
     public Transform MoveToIcon;
     public Transform CoinIcon;
 
-    public int mapHeight = 63;
-    public int mapWidth = 33;
     [HideInInspector]
-    public GameMapData[,] gameMapData;
 
     public Vector2Int shipCoordinates;
 
     public enum Direction { North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest } // East & West are not used
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        gameMapData = new GameMapData[mapWidth, mapHeight];
-        for (int x = 0; x < mapWidth; x++)
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                gameMapData[x, y] = new GameMapData(); //.fow = EnumFogOfWar.Undiscovered;
-            }
-        }
-    }
-
     public void NewRun()
     {
-        for (int x = 0; x < mapWidth; x++)
-        {
-            for (int y = 0; y < mapHeight; y++)
-            {
-                gameMapData[x, y].Reset(DistanceBetweenCells(new Vector2Int(x,y), GetMapStartingCoordinates()));
-            }
-        }
+        //for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++)
+        //{
+        //    for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+        //    {
+        //        StaticTileDataContainer.Instance.gameMapData[x, y].Reset(DistanceBetweenCells(new Vector2Int(x,y), GetMapStartingCoordinates()));
+        //    }
+        //}
 
         // place random events
         foreach (RandomMapEventSO e in DemoController.Instance.randomMapEventList)
@@ -63,12 +38,12 @@ public class GameMapHandler : MonoBehaviour
                     int iAttempts = 0;
                     do
                     {
-                        int x = Random.Range(0, mapWidth);
-                        int y = Random.Range(0, mapHeight);
+                        int x = Random.Range(0, StaticTileDataContainer.Instance.mapWidth);
+                        int y = Random.Range(0, StaticTileDataContainer.Instance.mapHeight);
 
                         if (e.placedOnAnyTile.Contains(GetMapTile(x, y)) && GetObjectTile(x, y) == null)
                         {
-                            tilemapObjects.SetTile(new Vector3Int(x, y, 0), e.eventTile);
+                            StaticTileDataContainer.Instance.TilemapObjects.SetTile(new Vector3Int(x, y, 0), e.eventTile);
                             placed = true;
                         }
                         iAttempts++;
@@ -80,11 +55,11 @@ public class GameMapHandler : MonoBehaviour
         // place random beacon
         foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
         {
-            int randomX = Random.Range(0, mapWidth);
-            int randomY = Random.Range(0, mapHeight);
-            beacon.PlaceBeacon(new Vector2Int(randomX, randomY), tilemapMap.CellToWorld(new Vector3Int(randomX, randomY, 0)));
+            int randomX = Random.Range(0, StaticTileDataContainer.Instance.mapWidth);
+            int randomY = Random.Range(0, StaticTileDataContainer.Instance.mapHeight);
+            beacon.PlaceBeacon(new Vector2Int(randomX, randomY), StaticTileDataContainer.Instance.TilemapMap.CellToWorld(new Vector3Int(randomX, randomY, 0)));
 
-            beacon.SetShipCoordinates(tilemapMap, shipCoordinates);
+            beacon.SetShipCoordinates(StaticTileDataContainer.Instance.TilemapMap, shipCoordinates);
         }
 
         DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats.shipModel);
@@ -95,7 +70,7 @@ public class GameMapHandler : MonoBehaviour
     {
         foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
         {
-            beacon.SetShipCoordinates(tilemapMap, shipCoordinates);
+            beacon.SetShipCoordinates(StaticTileDataContainer.Instance.TilemapMap, shipCoordinates);
         }
     }
 
@@ -117,7 +92,7 @@ public class GameMapHandler : MonoBehaviour
                     
                     if (!e.EventRepeatable)
                     {
-                        tilemapObjects.SetTile(new Vector3Int(shipCoordinates.x, shipCoordinates.y, 0), null);
+                        StaticTileDataContainer.Instance.TilemapObjects.SetTile(new Vector3Int(shipCoordinates.x, shipCoordinates.y, 0), null);
                     }
                 }
             }
@@ -127,11 +102,11 @@ public class GameMapHandler : MonoBehaviour
 
     internal bool CanNavigate(Vector2Int cursorCoords)
     {
-        if (cursorCoords.x >= 0 && cursorCoords.x < mapWidth && cursorCoords.y >= 0 && cursorCoords.y < mapHeight)
+        if (cursorCoords.x >= 0 && cursorCoords.x <StaticTileDataContainer.Instance.mapWidth && cursorCoords.y >= 0 && cursorCoords.y < StaticTileDataContainer.Instance.mapHeight)
         {
             if (IsNeighbour(cursorCoords, shipCoordinates))
             {
-                CustomTile mapTile = tilemapMap.GetTile<CustomTile>((Vector3Int)cursorCoords);
+                CustomTile mapTile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)cursorCoords);
 
                 if (mapTile != null && mapTile.movability.Equals(EnumTileMovability.ShipMoveable))
                 {
@@ -144,13 +119,13 @@ public class GameMapHandler : MonoBehaviour
 
     internal bool CanTrade(Vector2Int cursorCoords)
     {
-        if (cursorCoords.x >= 0 && cursorCoords.x < mapWidth && cursorCoords.y >= 0 && cursorCoords.y < mapHeight)
+        if (cursorCoords.x >= 0 && cursorCoords.x <StaticTileDataContainer.Instance.mapWidth && cursorCoords.y >= 0 && cursorCoords.y < StaticTileDataContainer.Instance.mapHeight)
         {
             if (IsNeighbour(cursorCoords, shipCoordinates))
             {
-                CustomTile objectTile = tilemapObjects.GetTile<CustomTile>((Vector3Int)cursorCoords);
+                CustomTile objectTile = StaticTileDataContainer.Instance.TilemapObjects.GetTile<CustomTile>((Vector3Int)cursorCoords);
 
-                if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && gameMapData[cursorCoords.x, cursorCoords.y].hasVillageTraded == false)
+                if (objectTile != null && objectTile.movability.Equals(EnumTileMovability.TradeVillage) && StaticTileDataContainer.Instance.gameMapData[cursorCoords.x, cursorCoords.y].hasVillageTraded() == false)
                 {
                     return true;
                 }
@@ -191,12 +166,12 @@ public class GameMapHandler : MonoBehaviour
 
             MoveToIcon.transform.localRotation = Quaternion.Euler(0, 0, rotation);          
 
-            MoveToIcon.position = tilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
+            MoveToIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
             MoveToIcon.gameObject.SetActive(true);
         }
         else if (CanTrade(cursorCoords))
         {
-            CoinIcon.position = tilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
+            CoinIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
             CoinIcon.gameObject.SetActive(true);
         }
     }
@@ -269,16 +244,16 @@ public class GameMapHandler : MonoBehaviour
 
     internal void DiscoverNewAreaByShip(Vector2Int coords, ShipModelSO ship)
     {
-        gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Visible;
+        StaticTileDataContainer.Instance.gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Visible;
 
         var farNeighbors = GetNeighbors(coords, ship.DiscoverRange);
         foreach (var neighbor in farNeighbors)
         {
-            if (IsWithinMap(neighbor) && gameMapData[neighbor.x, neighbor.y].fow != EnumFogOfWar.Visible)
+            if (IsWithinMap(neighbor) && StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow != EnumFogOfWar.Visible)
             { // don't hide already visible tiles
-                gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Fog;
-                tilemapFOW.SetTileFlags((Vector3Int)neighbor, TileFlags.None);
-                tilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
+                StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Fog;
+                StaticTileDataContainer.Instance.TilemapFOW.SetTileFlags((Vector3Int)neighbor, TileFlags.None);
+                StaticTileDataContainer.Instance.TilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
             }
         }
         var nearNeighbors = GetNeighbors(coords, ship.ViewRange);
@@ -286,44 +261,44 @@ public class GameMapHandler : MonoBehaviour
         {
             if (IsWithinMap(neighbor))
             {
-                gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Visible;
-                tilemapFOW.SetTileFlags((Vector3Int)neighbor, TileFlags.None);
-                tilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
+                StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Visible;
+                StaticTileDataContainer.Instance.TilemapFOW.SetTileFlags((Vector3Int)neighbor, TileFlags.None);
+                StaticTileDataContainer.Instance.TilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
             }
         }
 
         UpdateFOWMap();
-        tilemapFOW.GetComponent<TilemapMask>().DoIt();
+        StaticTileDataContainer.Instance.TilemapFOW.GetComponent<TilemapMask>().DoIt();
     }
 
     internal bool IsWithinMap(Vector2Int coords)
     {
-        return coords != null && coords.x >= 0 && coords.x < mapWidth && coords.y >= 0 && coords.y < mapHeight;
+        return coords != null && coords.x >= 0 && coords.x < StaticTileDataContainer.Instance.mapWidth && coords.y >= 0 && coords.y < StaticTileDataContainer.Instance.mapHeight;
     }
 
     public EnumTileType GetShipTileType()
     {
-        return tilemapMap.GetTile<CustomTile>((Vector3Int)shipCoordinates).type;
+        return StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)shipCoordinates).type;
     }
 
 
     internal void UpdateFOWMap()
     {
-        if (tilemapFOW != null)
+        if (StaticTileDataContainer.Instance.TilemapFOW != null)
         {
-            tilemapFOW.ClearAllTiles();
+            StaticTileDataContainer.Instance.TilemapFOW.ClearAllTiles();
 
-            for (int x = 0; x < mapWidth; x++)
+            for (int x = 0; x <StaticTileDataContainer.Instance.mapWidth; x++)
             {
-                for (int y = 0; y < mapHeight; y++)
+                for (int y = 0; y <StaticTileDataContainer.Instance.mapHeight; y++)
                 {
-                    if (gameMapData[x, y].fow.Equals(EnumFogOfWar.Undiscovered))
+                    if (StaticTileDataContainer.Instance.gameMapData[x, y].fow.Equals(EnumFogOfWar.Undiscovered))
                     {
-                        tilemapFOW.SetTile(new Vector3Int(x, y, 0), tileBlack);
+                        StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
                     }
-                    else if (gameMapData[x, y].fow.Equals(EnumFogOfWar.Fog))
+                    else if (StaticTileDataContainer.Instance.gameMapData[x, y].fow.Equals(EnumFogOfWar.Fog))
                     {
-                        tilemapFOW.SetTile(new Vector3Int(x, y, 0), tileHalf);
+                        StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlackFog);
                     }
                 }
             }
@@ -396,22 +371,22 @@ public class GameMapHandler : MonoBehaviour
 
     internal Vector2Int GetMapStartingCoordinates()
     {
-        return new Vector2Int(mapWidth / 2, mapHeight / 2);
+        return new Vector2Int(StaticTileDataContainer.Instance.mapWidth / 2,StaticTileDataContainer.Instance.mapHeight / 2);
     }
 
     internal Vector2Int GetCellCoords(Vector3 mouseWorldPosition)
     {
-        return (Vector2Int)tilemapMap.WorldToCell(mouseWorldPosition);
+        return (Vector2Int)StaticTileDataContainer.Instance.TilemapMap.WorldToCell(mouseWorldPosition);
     }
 
     internal Vector3 GetCellPosition(Vector2Int mouseCellCoordinates)
     {
-        return tilemapMap.GetCellCenterWorld((Vector3Int)mouseCellCoordinates);
+        return StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)mouseCellCoordinates);
     }
 
     internal CustomTile GetObjectTile(int x, int y)
     {
-        return tilemapObjects.GetTile<CustomTile>(new Vector3Int(x, y, 0));
+        return StaticTileDataContainer.Instance.TilemapObjects.GetTile<CustomTile>(new Vector3Int(x, y, 0));
     }
 
     internal CustomTile GetMapTile(int x, int y)
@@ -421,6 +396,6 @@ public class GameMapHandler : MonoBehaviour
 
     internal CustomTile GetMapTile(Vector2Int mouseCellCoordinates)
     {
-        return tilemapMap.GetTile<CustomTile>((Vector3Int)mouseCellCoordinates);
+        return StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)mouseCellCoordinates);
     }
 }

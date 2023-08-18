@@ -145,6 +145,6 @@ public class RunEndUIController : MonoBehaviour
     {
         this.gameObject.SetActive(false);
         ShipStatsPanel.gameObject.SetActive(true);
-        DemoController.Instance.PlaceNewShip();
+        DemoController.Instance.GenerateNewRun();
     }
 }

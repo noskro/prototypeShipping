@@ -17,7 +17,7 @@ public class TradeController : MonoBehaviour
     public ShipStats shipStats;
 
     public bool IsTrading { get; internal set; }
-    private GameMapData villageGameMapData;
+    private PersistentCityData villageGameMapData;
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +25,7 @@ public class TradeController : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void ShowTrade(Vector3 pos, ref GameMapData dataVillage)
+    public void ShowTrade(Vector3 pos, PersistentCityData dataVillage)
     {
         this.villageGameMapData = dataVillage;
         IsTrading = true;
@@ -124,7 +124,7 @@ public class TradeController : MonoBehaviour
 
         shipStats.TriggerShipUpdated();
 
-        villageGameMapData.hasVillageTraded = true;
+        villageGameMapData.SetTradedThisRun(true);
         IsTrading = false;
         this.gameObject.SetActive(false);
     }

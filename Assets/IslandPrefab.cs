@@ -6,8 +6,12 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.WSA;
 
-public class IslandPrefabController : MonoBehaviour
+public class IslandPrefab : MonoBehaviour
 {
+    public EnumIslandUnlockEvent unlockEvent;
+
+    public List<CityDataSO> cityDataList;
+
     public Tilemap tilemapMap;
     public Tilemap tilemapObjects;
 
