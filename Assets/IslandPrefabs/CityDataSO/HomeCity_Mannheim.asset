@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: HomeCity_Mannheim
   m_EditorClassIdentifier: 
   CityName: Mannheim
-  startingCityLevel: 5
+  startingCityLevel: 4
