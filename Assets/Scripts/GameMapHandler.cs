@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
-public class GameMapHandler : MonoBehaviour
+public partial class GameMapHandler : MonoBehaviour
 {
     public Transform MoveToIcon;
     public Transform CoinIcon;
@@ -12,8 +12,6 @@ public class GameMapHandler : MonoBehaviour
     [HideInInspector]
 
     public Vector2Int shipCoordinates;
-
-    public enum Direction { North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest } // East & West are not used
 
     public void NewRun()
     {

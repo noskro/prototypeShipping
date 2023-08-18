@@ -7,7 +7,6 @@ using UnityEngine.Tilemaps;
 
 public partial class DemoController : MonoBehaviour
 {
-    public Tilemap tilemapFOW;
     public CinemachineVirtualCamera coastal;
     public CinemachineVirtualCamera openSea;
     public TradeController tradeController;
@@ -51,7 +50,7 @@ public partial class DemoController : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        worldCreator = tilemapFOW.GetComponentInParent<RandomWorldCreater>();
+        worldCreator = StaticTileDataContainer.Instance.TilemapFOW.GetComponentInParent<RandomWorldCreater>();
     }
 
     private void OnEnable()
@@ -76,7 +75,7 @@ public partial class DemoController : MonoBehaviour
         }
         // else it shoudl be a static map
 
-        tilemapFOW.gameObject.SetActive(true);
+        StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);
         currentShipModel = shipProgressionList[0];
         currentCartographyLevel = 0;
 
@@ -85,7 +84,7 @@ public partial class DemoController : MonoBehaviour
 
     public void GenerateNewRun()
     {
-        RandomWorldCreater worldCreator = tilemapFOW.GetComponentInParent<RandomWorldCreater>();
+        RandomWorldCreater worldCreator = StaticTileDataContainer.Instance.TilemapFOW.GetComponentInParent<RandomWorldCreater>();
 
         if (worldCreator != null)
         {
@@ -105,7 +104,7 @@ public partial class DemoController : MonoBehaviour
 
         shipController.shipCoordinates = gameMapHandler.GetMapStartingCoordinates();
         gameMapHandler.shipCoordinates = shipController.shipCoordinates; // this seems redundant
-        shipController.transform.position = tilemapFOW.GetCellCenterWorld((Vector3Int)shipController.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+        shipController.transform.position = StaticTileDataContainer.Instance.TilemapFOW.GetCellCenterWorld((Vector3Int)shipController.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         shipController.gameObject.SetActive(true);
 
 

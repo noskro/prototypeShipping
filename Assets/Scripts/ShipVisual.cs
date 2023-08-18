@@ -44,12 +44,12 @@ public class ShipVisual : MonoBehaviour
             {
                 shipSpriteRenderer.sprite = shipStats.direction switch
                 {
-                    GameMapHandler.Direction.North => shipStats.shipModel.ShipSpriteMovingNorth,
-                    GameMapHandler.Direction.NorthEast => shipStats.shipModel.ShipSpriteMovingNorthEast,
-                    GameMapHandler.Direction.NorthWest => shipStats.shipModel.ShipSpriteMovingNorthWest,
-                    GameMapHandler.Direction.South => shipStats.shipModel.ShipSpriteMovingSouth,
-                    GameMapHandler.Direction.SouthEast => shipStats.shipModel.ShipSpriteMovingSouthEast,
-                    GameMapHandler.Direction.SouthWest => shipStats.shipModel.ShipSpriteMovingSouthWest,
+                    Direction.North => shipStats.shipModel.ShipSpriteMovingNorth,
+                    Direction.NorthEast => shipStats.shipModel.ShipSpriteMovingNorthEast,
+                    Direction.NorthWest => shipStats.shipModel.ShipSpriteMovingNorthWest,
+                    Direction.South => shipStats.shipModel.ShipSpriteMovingSouth,
+                    Direction.SouthEast => shipStats.shipModel.ShipSpriteMovingSouthEast,
+                    Direction.SouthWest => shipStats.shipModel.ShipSpriteMovingSouthWest,
                     _ => shipStats.shipModel.ShipSpriteIdle,
                 };
             }

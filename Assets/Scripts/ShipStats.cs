@@ -28,7 +28,7 @@ public class ShipStats : MonoBehaviour
     public float moralLossOnSea;
     public float moralLossAtCoast;
 
-    public GameMapHandler.Direction? direction;
+    public Direction? direction;
 
     public delegate void ShipUpdated(ShipStats stats);
     public static event ShipUpdated OnShipUpdated;

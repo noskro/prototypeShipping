@@ -11,7 +11,7 @@ public class TilemapMask : MonoBehaviour
     public GameObject maskCell;
     public CustomTile tileToMask;
 
-    private List<GameObject> masks= new List<GameObject>();
+    private List<GameObject> masks = new List<GameObject>();
 
     private void Start()
     {

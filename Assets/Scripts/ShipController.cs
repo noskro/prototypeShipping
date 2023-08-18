@@ -133,29 +133,29 @@ public class ShipController : MonoBehaviour
 
                 switch (shipStats.direction)
                 {
-                    case GameMapHandler.Direction.North:
+                    case Direction.North:
                         Debug.Log("North");
                         rotation = -90;
                         break;
-                    case GameMapHandler.Direction.NorthEast:
+                    case Direction.NorthEast:
                         Debug.Log("NorthEast");
                         shipSpriteRenderer.flipX = true;
                         rotation = 30;
                         break;
-                    case GameMapHandler.Direction.NorthWest:
+                    case Direction.NorthWest:
                         Debug.Log("NorthWest");
                         rotation = -30;
                         break;
-                    case GameMapHandler.Direction.South:
+                    case Direction.South:
                         Debug.Log("South");
                         rotation = 90;
                         break;
-                    case GameMapHandler.Direction.SouthEast:
+                    case Direction.SouthEast:
                         Debug.Log("SouthEast");
                         shipSpriteRenderer.flipX = true;
                         rotation = -30;
                         break;
-                    case GameMapHandler.Direction.SouthWest:
+                    case Direction.SouthWest:
                         Debug.Log("SouthWest");
                         rotation = 30;
                         break;
