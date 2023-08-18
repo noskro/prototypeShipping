@@ -7,10 +7,20 @@ using Random = UnityEngine.Random;
 
 public class RandomWorldCreater : MonoBehaviour
 {
+    public IslandPrefab HomeIslandPrefab;
+    private PersistentIslandData HomeIsland;
+    private Vector2Int PositionHomeIsland;
+
     public List<IslandPrefab> AllExistingIslandPrefabs;
 
     //private List<IslandPrefabController> AvailableIslands;
     private List<PersistentIslandData> AvailableIslands = new List<PersistentIslandData>();
+
+    private void Start()
+    {
+        HomeIsland = new PersistentIslandData(HomeIslandPrefab);
+        PositionHomeIsland = new Vector2Int(StaticTileDataContainer.Instance.mapWidth / 2 - 3, StaticTileDataContainer.Instance.mapHeight / 2 - 4);
+    }
 
     public void AddNewIslandPrefabsToAvailable(EnumIslandUnlockEvent unlockEvent)
     {
@@ -36,7 +46,6 @@ public class RandomWorldCreater : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-
         for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++) 
         { 
             for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
@@ -46,14 +55,16 @@ public class RandomWorldCreater : MonoBehaviour
             }
         }
 
-        foreach(PersistentIslandData island in AvailableIslands)
+        TryPlaceIslandAtRandomPosition(HomeIsland, PositionHomeIsland);
+
+        foreach (PersistentIslandData island in AvailableIslands)
         {
             island.Reset(); // reset all run specific temporary data
             TryPlaceIslandAtRandomPosition(island);
         }
     }
 
-    private void TryPlaceIslandAtRandomPosition(PersistentIslandData islandData)
+    private void TryPlaceIslandAtRandomPosition(PersistentIslandData islandData, Vector2Int? fixedPosition = null)
     {
         StaticTileDataContainer.Instance.UsedIslands.Clear();
 
@@ -72,8 +83,16 @@ public class RandomWorldCreater : MonoBehaviour
         int iAttempts = 0;
         do
         {
-            randomX = Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapWidth - islandWidth)); 
-            randomY = (Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapHeight - islandHeight)) / 2) *2; // only draw to even number columns
+            if (fixedPosition != null)
+            {
+                randomX = ((Vector2Int)fixedPosition).x;
+                randomY = ((Vector2Int)fixedPosition).y;
+            }
+            else
+            {
+                randomX = Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapWidth - islandWidth));
+                randomY = (Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapHeight - islandHeight)) / 2) * 2; // only draw to even number columns
+            }
 
             for (int x = randomX; x <= randomX + islandWidth; x++)
             {

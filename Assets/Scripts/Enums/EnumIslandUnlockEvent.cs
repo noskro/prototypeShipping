@@ -2,5 +2,6 @@
 {
     StarterIsland,
     QuestXYIsland,
-    ShipLevel2Island
+    ShipLevel2Island,
+    HomeIsland
 }

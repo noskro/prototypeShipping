@@ -148,7 +148,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51881891}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.4933, y: 14.0881, z: 0}
+  m_LocalPosition: {x: 22.47, y: 14.07, z: 0}
   m_LocalScale: {x: 5.024409, y: 4.3118153, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -195,7 +195,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 60
+  m_SortingOrder: 31
   m_Sprite: {fileID: 21300000, guid: d8e282d807a454f4c9637f0ff88c3208, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -115206,6 +115206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d6b350997193d458026cf5180e9e8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HomeIslandPrefab: {fileID: 8481624662629950688, guid: 7bab34a672fad474ea417f7b15c881ea, type: 3}
   AllExistingIslandPrefabs:
   - {fileID: 7887138028428539175, guid: cff60ee5d978bd64cbb018fa0626dd36, type: 3}
   - {fileID: 7887138028428539175, guid: 679c47e15bd351e4fa031cef424ed11f, type: 3}
@@ -115615,7 +115616,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d85937f2e78bde41ac6083706f5bef5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemapFOW: {fileID: 69672694}
   coastal: {fileID: 244434648}
   openSea: {fileID: 1754561751}
   tradeController: {fileID: 771602149}

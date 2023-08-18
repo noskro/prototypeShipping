@@ -12,6 +12,9 @@ public class IslandPrefab : MonoBehaviour
 
     public List<CityDataSO> cityDataList;
 
+    public Tilemap prefabTilemapMap;
+    public Tilemap prefabTilemapObjects;
+
     internal Tuple<Dictionary<Vector3Int, CustomTile>, Dictionary<Vector3Int, CustomTile>> islandTiles;
 
     private void Awake()
@@ -21,7 +24,7 @@ public class IslandPrefab : MonoBehaviour
 
     internal void InitIslandTiles()
     { 
-        BoundsInt bounds = StaticTileDataContainer.Instance.TilemapMap.cellBounds;
+        BoundsInt bounds = prefabTilemapMap.cellBounds;
 
         Dictionary<Vector3Int, CustomTile> customTilesMap = new Dictionary<Vector3Int, CustomTile>();
         Dictionary<Vector3Int, CustomTile> customTilesObjects = new Dictionary<Vector3Int, CustomTile>();
@@ -31,8 +34,8 @@ public class IslandPrefab : MonoBehaviour
             for (int y = getMinY(); y < bounds.yMin + bounds.size.y; y++)
             {
                 Vector3Int position = new Vector3Int(x, y, 0);
-                CustomTile tile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(position);
-                CustomTile tileObjects = StaticTileDataContainer.Instance.TilemapObjects.GetTile<CustomTile>(position);
+                CustomTile tile = prefabTilemapMap.GetTile<CustomTile>(position);
+                CustomTile tileObjects = prefabTilemapObjects.GetTile<CustomTile>(position);
                 if (tile != null)
                 {
                     customTilesMap.Add(position - new Vector3Int(getMinX(), getMinY(), 0), tile); 
@@ -89,7 +92,7 @@ public class IslandPrefab : MonoBehaviour
 
     private int getMinX()
     {
-        BoundsInt bounds = StaticTileDataContainer.Instance.TilemapMap.cellBounds;
+        BoundsInt bounds = prefabTilemapMap.cellBounds;
         int MinX = bounds.xMin + bounds.size.x;
 
         for (int x = bounds.xMin; x < bounds.xMin + bounds.size.x; x++)
@@ -97,7 +100,7 @@ public class IslandPrefab : MonoBehaviour
             for (int y = bounds.yMin; y < bounds.yMin + bounds.size.y; y++)
             {
                 Vector3Int position = new Vector3Int(x, y, 0);
-                CustomTile tile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(position);
+                CustomTile tile = prefabTilemapMap.GetTile<CustomTile>(position);
                 if (tile != null)
                 {
                     MinX = Mathf.Min(MinX, x);
@@ -110,7 +113,7 @@ public class IslandPrefab : MonoBehaviour
 
     private int getMinY()
     {
-        BoundsInt bounds = StaticTileDataContainer.Instance.TilemapMap.cellBounds;
+        BoundsInt bounds = prefabTilemapMap.cellBounds;
         int MinY= bounds.yMin + bounds.size.y;
 
         for (int x = bounds.xMin; x < bounds.xMin + bounds.size.x; x++)
@@ -118,7 +121,7 @@ public class IslandPrefab : MonoBehaviour
             for (int y = bounds.yMin; y < bounds.yMin + bounds.size.y; y++)
             {
                 Vector3Int position = new Vector3Int(x, y, 0);
-                CustomTile tile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(position);
+                CustomTile tile = prefabTilemapMap.GetTile<CustomTile>(position);
                 if (tile != null)
                 {
                     MinY = Mathf.Min(MinY, y);

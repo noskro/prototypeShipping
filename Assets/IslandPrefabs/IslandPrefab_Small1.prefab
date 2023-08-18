@@ -226,8 +226,8 @@ MonoBehaviour:
   unlockEvent: 0
   cityDataList:
   - {fileID: 11400000, guid: b8f65b77c07d5db4bae654616e966bc4, type: 2}
-  tilemapMap: {fileID: 6337959835539090929}
-  tilemapObjects: {fileID: 3823546673260854133}
+  prefabTilemapMap: {fileID: 6337959835539090929}
+  prefabTilemapObjects: {fileID: 3823546673260854133}
 --- !u!1 &6874038288032650674
 GameObject:
   m_ObjectHideFlags: 0

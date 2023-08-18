@@ -164,8 +164,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5797728867732633421}
   - component: {fileID: 4544276490244380459}
+  - component: {fileID: 1276863079840381009}
   m_Layer: 0
-  m_Name: IslandPrefab_Empty
+  m_Name: IslandPrefab_Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -200,6 +201,22 @@ Grid:
   m_CellGap: {x: 0, y: 0, z: 0}
   m_CellLayout: 1
   m_CellSwizzle: 2
+--- !u!114 &1276863079840381009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4844697646011597121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915fb940f1ca53e46a212f3ea8d672c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unlockEvent: 0
+  cityDataList: []
+  prefabTilemapMap: {fileID: 6337959835539090929}
+  prefabTilemapObjects: {fileID: 3823546673260854133}
 --- !u!1 &6874038288032650674
 GameObject:
   m_ObjectHideFlags: 0
