@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static DemoController;
 
-public class MetaUpgradeShipUI : MonoBehaviour
+public class MetaUpgradeUI : MonoBehaviour
 {
     public TextMeshProUGUI textGold;
 
@@ -23,9 +23,8 @@ public class MetaUpgradeShipUI : MonoBehaviour
     public void Show()
     {
         active = true;
-
-        OnMetaUpgradeDialogStatusChanged?.Invoke(true);
         this.gameObject.SetActive(true);
+        OnMetaUpgradeDialogStatusChanged?.Invoke(true);
     }
 
     // Update is called once per frame

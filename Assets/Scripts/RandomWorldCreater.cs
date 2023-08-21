@@ -14,7 +14,7 @@ public class RandomWorldCreater : MonoBehaviour
     public List<IslandPrefab> AllExistingIslandPrefabs;
 
     //private List<IslandPrefabController> AvailableIslands;
-    private List<PersistentIslandData> AvailableIslands = new List<PersistentIslandData>();
+    public List<PersistentIslandData> AvailableIslands = new List<PersistentIslandData>();
 
     private void Start()
     {
@@ -25,12 +25,15 @@ public class RandomWorldCreater : MonoBehaviour
     public void AddNewIslandPrefabsToAvailable(EnumIslandUnlockEvent unlockEvent)
     {
         // get the new IslandPrefabs, create a PersistentIslandData for each and fill it city CityDataSO for each city. Then add it to availableIslands
-        foreach(IslandPrefab islandPrefab in AllExistingIslandPrefabs)
+        //foreach(IslandPrefab islandPrefab in AllExistingIslandPrefabs)
+        for(int i = AllExistingIslandPrefabs.Count - 1; i >= 0; i--)
         {
+            IslandPrefab islandPrefab = AllExistingIslandPrefabs[i];
             if (unlockEvent.Equals(islandPrefab.unlockEvent))
             {
                 PersistentIslandData islandData = new PersistentIslandData(islandPrefab);
                 AvailableIslands.Add(islandData);
+                AllExistingIslandPrefabs.RemoveAt(i);
             }
         }
     }

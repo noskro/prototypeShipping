@@ -34,9 +34,9 @@ public partial class DemoController : MonoBehaviour
     public delegate void GameStateChanged(EnumGameStates gameStates);
     public static event GameStateChanged OnGameStateChanged;
 
-    public MetaUpgradeShipUI metaUpgrade;
+    public MetaUpgradeUI metaUpgrade;
 
-    private RandomWorldCreater worldCreator;
+    public RandomWorldCreater worldCreator;
 
     public void SetGameState(EnumGameStates newGameState)
     {

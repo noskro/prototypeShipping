@@ -29,7 +29,7 @@ public class PersistentIslandData
     {
         foreach (PersistentCityData cityData in PersistentCityDataList)
         {
-            cityData.Reset();
+            cityData.ResetRound();
         }
     }
 }
