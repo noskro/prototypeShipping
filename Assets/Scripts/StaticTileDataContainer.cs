@@ -18,8 +18,8 @@ public class StaticTileDataContainer : MonoBehaviour
 
     public Transform CityLabelPrefab;
 
-    public int mapHeight = 63;
-    public int mapWidth = 33;
+    public int mapHeight;
+    public int mapWidth;
 
     public GameMapData[,] gameMapData;
     public List<PersistentIslandData> UsedIslands = new List<PersistentIslandData>();
@@ -50,5 +50,16 @@ public class StaticTileDataContainer : MonoBehaviour
                 gameMapData[x, y] = new GameMapData(); //.fow = EnumFogOfWar.Undiscovered;
             }
         }
+    }
+
+
+    internal Vector2Int GetMapStartingCoordinates()
+    {
+        return new Vector2Int((StaticTileDataContainer.Instance.mapWidth / 2), (StaticTileDataContainer.Instance.mapHeight / 2));
+    }
+
+    internal Vector2Int GetHomeIslandStartingCoordinates()
+    {
+        return new Vector2Int((StaticTileDataContainer.Instance.mapWidth / 2) - 3, (StaticTileDataContainer.Instance.mapHeight / 2) - 4);
     }
 }

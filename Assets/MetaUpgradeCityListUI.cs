@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MetaUpgradeCityListUI : MonoBehaviour
@@ -34,10 +35,17 @@ public class MetaUpgradeCityListUI : MonoBehaviour
 
         foreach (PersistentIslandData islandData in DemoController.Instance.worldCreator.AvailableIslands)
         {
-            foreach (PersistentCityData cityData in islandData.PersistentCityDataList)
+            foreach (PersistentCityData cityData in islandData.PersistentCityDataList.Where(c => c.CityDiscovered == true))
             {
                 Transform newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
-                newPrefab.GetComponent<metaUpgradeCityUI>().SetCityData(cityData);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData);
+                allCitiesList.Add(newPrefab);
+            }
+
+            foreach (PersistentCityData cityData in islandData.PersistentCityDataList.Where(c => c.CityDiscovered == false))
+            {
+                Transform newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData);
                 allCitiesList.Add(newPrefab);
             }
         }
@@ -47,7 +55,7 @@ public class MetaUpgradeCityListUI : MonoBehaviour
             foreach (CityDataSO cityDataSo in islandData.cityDataList)
             {
                 Transform newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
-                newPrefab.GetComponent<metaUpgradeCityUI>().SetCityData(cityDataSo);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityDataSo);
                 allCitiesList.Add(newPrefab);
             }
         }

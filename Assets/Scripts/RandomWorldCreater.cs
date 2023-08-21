@@ -7,6 +7,8 @@ using Random = UnityEngine.Random;
 
 public class RandomWorldCreater : MonoBehaviour
 {
+    public int maxAttemptsToPlaceIsland;
+    
     public IslandPrefab HomeIslandPrefab;
     private PersistentIslandData HomeIsland;
     private Vector2Int PositionHomeIsland;
@@ -19,7 +21,7 @@ public class RandomWorldCreater : MonoBehaviour
     private void Start()
     {
         HomeIsland = new PersistentIslandData(HomeIslandPrefab);
-        PositionHomeIsland = new Vector2Int(StaticTileDataContainer.Instance.mapWidth / 2 - 3, StaticTileDataContainer.Instance.mapHeight / 2 - 4);
+        PositionHomeIsland = StaticTileDataContainer.Instance.GetHomeIslandStartingCoordinates();
     }
 
     public void AddNewIslandPrefabsToAvailable(EnumIslandUnlockEvent unlockEvent)
@@ -60,8 +62,10 @@ public class RandomWorldCreater : MonoBehaviour
 
         TryPlaceIslandAtRandomPosition(HomeIsland, PositionHomeIsland);
 
-        foreach (PersistentIslandData island in AvailableIslands)
+        //foreach (PersistentIslandData island in AvailableIslands.Reverse())
+        for (int i = AvailableIslands.Count - 1; i >= 0; i--) // better sort by size later. lartges islands should be placed first... or random? I don't know
         {
+            PersistentIslandData island = AvailableIslands[i];
             island.Reset(); // reset all run specific temporary data
             TryPlaceIslandAtRandomPosition(island);
         }
@@ -86,6 +90,7 @@ public class RandomWorldCreater : MonoBehaviour
         int iAttempts = 0;
         do
         {
+            canPlaceIslandHere = true;
             if (fixedPosition != null)
             {
                 randomX = ((Vector2Int)fixedPosition).x;
@@ -97,24 +102,43 @@ public class RandomWorldCreater : MonoBehaviour
                 randomY = (Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapHeight - islandHeight)) / 2) * 2; // only draw to even number columns
             }
 
-            for (int x = randomX; x <= randomX + islandWidth; x++)
+            foreach(KeyValuePair<Vector3Int, CustomTile> kbpTile in islandTilesTuple.Item1)
             {
-                for (int y = randomY; y <= randomY + islandHeight; y++)
+                if (StaticTileDataContainer.Instance.CustomTileWater.Equals(StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(kbpTile.Key + new Vector3Int(randomX, randomY, 0))))
                 {
-                    if (StaticTileDataContainer.Instance.CustomTileWater.Equals(StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(new Vector3Int(x, y, 0))))
-                    {
-                        // can place
-                    }
-                    else
-                    {
-                        canPlaceIslandHere = false;
-                        x = randomX + islandWidth + 1;
-                        break;
-                    }
+                    // can place on deep water
+                }
+                else if (StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(kbpTile.Key + new Vector3Int(randomX, randomY, 0))) &&
+                        StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(kbpTile.Value))
+                {
+                    // can place coastal water on existing coastal water
+                }
+                else
+                {
+                    canPlaceIslandHere = false;
+                    break;
                 }
             }
+
+            //for (int x = randomX; x <= randomX + islandWidth; x++)
+            //{
+            //    for (int y = randomY; y <= randomY + islandHeight; y++)
+            //    {
+            //        if ()
+            //        if (StaticTileDataContainer.Instance.CustomTileWater.Equals(StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(new Vector3Int(x, y, 0))))
+            //        {
+            //            // can place
+            //        }
+            //        else
+            //        {
+            //            canPlaceIslandHere = false;
+            //            x = randomX + islandWidth + 1;
+            //            break;
+            //        }
+            //    }
+            //}
             iAttempts++;
-        } while (iAttempts < 10 && !canPlaceIslandHere);
+        } while (iAttempts < maxAttemptsToPlaceIsland && !canPlaceIslandHere);
 
         if (canPlaceIslandHere)
         {
@@ -138,6 +162,10 @@ public class RandomWorldCreater : MonoBehaviour
             }
 
             StaticTileDataContainer.Instance.UsedIslands.Add(islandData);
+        }
+        else
+        {
+            Debug.Log("Could not place island: " + islandData.prefab.name);
         }
     }
 }

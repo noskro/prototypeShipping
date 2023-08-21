@@ -35,8 +35,8 @@ public class MetaUpgradeShipSingleStatUI : MonoBehaviour
         iCurrentLevel = DemoController.Instance.shipStats.GetUpgradeableSingleStatCurrent(shipStatModifier);
         if (iCurrentLevel >= 0 && upgradeList != null && upgradeList.Count > 0)
         {
-            textSingleStatCurrentLevel.text = iCurrentLevel + " / " + upgradeList.Count;
-            if (iCurrentLevel + 1 < upgradeList.Count)
+            textSingleStatCurrentLevel.text = iCurrentLevel + " / " + (upgradeList.Count - 1);
+            if (iCurrentLevel < upgradeList.Count - 1)
             {
                 priceNextLevel = upgradeList[iCurrentLevel + 1].Price;
                 textSingleStatUpgradeButton.text = "+ (" + priceNextLevel + " g)";

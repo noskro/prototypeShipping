@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class metaUpgradeCityUI : MonoBehaviour
+public class MetaUpgradeCityUI : MonoBehaviour
 {
     public TextMeshProUGUI textCityName;
     public TextMeshProUGUI textIslandName;
@@ -15,18 +15,79 @@ public class metaUpgradeCityUI : MonoBehaviour
     public Button buttonTrader;
     public Button buttonBeacon;
 
-    private PersistentCityData ciytData;
+    public int priceDocks;
+    public int priceTavern;
+    public int priceIndustry;
+    public int priceTrader;
+    public int priceBeacon;
+
+    private PersistentCityData cityData;
 
     public void SetCityData(PersistentCityData cityData)
     {
+        this.cityData = cityData;
+
         if (cityData.CityDiscovered) 
         {
             textCityName.text = cityData.CityName;
             textIslandName.text = "Island";
 
-            buttonDocks.enabled = false;
-            buttonDocks.GetComponent<Image>().color = Color.green;
-            buttonDocks.GetComponentInChildren<TextMeshProUGUI>().text = "Docks";
+            if (cityData.DocksBuild)
+            {
+                buttonDocks.enabled = false;
+                buttonDocks.GetComponent<Image>().color = Color.green;
+                buttonDocks.GetComponentInChildren<TextMeshProUGUI>().text = "Docks";
+            } 
+            else
+            {
+                buttonDocks.enabled = true;
+                buttonDocks.GetComponentInChildren<TextMeshProUGUI>().text = "Docks\n(" + priceDocks + "g)";
+            }
+            if (cityData.TavernBuild)
+            {
+                buttonTavern.enabled = false;
+                buttonTavern.GetComponent<Image>().color = Color.green;
+                buttonTavern.GetComponentInChildren<TextMeshProUGUI>().text = "Tavern";
+            }
+            else
+            {
+                buttonDocks.enabled = true;
+                buttonTavern.GetComponentInChildren<TextMeshProUGUI>().text = "Tavern\n(" + priceTavern + "g)";
+            }
+            if (cityData.IndustryBuild)
+            {
+                buttonIndustry.enabled = false;
+                buttonIndustry.GetComponent<Image>().color = Color.green;
+                buttonIndustry.GetComponentInChildren<TextMeshProUGUI>().text = "Industry";
+            }
+            else
+            {
+                buttonDocks.enabled = true;
+                buttonIndustry.GetComponentInChildren<TextMeshProUGUI>().text = "Industry\n(" + priceIndustry + "g)";
+            }
+            if (cityData.TraderBuild)
+            {
+                buttonTrader.enabled = false;
+                buttonTrader.GetComponent<Image>().color = Color.green;
+                buttonTrader.GetComponentInChildren<TextMeshProUGUI>().text = "Trader";
+            }
+            else
+            {
+                buttonDocks.enabled = true;
+                buttonTrader.GetComponentInChildren<TextMeshProUGUI>().text = "Trader\n(" + priceTrader + "g)";
+            }
+            if (cityData.BeaconBuild)
+            {
+                buttonBeacon.enabled = false;
+                buttonBeacon.GetComponent<Image>().color = Color.green;
+                buttonBeacon.GetComponentInChildren<TextMeshProUGUI>().text = "Beacon";
+            }
+            else
+            {
+                buttonDocks.enabled = true;
+                buttonBeacon.GetComponentInChildren<TextMeshProUGUI>().text = "Beacon\n(" + priceBeacon + "g)";
+            }
+
         }
         else
         {
@@ -51,6 +112,65 @@ public class metaUpgradeCityUI : MonoBehaviour
         buttonIndustry.gameObject.SetActive(false);
         buttonTrader.gameObject.SetActive(false);
         buttonBeacon.gameObject.SetActive(false);
+    }
 
+    public void BuildDocks()
+    {
+        int gold = DemoController.Instance.shipStats.Gold;
+
+        if (gold >= priceDocks)
+        {
+            DemoController.Instance.shipStats.Gold -= priceDocks;
+            this.cityData.DocksBuild = true;
+            this.SetCityData(this.cityData);
+        }
+    }
+
+    public void BuildTavern()
+    {
+        int gold = DemoController.Instance.shipStats.Gold;
+
+        if (gold >= priceTavern)
+        {
+            DemoController.Instance.shipStats.Gold -= priceTavern;
+            this.cityData.TavernBuild = true;
+            this.SetCityData(this.cityData);
+        }
+    }
+
+    public void BuildIndustry()
+    {
+        int gold = DemoController.Instance.shipStats.Gold;
+
+        if (gold >= priceIndustry)
+        {
+            DemoController.Instance.shipStats.Gold -= priceIndustry;
+            this.cityData.IndustryBuild = true;
+            this.SetCityData(this.cityData);
+        }
+    }
+
+    public void BuildTrader()
+    {
+        int gold = DemoController.Instance.shipStats.Gold;
+
+        if (gold >= priceTrader)
+        {
+            DemoController.Instance.shipStats.Gold -= priceTrader;
+            this.cityData.TraderBuild = true;
+            this.SetCityData(this.cityData);
+        }
+    }
+
+    public void BuildBeacon()
+    {
+        int gold = DemoController.Instance.shipStats.Gold;
+
+        if (gold >= priceBeacon)
+        {
+            DemoController.Instance.shipStats.Gold -= priceBeacon;
+            this.cityData.BeaconBuild = true;
+            this.SetCityData(this.cityData);
+        }
     }
 }

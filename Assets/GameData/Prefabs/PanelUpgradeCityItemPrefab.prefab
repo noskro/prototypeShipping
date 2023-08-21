@@ -122,9 +122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MetaUpgradeShipSingleStatUI, Assembly-CSharp
-        m_MethodName: ClickUpgradeButton
+      - m_Target: {fileID: 4610436301060813713}
+        m_TargetAssemblyTypeName: MetaUpgradeCityUI, Assembly-CSharp
+        m_MethodName: BuildIndustry
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 9148035516401104393}
   - component: {fileID: 1224912247947607541}
   - component: {fileID: 5684694745682886590}
-  - component: {fileID: 7903260770642824926}
+  - component: {fileID: 4610436301060813713}
   m_Layer: 5
   m_Name: PanelUpgradeCityItemPrefab
   m_TagString: Untagged
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7903260770642824926
+--- !u!114 &4610436301060813713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -237,6 +237,11 @@ MonoBehaviour:
   buttonIndustry: {fileID: 6230760343419694693}
   buttonTrader: {fileID: 7756369678409078883}
   buttonBeacon: {fileID: 2963211188066345567}
+  priceDocks: 3
+  priceTavern: 3
+  priceIndustry: 4
+  priceTrader: 5
+  priceBeacon: 8
 --- !u!1 &3412230924614211977
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,9 +636,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MetaUpgradeShipSingleStatUI, Assembly-CSharp
-        m_MethodName: ClickUpgradeButton
+      - m_Target: {fileID: 4610436301060813713}
+        m_TargetAssemblyTypeName: MetaUpgradeCityUI, Assembly-CSharp
+        m_MethodName: BuildTavern
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -904,9 +909,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MetaUpgradeShipSingleStatUI, Assembly-CSharp
-        m_MethodName: ClickUpgradeButton
+      - m_Target: {fileID: 4610436301060813713}
+        m_TargetAssemblyTypeName: MetaUpgradeCityUI, Assembly-CSharp
+        m_MethodName: BuildTrader
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1447,9 +1452,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MetaUpgradeShipSingleStatUI, Assembly-CSharp
-        m_MethodName: ClickUpgradeButton
+      - m_Target: {fileID: 4610436301060813713}
+        m_TargetAssemblyTypeName: MetaUpgradeCityUI, Assembly-CSharp
+        m_MethodName: BuildBeacon
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1718,9 +1723,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MetaUpgradeShipSingleStatUI, Assembly-CSharp
-        m_MethodName: ClickUpgradeButton
+      - m_Target: {fileID: 4610436301060813713}
+        m_TargetAssemblyTypeName: MetaUpgradeCityUI, Assembly-CSharp
+        m_MethodName: BuildDocks
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

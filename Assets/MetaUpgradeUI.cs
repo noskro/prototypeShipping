@@ -24,6 +24,7 @@ public class MetaUpgradeUI : MonoBehaviour
     {
         active = true;
         this.gameObject.SetActive(true);
+        StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(false);
         OnMetaUpgradeDialogStatusChanged?.Invoke(true);
     }
 
@@ -39,6 +40,7 @@ public class MetaUpgradeUI : MonoBehaviour
     public void ClickButtonContinue()
     {
         active = false;
+        StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);
         OnMetaUpgradeDialogStatusChanged?.Invoke(false);
         this.gameObject.SetActive(false);
         DemoController.Instance.GenerateNewRun();

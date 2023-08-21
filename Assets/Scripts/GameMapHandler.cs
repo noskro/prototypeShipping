@@ -367,11 +367,6 @@ public partial class GameMapHandler : MonoBehaviour
         return Mathf.RoundToInt(dist);
     }
 
-    internal Vector2Int GetMapStartingCoordinates()
-    {
-        return new Vector2Int(StaticTileDataContainer.Instance.mapWidth / 2,StaticTileDataContainer.Instance.mapHeight / 2);
-    }
-
     internal Vector2Int GetCellCoords(Vector3 mouseWorldPosition)
     {
         return (Vector2Int)StaticTileDataContainer.Instance.TilemapMap.WorldToCell(mouseWorldPosition);

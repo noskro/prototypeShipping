@@ -9,10 +9,12 @@ public class TradeController : MonoBehaviour
     public SpriteRenderer trade3;
 
     public Sprite spriteTradeGold;
+    public Sprite spriteTradeGoldUpgraded;
     public Sprite spriteTradeFood;
     public Sprite spriteTradeRepair;
     public Sprite spriteTradeRum;
     public Sprite spriteTradeCrew;
+    public Sprite spriteTradeQuest;
 
     public ShipStats shipStats;
 
@@ -25,57 +27,75 @@ public class TradeController : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void ShowTrade(Vector3 pos, PersistentCityData dataVillage)
+    public void ShowTrade(Vector3 pos, PersistentCityData cityData)
     {
-        this.villageGameMapData = dataVillage;
+        this.villageGameMapData = cityData;
         IsTrading = true;
         this.transform.position = pos;
 
-        trade1.sprite = spriteTradeGold;
-
-        int selection2 = Random.Range(0,2);
-        int selection3 = selection2;
-
-        while (selection3 == selection2)
+        if (!cityData.IndustryBuild)
         {
-            selection3 = Random.Range(0, 2);
+            trade1.sprite = spriteTradeGold;
+        }
+        else
+        {
+            trade1.sprite = spriteTradeGoldUpgraded;
         }
 
-        if (selection2 == 0)
-        {
-            trade2.sprite = spriteTradeFood;
-        }
-        else if (selection2 == 1)
-        {
-            trade2.sprite = spriteTradeRepair;
-        }
-        else if (selection2 == 2)
-        {
-            trade2.sprite = spriteTradeRum;
-        }
-        else if (selection2 == 3)
-        {
-            trade2.sprite = spriteTradeCrew;
-        }
-
-        if (selection3 == 0)
-        {
-            trade3.sprite = spriteTradeFood;
-        }
-        else if (selection3 == 1)
-        {
-            trade3.sprite = spriteTradeRepair;
-        }
-        else if (selection3 == 2)
-        {
-            trade3.sprite = spriteTradeRum;
-        }
-        else if (selection3 == 3)
-        {
-            trade3.sprite = spriteTradeCrew;
-        }
+        int selection2 = SelectRandomTrade(cityData, trade2, -1);
+        int selection3 = SelectRandomTrade(cityData, trade3, selection2);
 
         this.gameObject.SetActive(true);
+    }
+
+    private int SelectRandomTrade(PersistentCityData cityData, SpriteRenderer spriteRendererTrade, int previousSelection)
+    {
+        /* Selection: 
+         * 1 = dock
+         * 2 = tavern
+         * 3 = tavern quest
+         * 4 = trader food
+         * 5 = trader rum
+         */
+
+        for (int i = 0; i <= 10; i++)
+        {
+            int randomSelection = Random.Range(1, 5);
+
+            if (randomSelection == previousSelection)
+            {
+                continue;
+            }
+
+            if (randomSelection == 1 && cityData.DocksBuild)
+            {
+                spriteRendererTrade.sprite = spriteTradeRepair;
+                return randomSelection;
+            }
+            if (randomSelection == 2 && cityData.TavernBuild)
+            {
+                spriteRendererTrade.sprite = spriteTradeCrew;
+                return randomSelection;
+            }
+            if (randomSelection == 3 && cityData.TavernBuild)
+            {
+                spriteRendererTrade.sprite = spriteTradeQuest; 
+                return randomSelection;
+            }
+            if (randomSelection == 4 && cityData.TraderBuild)
+            {
+                spriteRendererTrade.sprite = spriteTradeFood;
+                return randomSelection;
+            }
+            if (randomSelection == 5 && cityData.TraderBuild)
+            {
+                spriteRendererTrade.sprite = spriteTradeRum;
+                return randomSelection;
+            }
+        }
+
+        spriteRendererTrade.sprite = null;
+        return -1;
     }
 
     public void ClickTrade(int id)
@@ -103,7 +123,11 @@ public class TradeController : MonoBehaviour
 
         if (selectedSR.sprite.Equals(spriteTradeGold))
         {
-            shipStats.Gold += Random.Range(8,14);
+            shipStats.Gold += Random.Range(1,1);
+        }
+        else if (selectedSR.sprite.Equals(spriteTradeGoldUpgraded))
+        {
+            shipStats.Gold += Random.Range(2,3);
         }
         else if (selectedSR.sprite.Equals(spriteTradeRepair))
         {
@@ -113,6 +137,10 @@ public class TradeController : MonoBehaviour
         {
             shipStats.CrewCount = Mathf.Min(shipStats.CrewCount + 1, shipStats.GetCurrentMaxMoral());
         }
+        else if (selectedSR.sprite.Equals(spriteTradeQuest))
+        {
+            // TODO: Give quest
+        }
         else if (selectedSR.sprite.Equals(spriteTradeFood))
         {
             shipStats.FoodStatus = Mathf.Min(shipStats.FoodStatus + 2, shipStats.GetCurrentMaxFood());
@@ -120,6 +148,10 @@ public class TradeController : MonoBehaviour
         else if (selectedSR.sprite.Equals(spriteTradeRum))
         {
             shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + Random.Range(1,2), shipStats.GetCurrentMaxMoral());
+        }
+        else if (selectedSR.sprite == null)
+        {
+            return; // do nothing; 
         }
 
         shipStats.TriggerShipUpdated();

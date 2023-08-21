@@ -92,7 +92,8 @@ public partial class DemoController : MonoBehaviour
         //StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);
         currentShipModel = shipProgressionList[0];
         currentCartographyLevel = 0;
-        
+        shipStats.Gold = 0;
+
         GenerateNewRun();
     }
 
@@ -112,12 +113,10 @@ public partial class DemoController : MonoBehaviour
     private void PlaceNewShip()
     {
         // place Ship
-        shipStats.Gold = 0;
-
         SetGameState(EnumGameStates.ShipIdle);
         shipStats.SetShip(currentShipModel);
 
-        shipController.shipCoordinates = gameMapHandler.GetMapStartingCoordinates();
+        shipController.shipCoordinates = StaticTileDataContainer.Instance.GetMapStartingCoordinates();
         gameMapHandler.shipCoordinates = shipController.shipCoordinates; // this seems redundant
         shipController.transform.position = StaticTileDataContainer.Instance.TilemapFOW.GetCellCenterWorld((Vector3Int)shipController.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         shipController.gameObject.SetActive(true);
