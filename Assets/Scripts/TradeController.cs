@@ -107,19 +107,19 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeRepair))
         {
-            shipStats.ShipDurability = Mathf.Min(shipStats.ShipDurability + 1, shipStats.shipModel.ShipDurabilityMax);
+            shipStats.ShipDurability = Mathf.Min(shipStats.ShipDurability + 1, shipStats.GetCurrentMaxDurability());
         }
         else if (selectedSR.sprite.Equals(spriteTradeCrew))
         {
-            shipStats.CrewCount = Mathf.Min(shipStats.CrewCount + 1, shipStats.shipModel.CrewCountMax);
+            shipStats.CrewCount = Mathf.Min(shipStats.CrewCount + 1, shipStats.GetCurrentMaxMoral());
         }
         else if (selectedSR.sprite.Equals(spriteTradeFood))
         {
-            shipStats.FoodStatus = Mathf.Min(shipStats.FoodStatus + 2, shipStats.shipModel.FoodStatusMax);
+            shipStats.FoodStatus = Mathf.Min(shipStats.FoodStatus + 2, shipStats.GetCurrentMaxFood());
         }
         else if (selectedSR.sprite.Equals(spriteTradeRum))
         {
-            shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + Random.Range(1,2), shipStats.shipModel.MoralStatusMax);
+            shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + Random.Range(1,2), shipStats.GetCurrentMaxMoral());
         }
 
         shipStats.TriggerShipUpdated();

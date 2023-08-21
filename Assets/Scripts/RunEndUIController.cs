@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class RunEndUIController : MonoBehaviour
@@ -62,10 +63,10 @@ public class RunEndUIController : MonoBehaviour
         ShipStatsPanel.gameObject.SetActive(false);
 
         ShowData();
-        
+
         this.gameObject.SetActive(true);
         this.canvasGroup.alpha = 0;
-        flowInValue = 1.5f; 
+        flowInValue = 1.5f;
     }
 
     public void ClickUpgradeDocks()

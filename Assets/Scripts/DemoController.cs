@@ -2,7 +2,9 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public partial class DemoController : MonoBehaviour
@@ -32,10 +34,19 @@ public partial class DemoController : MonoBehaviour
     public delegate void GameStateChanged(EnumGameStates gameStates);
     public static event GameStateChanged OnGameStateChanged;
 
+    public MetaUpgradeShipUI metaUpgrade;
+
     private RandomWorldCreater worldCreator;
+
     public void SetGameState(EnumGameStates newGameState)
     {
         GameState = newGameState;
+
+        if (GameState.Equals(EnumGameStates.ShipLost))
+        {
+            metaUpgrade.Show();
+        }
+
         OnGameStateChanged?.Invoke(GameState);
     }
 
@@ -50,7 +61,10 @@ public partial class DemoController : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        worldCreator = StaticTileDataContainer.Instance.TilemapFOW.GetComponentInParent<RandomWorldCreater>();
+        if (StaticTileDataContainer.Instance != null && StaticTileDataContainer.Instance.TilemapFOW != null)
+        {
+            worldCreator = StaticTileDataContainer.Instance.TilemapFOW.GetComponentInParent<RandomWorldCreater>();
+        }
     }
 
     private void OnEnable()
@@ -68,22 +82,23 @@ public partial class DemoController : MonoBehaviour
     void Start()
     {
         gameMapHandler = GetComponent<GameMapHandler>();
-              
-        if (worldCreator != null) 
+
+        if (worldCreator != null)
         {
             worldCreator.AddNewIslandPrefabsToAvailable(EnumIslandUnlockEvent.StarterIsland);
         }
         // else it shoudl be a static map
 
-        StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);
+        //StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);
         currentShipModel = shipProgressionList[0];
         currentCartographyLevel = 0;
-
+        
         GenerateNewRun();
     }
 
     public void GenerateNewRun()
     {
+        StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);
         RandomWorldCreater worldCreator = StaticTileDataContainer.Instance.TilemapFOW.GetComponentInParent<RandomWorldCreater>();
 
         if (worldCreator != null)
@@ -179,5 +194,10 @@ public partial class DemoController : MonoBehaviour
         {
             currentCartographyLevel += 1;
         }
+    }
+
+    internal void ShowGameScene()
+    {
+        
     }
 }

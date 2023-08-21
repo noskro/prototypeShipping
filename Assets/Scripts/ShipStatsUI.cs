@@ -22,17 +22,15 @@ public class ShipStatsUI : MonoBehaviour
     {
         bool shipLost = DemoController.Instance.GameState == EnumGameStates.ShipLost;
 
-        if (shipLost)
+        if (!shipLost)
         {
-            runEndUIController.RunEnded(stats);
-        }
-        else
-        {
-            textShowStats.text = string.Format("Schiff: {0}/{1}\nCrew: {2}/{3}\nNahrung: {4}/{5}\nMoral {6}/{7}\nGold: {8}",
-                Mathf.Ceil(shipStats.ShipDurability), shipStats.shipModel.ShipDurabilityMax,
-                Mathf.Ceil(shipStats.CrewCount), shipStats.shipModel.CrewCountMax,
-                Mathf.Ceil(shipStats.FoodStatus), shipStats.shipModel.FoodStatusMax,
-                Mathf.Ceil(shipStats.MoralStatus), shipStats.shipModel.MoralStatusMax, shipStats.Gold);
+            textShowStats.text = string.Format("Schiff: {0}/{1}\nCrew: {2}/{3}\nNahrung: {4}/{5}\nMoral {6}/{7}\nCanons: {8}\nGold: {9}",
+                Mathf.Ceil(shipStats.ShipDurability), shipStats.GetCurrentMaxDurability(),
+                Mathf.Ceil(shipStats.CrewCount), shipStats.GetCurrentMaxCrew(),
+                Mathf.Ceil(shipStats.FoodStatus), shipStats.GetCurrentMaxFood(),
+                Mathf.Ceil(shipStats.MoralStatus), shipStats.GetCurrentMaxMoral(),
+                shipStats.GetCurrentMaxCanons(), 
+                shipStats.Gold);
         }
     }
 

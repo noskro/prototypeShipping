@@ -29,11 +29,11 @@ public class DocksShipStatsUI : MonoBehaviour
     public void ShowShipModelStats(ShipModelSO model)
     {
         textShipName.text = model.ShipModelName;
-        textShipDurability.text = "Rumpf: " + model.ShipDurabilityMax;
-        textShipMaxCrew.text = "Crew: " + model.CrewCountMax;
-        textShipMaxFood.text = "Nahrung: " + model.FoodStatusMax;
-        textShipSpeed.text = "Geschw.:" + model.ShipSpeed;
-        textShipViewRange.text = "Sicht:" + model.ViewRange;
-        textShipDiscoverRange.text = "Erkunden:" + model.DiscoverRange;
+        //textShipDurability.text = "Rumpf: " + model.ShipDurabilityMax;
+        //textShipMaxCrew.text = "Crew: " + model.CrewCountMax;
+        //textShipMaxFood.text = "Nahrung: " + model.FoodStatusMax;
+        //textShipSpeed.text = "Geschw.:" + model.ShipSpeed;
+        //textShipViewRange.text = "Sicht:" + model.ViewRange;
+        //textShipDiscoverRange.text = "Erkunden:" + model.DiscoverRange;
     }
 }

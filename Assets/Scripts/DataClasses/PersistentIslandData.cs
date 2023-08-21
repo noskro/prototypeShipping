@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using Random = UnityEngine.Random;
 
-public class PersistentIslandData: MonoBehaviour
+public class PersistentIslandData
 {
     public IslandPrefab prefab;
 

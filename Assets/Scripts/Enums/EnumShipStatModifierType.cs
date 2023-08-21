@@ -4,5 +4,9 @@
     Crew,
     Food,
     Moral,
-    Gold
+    Gold,
+    Canons,
+    ViewRange,
+    DiscoverRange,
+    Speed
 }

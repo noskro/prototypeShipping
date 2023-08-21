@@ -60,7 +60,7 @@ public partial class GameMapHandler : MonoBehaviour
             beacon.SetShipCoordinates(StaticTileDataContainer.Instance.TilemapMap, shipCoordinates);
         }
 
-        DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats.shipModel);
+        DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats);
         UpdateFOWMap();
     }
 
@@ -240,11 +240,11 @@ public partial class GameMapHandler : MonoBehaviour
         return null;
     }
 
-    internal void DiscoverNewAreaByShip(Vector2Int coords, ShipModelSO ship)
+    internal void DiscoverNewAreaByShip(Vector2Int coords, ShipStats ship)
     {
         StaticTileDataContainer.Instance.gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Visible;
 
-        var farNeighbors = GetNeighbors(coords, ship.DiscoverRange);
+        var farNeighbors = GetNeighbors(coords, ship.GetCurrentDiscoverRange());
         foreach (var neighbor in farNeighbors)
         {
             if (IsWithinMap(neighbor) && StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow != EnumFogOfWar.Visible)
@@ -254,7 +254,7 @@ public partial class GameMapHandler : MonoBehaviour
                 StaticTileDataContainer.Instance.TilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
             }
         }
-        var nearNeighbors = GetNeighbors(coords, ship.ViewRange);
+        var nearNeighbors = GetNeighbors(coords, ship.GetCurrentViewRange());
         foreach (Vector2Int neighbor in nearNeighbors)
         {
             if (IsWithinMap(neighbor))

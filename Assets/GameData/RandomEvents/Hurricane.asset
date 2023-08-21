@@ -23,3 +23,6 @@ MonoBehaviour:
   - type: 0
     valueMin: 0
     valueMax: -2
+  - type: 0
+    valueMin: 0
+    valueMax: -2

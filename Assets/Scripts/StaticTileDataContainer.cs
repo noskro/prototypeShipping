@@ -22,7 +22,7 @@ public class StaticTileDataContainer : MonoBehaviour
     public int mapWidth = 33;
 
     public GameMapData[,] gameMapData;
-    public List<PersistentIslandData> UsedIslands;
+    public List<PersistentIslandData> UsedIslands = new List<PersistentIslandData>();
 
     private static StaticTileDataContainer instance;
 
