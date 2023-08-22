@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c33982ea55cc0a40aa83612aae7de6f, type: 3}
+  m_Name: FirstCityDiscovered
+  m_EditorClassIdentifier: 
+  Title: First City Discovered
+  Texts:
+  - A new city comes into sight. Those cities will help you in your quest to discover
+    the world. They offer trade  nad can be extended over time to offer other services
+    like repairs and a tavern to keep up on the latest gossip.
+  StoryTextEventTrigger:
+  - type: 3
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: 8e054c1904d60e64cac420ae27435e6e, type: 2}
+    nextGameState: 0
+  - type: 3
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: fc7e1a87e69f5de46a4861a360621fb4, type: 2}
+    nextGameState: 0
+  - type: 3
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: 496619434a568a744bdb027c582dffdf, type: 2}
+    nextGameState: 0
+  - type: 3
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: b8f65b77c07d5db4bae654616e966bc4, type: 2}
+    nextGameState: 0
+  - type: 3
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: f03e6652643c35841a05cffd3bcb82d4, type: 2}
+    nextGameState: 0
+  - type: 3
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: 70ea11bce256bf3448b7929d0289929a, type: 2}
+    nextGameState: 0
+  FollowingStoryTextEvents: []

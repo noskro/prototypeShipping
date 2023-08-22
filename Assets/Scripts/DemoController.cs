@@ -47,7 +47,7 @@ public partial class DemoController : MonoBehaviour
 
         if (GameState.Equals(EnumGameStates.ShipLost))
         {
-            metaUpgrade.Show();
+            //metaUpgrade.Show();
         }
 
         OnGameStateChanged?.Invoke(GameState);

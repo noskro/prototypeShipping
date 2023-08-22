@@ -6,6 +6,7 @@ public class ShipStatsUI : MonoBehaviour
 {
     public ShipStats shipStats;
     public TextMeshProUGUI textShowStats;
+    public Button buttonEndRund;
     public RunEndUIController runEndUIController;
 
     private void OnEnable()
@@ -29,9 +30,20 @@ public class ShipStatsUI : MonoBehaviour
                 Mathf.Ceil(shipStats.CrewCount), shipStats.GetCurrentMaxCrew(),
                 Mathf.Ceil(shipStats.FoodStatus), shipStats.GetCurrentMaxFood(),
                 Mathf.Ceil(shipStats.MoralStatus), shipStats.GetCurrentMaxMoral(),
-                shipStats.GetCurrentMaxCanons(), 
+                shipStats.GetCurrentMaxCanons(),
                 shipStats.Gold);
+
+            buttonEndRund.gameObject.SetActive(false);
+        }
+        else
+        {
+            textShowStats.text = "";
+            buttonEndRund.gameObject.SetActive(true);
         }
     }
 
+    public void ClickEndRun()
+    {
+        DemoController.Instance.metaUpgrade.Show();
+    }
 }

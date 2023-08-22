@@ -101,9 +101,12 @@ public class StaticTileDataContainer : MonoBehaviour
             for (int y = 0; y < mapHeight; y++)
             {
                 GameMapData gmd = gameMapData[x, y];
-                if (gmd.CityData != null && gmd.CityData.CityName.Equals(value.name))
+                if (gmd.CityData != null)
                 {
-                    return gmd.fow.Equals(EnumFogOfWar.Visible);
+                    if (gmd.CityData.CityName.Equals(value.CityName))
+                    {
+                        return gmd.fow.Equals(EnumFogOfWar.Visible);
+                    }
                 }
             }
         }

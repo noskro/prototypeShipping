@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c33982ea55cc0a40aa83612aae7de6f, type: 3}
-  m_Name: 1_AfterFirstDeath
+  m_Name: 1B_SecondRun_MovingIslands
   m_EditorClassIdentifier: 
-  Title: After first death
+  Title: Moving Islands
   Texts:
-  - Don't worry when your ship sinks. It happens to the best. We have a pretty decent
-    open seas rescue agency that will pick you and your valueables up and bring you
-    back here. Maybe you should spend your gold for some upgrades
+  - Our world  is made out of water to the core. Therefore all islands are constantly
+    floating in the currents. Once you spend some time resting, you can't know anymore
+    which island is where.
   StoryTextEventTrigger:
-  - type: 4
+  - type: 1
     intValue: 0
     revelantCity: {fileID: 0}
-    nextGameState: 3
-  FollowingStoryTextEvents:
-  - {fileID: 11400000, guid: b23edc3bfe8115345b3688aed73dcff6, type: 2}
+    nextGameState: 0
+  FollowingStoryTextEvents: []
