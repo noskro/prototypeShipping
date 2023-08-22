@@ -1,9 +1,12 @@
 ﻿using System;
+using UnityEngine;
 
 public class PersistentCityData
 {
     public string CityName;
     public int CityLevel;
+
+    public Sprite sprite;
 
     public int TimesTraded;
     public bool HasTradedThisRun;
@@ -20,6 +23,8 @@ public class PersistentCityData
     {
         CityName = cityDataSo.CityName;
         CityLevel = cityDataSo.startingCityLevel;
+
+        sprite = cityDataSo.spriteCityLocation;
 
         DocksBuild = false;
         TavernBuild = false;

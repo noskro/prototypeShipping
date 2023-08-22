@@ -6,6 +6,8 @@ public class CityDataSO: ScriptableObject
 {
     public string CityName;
 
+    public Sprite spriteCityLocation;
+
     public int startingCityLevel;
 
     public List<StoryTextEventSO> ImmediateStoryTextEvents;

@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3d1df499d27b7144ae32340ceba7cb8, type: 3}
-  m_Name: City_Greim
+  m_Name: City_Ardset
   m_EditorClassIdentifier: 
-  CityName: Greim
-  startingCityLevel: 0
+  CityName: Ardset
+  spriteCityLocation: {fileID: 21300000, guid: fad6d4bd0e877cd4bb38bce9dcf8e3e3, type: 3}
+  startingCityLevel: 1
+  ImmediateStoryTextEvents: []
+  TavernStoryTextEvents: []

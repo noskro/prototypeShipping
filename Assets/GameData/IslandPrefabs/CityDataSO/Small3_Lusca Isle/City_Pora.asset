@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3d1df499d27b7144ae32340ceba7cb8, type: 3}
-  m_Name: City_Zleka
+  m_Name: City_Pora
   m_EditorClassIdentifier: 
-  CityName: Zleka
-  startingCityLevel: 0
+  CityName: Pora
+  spriteCityLocation: {fileID: 21300000, guid: 70171071b08936f4198d2a73937c72a8, type: 3}
+  startingCityLevel: 2
+  ImmediateStoryTextEvents: []
+  TavernStoryTextEvents: []

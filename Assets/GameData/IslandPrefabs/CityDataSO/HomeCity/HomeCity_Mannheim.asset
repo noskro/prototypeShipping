@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3d1df499d27b7144ae32340ceba7cb8, type: 3}
-  m_Name: City_Ardset
+  m_Name: HomeCity_Mannheim
   m_EditorClassIdentifier: 
-  CityName: Ardset
-  startingCityLevel: 1
+  CityName: Mannheim
+  spriteCityLocation: {fileID: 21300000, guid: 8ada5ac5fbd5d4445a7b4556a1834930, type: 3}
+  startingCityLevel: 4
+  ImmediateStoryTextEvents: []
+  TavernStoryTextEvents: []

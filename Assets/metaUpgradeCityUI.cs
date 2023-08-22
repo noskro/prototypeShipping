@@ -9,6 +9,7 @@ public class MetaUpgradeCityUI : MonoBehaviour
 {
     public TextMeshProUGUI textCityName;
     public TextMeshProUGUI textIslandName;
+    public Image imageCityLocation;
     public Button buttonDocks;
     public Button buttonTavern;
     public Button buttonIndustry;
@@ -21,6 +22,8 @@ public class MetaUpgradeCityUI : MonoBehaviour
     public int priceTrader;
     public int priceBeacon;
 
+    public Sprite UndiscoveredIsland;
+
     private PersistentCityData cityData;
     private PersistentIslandData islandData;
 
@@ -29,18 +32,10 @@ public class MetaUpgradeCityUI : MonoBehaviour
         this.cityData = cityData;
         this.islandData = islandData;
 
-        if (islandData.IslandDiscovered)
-        {
-            textIslandName.text = islandData.prefab.IslandName;
-        }
-        else
-        {
-            textIslandName.text = "Unknown";
-        }
-
         if (cityData.CityDiscovered) 
         {
             textCityName.text = cityData.CityName;
+            imageCityLocation.sprite = cityData.sprite;
 
             if (cityData.DocksBuild)
             {
@@ -102,12 +97,24 @@ public class MetaUpgradeCityUI : MonoBehaviour
         else
         {
             textCityName.text = "Unknown";
+            imageCityLocation.sprite = cityData.sprite;
+            imageCityLocation.color = Color.black;
 
             buttonDocks.gameObject.SetActive(false);
             buttonTavern.gameObject.SetActive(false);
             buttonIndustry.gameObject.SetActive(false);
             buttonTrader.gameObject.SetActive(false);
             buttonBeacon.gameObject.SetActive(false);
+        }
+
+        if (islandData.IslandDiscovered)
+        {
+            textIslandName.text = islandData.prefab.IslandName;
+        }
+        else
+        {
+            textIslandName.text = "Unknown";
+            imageCityLocation.sprite = UndiscoveredIsland;
         }
     }
 
@@ -118,10 +125,13 @@ public class MetaUpgradeCityUI : MonoBehaviour
         if (islandData.IslandDiscovered)
         {
             textIslandName.text = islandData.prefab.IslandName;
+            imageCityLocation.sprite = cityData.spriteCityLocation;
+            imageCityLocation.color = Color.black;
         }
         else
         {
             textIslandName.text = "Unknown";
+            imageCityLocation.sprite = UndiscoveredIsland;
         }
 
         textCityName.text = "Unknown";
@@ -137,6 +147,9 @@ public class MetaUpgradeCityUI : MonoBehaviour
     {
         textIslandName.text = "Unknown";
         textCityName.text = "Unknown";
+
+        imageCityLocation.sprite = cityData.spriteCityLocation;
+        imageCityLocation.sprite = UndiscoveredIsland;
 
         buttonDocks.gameObject.SetActive(false);
         buttonTavern.gameObject.SetActive(false);
