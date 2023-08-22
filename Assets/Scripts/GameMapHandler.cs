@@ -266,7 +266,10 @@ public partial class GameMapHandler : MonoBehaviour
         }
 
         UpdateFOWMap();
-        StaticTileDataContainer.Instance.TilemapFOW.GetComponent<TilemapMask>().DoIt();
+        foreach (TilemapMask mask in StaticTileDataContainer.Instance.TilemapFOW.GetComponents<TilemapMask>())
+        { 
+            mask.DoIt();
+        }
 
         StaticTileDataContainer.Instance.CheckCityDiscovered();
         StaticTileDataContainer.Instance.CheckIslandDiscovered();
