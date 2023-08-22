@@ -35,7 +35,7 @@ public class MetaUpgradeCityUI : MonoBehaviour
         if (cityData.CityDiscovered) 
         {
             textCityName.text = cityData.CityName;
-            imageCityLocation.sprite = cityData.sprite;
+            imageCityLocation.sprite = cityData.cityDataSO.spriteCityLocation;
 
             if (cityData.DocksBuild)
             {
@@ -97,7 +97,7 @@ public class MetaUpgradeCityUI : MonoBehaviour
         else
         {
             textCityName.text = "Unknown";
-            imageCityLocation.sprite = cityData.sprite;
+            imageCityLocation.sprite = cityData.cityDataSO.spriteCityLocation;
             imageCityLocation.color = Color.black;
 
             buttonDocks.gameObject.SetActive(false);
@@ -115,6 +115,7 @@ public class MetaUpgradeCityUI : MonoBehaviour
         {
             textIslandName.text = "Unknown";
             imageCityLocation.sprite = UndiscoveredIsland;
+            imageCityLocation.color = Color.white;
         }
     }
 

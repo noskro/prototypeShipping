@@ -9,6 +9,8 @@ public class StoryTextEventSO: ScriptableObject
 
     public List<StoryTextEventTrigger> StoryTextEventTrigger;
     // TODO some reward for the storytextevent? new island, gold, whatever
+    public List<StoryTextEventRewards> StoryTextEventRewards;
 
     public List<StoryTextEventSO> FollowingStoryTextEvents;
+
 }

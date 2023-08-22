@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,15 +39,35 @@ public class StoryTextManager : MonoBehaviour
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.NextGameState) && trigger.nextGameState.Equals(DemoController.Instance.GameState)) ||
                     false) // false is here just so I can copy the condition lines without caring about the || at the end
                 {
-                    storyTextUI.SetStoryText(story);
-
-                    ActiveStoryTextEventList.AddRange(story.FollowingStoryTextEvents);
-
-                    CompletedStoryTextEventList.Add(story);
-                    ActiveStoryTextEventList.Remove(story);
+                    TriggerStoryTextEvent(story);
                     return;
                 }
             }
+
+            if (story.StoryTextEventTrigger.Count == 0)
+            {
+                // if there is no trigger, akways trigger
+                TriggerStoryTextEvent(story);
+            }
         }
+    }
+
+    private void TriggerStoryTextEvent(StoryTextEventSO story)
+    {
+        storyTextUI.SetStoryText(story);
+
+        ActiveStoryTextEventList.AddRange(story.FollowingStoryTextEvents);
+
+        // fulllfill rewards
+        foreach (StoryTextEventRewards reward in story.StoryTextEventRewards)
+        {
+            if (!reward.unlockIslands.Equals(EnumIslandUnlockEvent.None))
+            {
+                DemoController.Instance.worldCreator.AddNewIslandPrefabsToAvailable(reward.unlockIslands);
+            }
+        }
+
+        CompletedStoryTextEventList.Add(story);
+        ActiveStoryTextEventList.Remove(story);
     }
 }

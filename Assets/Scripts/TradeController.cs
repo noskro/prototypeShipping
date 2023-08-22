@@ -139,7 +139,7 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeQuest))
         {
-            // TODO: Give quest
+            DemoController.Instance.storyTextManager.ActiveStoryTextEventList.AddRange(villageGameMapData.cityDataSO.TavernStoryTextEvents);
         }
         else if (selectedSR.sprite.Equals(spriteTradeFood))
         {
@@ -159,5 +159,6 @@ public class TradeController : MonoBehaviour
         villageGameMapData.SetTradedThisRun(true);
         IsTrading = false;
         this.gameObject.SetActive(false);
+        DemoController.Instance.storyTextManager.CheckForNewEvents();
     }
 }

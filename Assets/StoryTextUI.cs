@@ -18,8 +18,10 @@ public class StoryTextUI : MonoBehaviour, IPointerUpHandler
     // Start is called before the first frame update
     void Start()
     {
-        this.gameObject.SetActive(false);
-        isActive = false;
+        if (!isActive)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     private void Update()

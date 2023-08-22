@@ -1,7 +1,13 @@
 ﻿public enum EnumIslandUnlockEvent
 {
     StarterIsland,
-    QuestXYIsland,
+    Tavern_Home_NewLands,
     ShipLevel2Island,
-    HomeIsland
+    HomeIsland,
+
+
+
+
+
+    None
 }

@@ -6,8 +6,6 @@ public class PersistentCityData
     public string CityName;
     public int CityLevel;
 
-    public Sprite sprite;
-
     public int TimesTraded;
     public bool HasTradedThisRun;
 
@@ -19,12 +17,14 @@ public class PersistentCityData
 
     public bool CityDiscovered;
 
+    public CityDataSO cityDataSO;
+
     public PersistentCityData(CityDataSO cityDataSo)
     {
         CityName = cityDataSo.CityName;
         CityLevel = cityDataSo.startingCityLevel;
 
-        sprite = cityDataSo.spriteCityLocation;
+        this.cityDataSO = cityDataSo;
 
         DocksBuild = false;
         TavernBuild = false;

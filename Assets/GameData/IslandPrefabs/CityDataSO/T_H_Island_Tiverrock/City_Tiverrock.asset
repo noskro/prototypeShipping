@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3d1df499d27b7144ae32340ceba7cb8, type: 3}
-  m_Name: HomeCity_Mannheim
+  m_Name: City_Tiverrock
   m_EditorClassIdentifier: 
-  CityName: Mannheim
-  spriteCityLocation: {fileID: 21300000, guid: 8ada5ac5fbd5d4445a7b4556a1834930, type: 3}
-  startingCityLevel: 4
+  CityName: Tiverrock
+  spriteCityLocation: {fileID: 21300000, guid: a2ee986c8f9325e45b6b24f02c0635ad, type: 3}
+  startingCityLevel: 3
   ImmediateStoryTextEvents: []
-  TavernStoryTextEvents:
-  - {fileID: 11400000, guid: 48d4e6c6610a4ab469cff7e4bbacadea, type: 2}
+  TavernStoryTextEvents: []
