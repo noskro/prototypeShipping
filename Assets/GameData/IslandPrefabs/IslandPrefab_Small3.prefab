@@ -229,6 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915fb940f1ca53e46a212f3ea8d672c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IslandName: Lusca Isle
   unlockEvent: 0
   cityDataList:
   - {fileID: 11400000, guid: 70ea11bce256bf3448b7929d0289929a, type: 2}

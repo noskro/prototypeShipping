@@ -33,29 +33,54 @@ public class MetaUpgradeCityListUI : MonoBehaviour
 
         allCitiesList = new List<Transform>();
 
-        foreach (PersistentIslandData islandData in DemoController.Instance.worldCreator.AvailableIslands)
+        // home city
+        Transform newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
+        newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(DemoController.Instance.worldCreator.HomeIsland.PersistentCityDataList[0], DemoController.Instance.worldCreator.HomeIsland);
+        allCitiesList.Add(newPrefab);
+
+        // all discovered islands first
+        foreach (PersistentIslandData islandData in DemoController.Instance.worldCreator.AvailableIslands.Where(i => i.IslandDiscovered == true))
         {
             foreach (PersistentCityData cityData in islandData.PersistentCityDataList.Where(c => c.CityDiscovered == true))
             {
-                Transform newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
-                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData);
+                newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData, islandData);
                 allCitiesList.Add(newPrefab);
             }
 
             foreach (PersistentCityData cityData in islandData.PersistentCityDataList.Where(c => c.CityDiscovered == false))
             {
-                Transform newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
-                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData);
+                newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData, islandData);
                 allCitiesList.Add(newPrefab);
             }
         }
 
+        // then undiscovered islands
+        foreach (PersistentIslandData islandData in DemoController.Instance.worldCreator.AvailableIslands.Where(i => i.IslandDiscovered == false))
+        {
+            foreach (PersistentCityData cityData in islandData.PersistentCityDataList.Where(c => c.CityDiscovered == true))
+            {
+                newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData, islandData);
+                allCitiesList.Add(newPrefab);
+            }
+
+            foreach (PersistentCityData cityData in islandData.PersistentCityDataList.Where(c => c.CityDiscovered == false))
+            {
+                newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData, islandData);
+                allCitiesList.Add(newPrefab);
+            }
+        }
+
+        // then locked islands
         foreach (IslandPrefab islandData in DemoController.Instance.worldCreator.AllExistingIslandPrefabs)
         {
             foreach (CityDataSO cityDataSo in islandData.cityDataList)
             {
-                Transform newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
-                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityDataSo);
+                newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityDataSo, islandData);
                 allCitiesList.Add(newPrefab);
             }
         }

@@ -58,6 +58,59 @@ public class StaticTileDataContainer : MonoBehaviour
         return new Vector2Int((StaticTileDataContainer.Instance.mapWidth / 2), (StaticTileDataContainer.Instance.mapHeight / 2));
     }
 
+    internal void CheckCityDiscovered()
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                GameMapData gmd = gameMapData[x, y];
+                if (gmd.CityData != null)
+                {
+                    if (gmd.fow.Equals(EnumFogOfWar.Visible))
+                    {
+                        gmd.CityData.CityDiscovered = true;
+                    }
+                }
+            }
+        }
+    }
+
+    internal void CheckIslandDiscovered()
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                GameMapData gmd = gameMapData[x, y];
+                if (gmd.islandData != null)
+                {
+                    if (gmd.fow.Equals(EnumFogOfWar.Visible))
+                    {
+                        gmd.islandData.IslandDiscovered = true;
+                    }
+                }
+            }
+        }
+    }
+
+    internal bool IsCityDiscovered(CityDataSO value)
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                GameMapData gmd = gameMapData[x, y];
+                if (gmd.CityData != null && gmd.CityData.CityName.Equals(value.name))
+                {
+                    return gmd.fow.Equals(EnumFogOfWar.Visible);
+                }
+            }
+        }
+
+        return false;
+    }
+
     internal Vector2Int GetHomeIslandStartingCoordinates()
     {
         return new Vector2Int((StaticTileDataContainer.Instance.mapWidth / 2) - 3, (StaticTileDataContainer.Instance.mapHeight / 2) - 4);

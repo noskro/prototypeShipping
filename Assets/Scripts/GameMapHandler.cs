@@ -51,25 +51,25 @@ public partial class GameMapHandler : MonoBehaviour
         }
 
         // place random beacon
-        foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
-        {
-            int randomX = Random.Range(0, StaticTileDataContainer.Instance.mapWidth);
-            int randomY = Random.Range(0, StaticTileDataContainer.Instance.mapHeight);
-            beacon.PlaceBeacon(new Vector2Int(randomX, randomY), StaticTileDataContainer.Instance.TilemapMap.CellToWorld(new Vector3Int(randomX, randomY, 0)));
+        //foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
+        //{
+        //    int randomX = Random.Range(0, StaticTileDataContainer.Instance.mapWidth);
+        //    int randomY = Random.Range(0, StaticTileDataContainer.Instance.mapHeight);
+        //    beacon.PlaceBeacon(new Vector2Int(randomX, randomY), StaticTileDataContainer.Instance.TilemapMap.CellToWorld(new Vector3Int(randomX, randomY, 0)));
 
-            beacon.SetShipCoordinates(StaticTileDataContainer.Instance.TilemapMap, shipCoordinates);
-        }
+        //    beacon.SetShipCoordinates(StaticTileDataContainer.Instance.TilemapMap, shipCoordinates);
+        //}
 
-        DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipStats);
+        DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipController.shipStats);
         UpdateFOWMap();
     }
 
     internal void UpdateBeacons(Vector2Int shipCoordinates)
     {
-        foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
-        {
-            beacon.SetShipCoordinates(StaticTileDataContainer.Instance.TilemapMap, shipCoordinates);
-        }
+        //foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
+        //{
+        //    beacon.SetShipCoordinates(StaticTileDataContainer.Instance.TilemapMap, shipCoordinates);
+        //}
     }
 
     internal void HandleRandomEvents(Vector2Int shipCoordinates)
@@ -86,7 +86,7 @@ public partial class GameMapHandler : MonoBehaviour
                     int reResultIndex = Random.Range(0, e.RandomEventResultList.Count);
                     RandomEventResult reResult = e.RandomEventResultList[reResultIndex];
 
-                    DemoController.Instance.shipStats.AddStatsModifier(reResult);
+                    DemoController.Instance.shipController.shipStats.AddStatsModifier(reResult);
                     
                     if (!e.EventRepeatable)
                     {
@@ -267,6 +267,9 @@ public partial class GameMapHandler : MonoBehaviour
 
         UpdateFOWMap();
         StaticTileDataContainer.Instance.TilemapFOW.GetComponent<TilemapMask>().DoIt();
+
+        StaticTileDataContainer.Instance.CheckCityDiscovered();
+        StaticTileDataContainer.Instance.CheckIslandDiscovered();
     }
 
     internal bool IsWithinMap(Vector2Int coords)
@@ -290,6 +293,21 @@ public partial class GameMapHandler : MonoBehaviour
             {
                 for (int y = 0; y <StaticTileDataContainer.Instance.mapHeight; y++)
                 {
+                    if (StaticTileDataContainer.Instance.gameMapData[x, y].CityData != null && StaticTileDataContainer.Instance.gameMapData[x, y].CityData.BeaconBuild)
+                    {
+                        // discover cities with beacon and fog the surroundings if they are still undiscovered
+                        StaticTileDataContainer.Instance.gameMapData[x, y].fow = EnumFogOfWar.Visible;
+
+                        var neighbors = GetNeighbors(new Vector2Int(x, y), 1);
+                        foreach (var neighbor in neighbors)
+                        {
+                            if (StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow.Equals(EnumFogOfWar.Undiscovered))
+                            {
+                                StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow = EnumFogOfWar.Fog;
+                            }
+                        }
+                    }
+
                     if (StaticTileDataContainer.Instance.gameMapData[x, y].fow.Equals(EnumFogOfWar.Undiscovered))
                     {
                         StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);

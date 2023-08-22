@@ -75,7 +75,7 @@ public class RunEndUIController : MonoBehaviour
 
         if (currentShipStats.Gold >= newShipModel.ShipPrice)
         {
-            DemoController.Instance.currentShipModel = newShipModel;
+            DemoController.Instance.shipController.shipStats.SetShipModel(newShipModel);
             currentShipStats.shipModel = newShipModel;
 
             currentShipStats.Gold -= newShipModel.ShipPrice;

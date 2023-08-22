@@ -31,8 +31,8 @@ public class MetaUpgradeShipSingleStatUI : MonoBehaviour
     private void ShowUpgradeShipStatData()
     {
         textSingleStatName.text = SingleStatName;
-        List<ShipSingleStatUpgadeItem> upgradeList = DemoController.Instance.shipStats.GetUpgradeableSingleStatList(shipStatModifier);
-        iCurrentLevel = DemoController.Instance.shipStats.GetUpgradeableSingleStatCurrent(shipStatModifier);
+        List<ShipSingleStatUpgadeItem> upgradeList = DemoController.Instance.shipController.shipStats.GetUpgradeableSingleStatList(shipStatModifier);
+        iCurrentLevel = DemoController.Instance.shipController.shipStats.GetUpgradeableSingleStatCurrent(shipStatModifier);
         if (iCurrentLevel >= 0 && upgradeList != null && upgradeList.Count > 0)
         {
             textSingleStatCurrentLevel.text = iCurrentLevel + " / " + (upgradeList.Count - 1);
@@ -56,18 +56,18 @@ public class MetaUpgradeShipSingleStatUI : MonoBehaviour
 
     public void ClickUpgradeButton()
     {
-        if (DemoController.Instance.shipStats != null)
+        if (DemoController.Instance.shipController.shipStats != null)
         {
-            int gold = DemoController.Instance.shipStats.Gold;
+            int gold = DemoController.Instance.shipController.shipStats.Gold;
 
             if (priceNextLevel >= 0 && gold >= priceNextLevel)
             {
-                DemoController.Instance.shipStats.Gold -= priceNextLevel;
-                DemoController.Instance.shipStats.SetUpgradeableSingleStat(shipStatModifier, iCurrentLevel + 1);
+                DemoController.Instance.shipController.shipStats.Gold -= priceNextLevel;
+                DemoController.Instance.shipController.shipStats.SetUpgradeableSingleStat(shipStatModifier, iCurrentLevel + 1);
 
                 if (shipStatModifier.Equals(EnumShipStatModifierType.ViewRange))
                 {
-                    DemoController.Instance.shipStats.SetUpgradeableSingleStat(EnumShipStatModifierType.DiscoverRange, iCurrentLevel + 1);
+                    DemoController.Instance.shipController.shipStats.SetUpgradeableSingleStat(EnumShipStatModifierType.DiscoverRange, iCurrentLevel + 1);
                 }
             }
         }

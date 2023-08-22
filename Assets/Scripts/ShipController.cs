@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 public class ShipController : MonoBehaviour
 {
     public GameMapHandler gameMapHandler;
-    private ShipStats shipStats;
+    public ShipStats shipStats;
     private SpriteRenderer shipSpriteRenderer;
     private TradeController tradeController;
     private DemoController demoController;
@@ -51,9 +51,9 @@ public class ShipController : MonoBehaviour
 
                 transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
 
-                gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, DemoController.Instance.shipStats);
+                gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, this.shipStats);
 
-                gameMapHandler.UpdateBeacons(gameMapHandler.shipCoordinates);
+                //gameMapHandler.UpdateBeacons(gameMapHandler.shipCoordinates);
 
                 // handle random events               
                 gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
@@ -76,6 +76,10 @@ public class ShipController : MonoBehaviour
         else if (tradeController.IsTrading) // maybe handle this in DemoController instead?
         {
             // handled by tradeController
+        }
+        else if (DemoController.Instance.IsStoryTextShown) // maybe handle this in DemoController instead?
+        {
+            // nio input while story text is shown
         }
         else
         {

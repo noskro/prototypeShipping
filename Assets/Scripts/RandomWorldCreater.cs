@@ -10,7 +10,7 @@ public class RandomWorldCreater : MonoBehaviour
     public int maxAttemptsToPlaceIsland;
     
     public IslandPrefab HomeIslandPrefab;
-    private PersistentIslandData HomeIsland;
+    public PersistentIslandData HomeIsland;
     private Vector2Int PositionHomeIsland;
 
     public List<IslandPrefab> AllExistingIslandPrefabs;
@@ -20,7 +20,12 @@ public class RandomWorldCreater : MonoBehaviour
 
     private void Start()
     {
+        // create home island data
         HomeIsland = new PersistentIslandData(HomeIslandPrefab);
+        HomeIsland.IslandDiscovered = true;
+        HomeIsland.PersistentCityDataList[0].DocksBuild = true;
+        HomeIsland.PersistentCityDataList[0].BeaconBuild = true;
+
         PositionHomeIsland = StaticTileDataContainer.Instance.GetHomeIslandStartingCoordinates();
     }
 

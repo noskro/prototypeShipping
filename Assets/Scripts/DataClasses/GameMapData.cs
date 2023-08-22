@@ -13,6 +13,8 @@ public class GameMapData
 
     internal void Reset(float distanceToStartingCell)
     {
+        fow = EnumFogOfWar.Undiscovered; // remove Cartography for now
+
         if (islandData != null)
         {
             islandData.Reset(); // hasVillageTraded = false;
@@ -33,14 +35,13 @@ public class GameMapData
         //    fow = EnumFogOfWar.Undiscovered;
         //}
 
-        fow = EnumFogOfWar.Undiscovered; // remove Cartography for now
     }
 
     public PersistentCityData CityData
     {
         get
         {
-            if (cityIndex >= 0 && cityIndex < islandData.PersistentCityDataList.Count)
+            if (islandData != null && cityIndex >= 0 && cityIndex < islandData.PersistentCityDataList.Count)
             {
                 return islandData.PersistentCityDataList[cityIndex];
             }

@@ -31,9 +31,9 @@ public class MetaUpgradeUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (active && DemoController.Instance.shipStats != null)
+        if (active && DemoController.Instance.shipController.shipStats != null)
         {
-            textGold.text = "GOLD: " + DemoController.Instance.shipStats.Gold;
+            textGold.text = "GOLD: " + DemoController.Instance.shipController.shipStats.Gold;
         }
     }
 

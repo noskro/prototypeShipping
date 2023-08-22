@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915fb940f1ca53e46a212f3ea8d672c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IslandName: Nu-Nu
   unlockEvent: 0
   cityDataList:
   - {fileID: 11400000, guid: b8f65b77c07d5db4bae654616e966bc4, type: 2}

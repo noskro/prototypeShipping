@@ -22,15 +22,25 @@ public class MetaUpgradeCityUI : MonoBehaviour
     public int priceBeacon;
 
     private PersistentCityData cityData;
+    private PersistentIslandData islandData;
 
-    public void SetCityData(PersistentCityData cityData)
+    public void SetCityData(PersistentCityData cityData, PersistentIslandData islandData)
     {
         this.cityData = cityData;
+        this.islandData = islandData;
+
+        if (islandData.IslandDiscovered)
+        {
+            textIslandName.text = islandData.prefab.IslandName;
+        }
+        else
+        {
+            textIslandName.text = "Unknown";
+        }
 
         if (cityData.CityDiscovered) 
         {
             textCityName.text = cityData.CityName;
-            textIslandName.text = "Island";
 
             if (cityData.DocksBuild)
             {
@@ -92,7 +102,6 @@ public class MetaUpgradeCityUI : MonoBehaviour
         else
         {
             textCityName.text = "Unknown";
-            textIslandName.text = "Island";
 
             buttonDocks.gameObject.SetActive(false);
             buttonTavern.gameObject.SetActive(false);
@@ -102,10 +111,32 @@ public class MetaUpgradeCityUI : MonoBehaviour
         }
     }
 
-    internal void SetCityData(CityDataSO cityData)
+    internal void SetCityData(CityDataSO cityData, PersistentIslandData islandData)
     {
+        this.islandData = islandData;
+
+        if (islandData.IslandDiscovered)
+        {
+            textIslandName.text = islandData.prefab.IslandName;
+        }
+        else
+        {
+            textIslandName.text = "Unknown";
+        }
+
         textCityName.text = "Unknown";
+
+        buttonDocks.gameObject.SetActive(false);
+        buttonTavern.gameObject.SetActive(false);
+        buttonIndustry.gameObject.SetActive(false);
+        buttonTrader.gameObject.SetActive(false);
+        buttonBeacon.gameObject.SetActive(false);
+    }
+
+    internal void SetCityData(CityDataSO cityData, IslandPrefab islandData)
+    {
         textIslandName.text = "Unknown";
+        textCityName.text = "Unknown";
 
         buttonDocks.gameObject.SetActive(false);
         buttonTavern.gameObject.SetActive(false);
@@ -116,61 +147,61 @@ public class MetaUpgradeCityUI : MonoBehaviour
 
     public void BuildDocks()
     {
-        int gold = DemoController.Instance.shipStats.Gold;
+        int gold = DemoController.Instance.shipController.shipStats.Gold;
 
         if (gold >= priceDocks)
         {
-            DemoController.Instance.shipStats.Gold -= priceDocks;
+            DemoController.Instance.shipController.shipStats.Gold -= priceDocks;
             this.cityData.DocksBuild = true;
-            this.SetCityData(this.cityData);
+            this.SetCityData(this.cityData, this.islandData);
         }
     }
 
     public void BuildTavern()
     {
-        int gold = DemoController.Instance.shipStats.Gold;
+        int gold = DemoController.Instance.shipController.shipStats.Gold;
 
         if (gold >= priceTavern)
         {
-            DemoController.Instance.shipStats.Gold -= priceTavern;
+            DemoController.Instance.shipController.shipStats.Gold -= priceTavern;
             this.cityData.TavernBuild = true;
-            this.SetCityData(this.cityData);
+            this.SetCityData(this.cityData, this.islandData);
         }
     }
 
     public void BuildIndustry()
     {
-        int gold = DemoController.Instance.shipStats.Gold;
+        int gold = DemoController.Instance.shipController.shipStats.Gold;
 
         if (gold >= priceIndustry)
         {
-            DemoController.Instance.shipStats.Gold -= priceIndustry;
+            DemoController.Instance.shipController.shipStats.Gold -= priceIndustry;
             this.cityData.IndustryBuild = true;
-            this.SetCityData(this.cityData);
+            this.SetCityData(this.cityData, this.islandData);
         }
     }
 
     public void BuildTrader()
     {
-        int gold = DemoController.Instance.shipStats.Gold;
+        int gold = DemoController.Instance.shipController.shipStats.Gold;
 
         if (gold >= priceTrader)
         {
-            DemoController.Instance.shipStats.Gold -= priceTrader;
+            DemoController.Instance.shipController.shipStats.Gold -= priceTrader;
             this.cityData.TraderBuild = true;
-            this.SetCityData(this.cityData);
+            this.SetCityData(this.cityData, this.islandData);
         }
     }
 
     public void BuildBeacon()
     {
-        int gold = DemoController.Instance.shipStats.Gold;
+        int gold = DemoController.Instance.shipController.shipStats.Gold;
 
         if (gold >= priceBeacon)
         {
-            DemoController.Instance.shipStats.Gold -= priceBeacon;
+            DemoController.Instance.shipController.shipStats.Gold -= priceBeacon;
             this.cityData.BeaconBuild = true;
-            this.SetCityData(this.cityData);
+            this.SetCityData(this.cityData, this.islandData);
         }
     }
 }

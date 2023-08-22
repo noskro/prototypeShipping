@@ -54,7 +54,7 @@ public class ShipStats : MonoBehaviour
         shipDiscoverRangeCurrentLevel = 0;
     }
 
-    public void SetShip(ShipModelSO newShipModel)
+    public void SetShipModel(ShipModelSO newShipModel)
     {
         this.shipModel = newShipModel;
         // shipVisual.ShowShipidle();

@@ -11,32 +11,35 @@ public partial class DemoController : MonoBehaviour
 {
     public CinemachineVirtualCamera coastal;
     public CinemachineVirtualCamera openSea;
-    public TradeController tradeController;
-    public ShipController shipController;
-
-    public ShipStats shipStats;
-
-    [HideInInspector]
-    public ShipModelSO currentShipModel;
-    public List<ShipModelSO> shipProgressionList;
-
-    private int currentCartographyLevel;
-    public List<CartographyLevelSO> cartographyProgressionList;
-
-    public List<RandomMapEventSO> randomMapEventList;
-
-    public List<ArtefactBeacon> artecaftBeaconList;
 
     private static DemoController instance;
 
-    public EnumGameStates GameState { get; private set; }
+    public bool IsStoryTextShown;
+
+    public EnumGameStates GameState;
 
     public delegate void GameStateChanged(EnumGameStates gameStates);
     public static event GameStateChanged OnGameStateChanged;
 
-    public MetaUpgradeUI metaUpgrade;
+    public TradeController tradeController;
+    public ShipController shipController;
 
+    //public ShipStats shipStats;
+
+    //public ShipModelSO currentShipModel;
+    public List<ShipModelSO> shipProgressionList;
+
+    //private int currentCartographyLevel;
+    //public List<CartographyLevelSO> cartographyProgressionList;
+
+    public List<RandomMapEventSO> randomMapEventList;
+
+    //public List<ArtefactBeacon> artecaftBeaconList;
     public RandomWorldCreater worldCreator;
+    public MetaUpgradeUI metaUpgrade;
+    public StoryTextManager storyTextManager;
+
+    public int Round = 0;
 
     public void SetGameState(EnumGameStates newGameState)
     {
@@ -90,9 +93,9 @@ public partial class DemoController : MonoBehaviour
         // else it shoudl be a static map
 
         //StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);
-        currentShipModel = shipProgressionList[0];
-        currentCartographyLevel = 0;
-        shipStats.Gold = 0;
+        shipController.shipStats.SetShipModel(shipProgressionList[0]);
+        //currentCartographyLevel = 0;
+        shipController.shipStats.Gold = 0;
 
         GenerateNewRun();
     }
@@ -113,8 +116,8 @@ public partial class DemoController : MonoBehaviour
     private void PlaceNewShip()
     {
         // place Ship
-        SetGameState(EnumGameStates.ShipIdle);
-        shipStats.SetShip(currentShipModel);
+        SetGameState(EnumGameStates.Start);
+        shipController.shipStats.SetShipModel(shipController.shipStats.shipModel);
 
         shipController.shipCoordinates = StaticTileDataContainer.Instance.GetMapStartingCoordinates();
         gameMapHandler.shipCoordinates = shipController.shipCoordinates; // this seems redundant
@@ -127,12 +130,12 @@ public partial class DemoController : MonoBehaviour
 
     internal ShipModelSO GetCurrentShipModel()
     {
-        return currentShipModel;
+        return shipController.shipStats.shipModel;
     }
 
     internal ShipModelSO GetNextShipModel()
     {    
-        int index = shipProgressionList.IndexOf(currentShipModel);
+        int index = shipProgressionList.IndexOf(shipController.shipStats.shipModel);
 
         if (index >= 0 && index < shipProgressionList.Count)
         {
@@ -169,30 +172,30 @@ public partial class DemoController : MonoBehaviour
 
     internal CartographyLevelSO GetCurrentCartograhpyLevel()
     {
-        if (cartographyProgressionList.Count > currentCartographyLevel)
-        {
-            return cartographyProgressionList[currentCartographyLevel];
-        }
+        //if (cartographyProgressionList.Count > currentCartographyLevel)
+        //{
+        //    return cartographyProgressionList[currentCartographyLevel];
+        //}
 
         return null;
     }
 
     internal CartographyLevelSO GetNextCartograhpyLevel()
     {
-        if (cartographyProgressionList.Count > currentCartographyLevel + 1)
-        {
-            return cartographyProgressionList[currentCartographyLevel + 1];
-        }
+        //if (cartographyProgressionList.Count > currentCartographyLevel + 1)
+        //{
+        //    return cartographyProgressionList[currentCartographyLevel + 1];
+        //}
 
         return null;
     }
 
     internal void UpgradeCartographyLevel()
     {
-        if (cartographyProgressionList.Count > currentCartographyLevel + 1)
-        {
-            currentCartographyLevel += 1;
-        }
+        //if (cartographyProgressionList.Count > currentCartographyLevel + 1)
+        //{
+        //    currentCartographyLevel += 1;
+        //}
     }
 
     internal void ShowGameScene()

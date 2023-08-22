@@ -8,6 +8,8 @@ using UnityEngine.WSA;
 
 public class IslandPrefab : MonoBehaviour
 {
+    public string IslandName;
+
     public EnumIslandUnlockEvent unlockEvent;
 
     public List<CityDataSO> cityDataList;
