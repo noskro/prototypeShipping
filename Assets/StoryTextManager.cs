@@ -34,7 +34,7 @@ public class StoryTextManager : MonoBehaviour
             {
                 if (trigger.type.Equals(EnumStoryTextEventTriggerType.Now) ||
                     (gameState.Equals(EnumGameStates.Start) && trigger.type.Equals(EnumStoryTextEventTriggerType.NextRun)) ||
-                    (trigger.type.Equals(EnumStoryTextEventTriggerType.Round) && (int)trigger.intValue >= DemoController.Instance.Round) ||
+                    (trigger.type.Equals(EnumStoryTextEventTriggerType.Run) && (int)trigger.intValue <= DemoController.Instance.Run) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.FieldsTravelled) && (int)trigger.intValue <= DemoController.Instance.FieldsTravelled) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.DiscoverCity) && StaticTileDataContainer.Instance.IsCityDiscovered(trigger.revelantCity)) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.NextGameState) && trigger.nextGameState.Equals(DemoController.Instance.GameState)) ||

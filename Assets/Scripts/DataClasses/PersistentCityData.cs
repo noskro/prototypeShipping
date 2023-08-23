@@ -9,6 +9,7 @@ public class PersistentCityData
 
     public int TimesTraded;
     public bool HasTradedThisRun;
+    public List<Sprite> LockedTradesForThisRound;
 
     public bool DocksBuild;
     public bool TavernBuild;
@@ -38,9 +39,11 @@ public class PersistentCityData
         CityDiscovered = false;
     }
 
+
     internal void ResetRound()
     {
         HasTradedThisRun = false;
+        LockedTradesForThisRound = new List<Sprite>();
     }
 
     internal void SetTradedThisRun(bool value)

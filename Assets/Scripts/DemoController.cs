@@ -39,7 +39,7 @@ public partial class DemoController : MonoBehaviour
     public MetaUpgradeUI metaUpgrade;
     public StoryTextManager storyTextManager;
 
-    public int Round = 0;
+    public int Run = 0;
     public int FieldsTravelled = 0;
 
     public void SetGameState(EnumGameStates newGameState)
@@ -85,6 +85,7 @@ public partial class DemoController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Run = 0;
         gameMapHandler = GetComponent<GameMapHandler>();
 
         if (worldCreator != null)
@@ -103,7 +104,7 @@ public partial class DemoController : MonoBehaviour
 
     public void GenerateNewRun()
     {
-        Round = 0;
+        Run ++;
         FieldsTravelled = 0;
 
         StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);

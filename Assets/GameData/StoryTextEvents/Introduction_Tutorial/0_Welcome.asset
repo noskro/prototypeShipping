@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Intro Text
   Texts:
-  - Find the legendary island of HFZTDHK. Now go!
+  - Find the legendary island of Beerland. Now go! You will learn everything on the
+    way... or not.
   StoryTextEventTrigger:
   - type: 0
     intValue: 0
     revelantCity: {fileID: 0}
     nextGameState: 0
+  StoryTextEventRewards: []
   FollowingStoryTextEvents: []

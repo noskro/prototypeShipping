@@ -2,7 +2,7 @@
 {
     Now,
     NextRun,
-    Round,
+    Run,
     DiscoverCity,
     NextGameState,
     FieldsTravelled

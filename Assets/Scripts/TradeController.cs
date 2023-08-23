@@ -35,17 +35,31 @@ public class TradeController : MonoBehaviour
         IsTrading = true;
         this.transform.position = pos;
 
-        if (!cityData.IndustryBuild)
+        if (cityData.LockedTradesForThisRound == null || cityData.LockedTradesForThisRound.Count == 0)
         {
-            trade1.sprite = spriteTradeGold;
+            if (!cityData.IndustryBuild)
+            {
+                trade1.sprite = spriteTradeGold;
+            }
+            else
+            {
+                trade1.sprite = spriteTradeGoldUpgraded;
+            }
+
+            int selection2 = SelectRandomTrade(cityData, trade2, -1);
+            int selection3 = SelectRandomTrade(cityData, trade3, selection2);
+
+            cityData.LockedTradesForThisRound = new List<Sprite>();
+            cityData.LockedTradesForThisRound.Add(trade1.sprite); 
+            cityData.LockedTradesForThisRound.Add(trade2.sprite); 
+            cityData.LockedTradesForThisRound.Add(trade3.sprite); 
         }
         else
         {
-            trade1.sprite = spriteTradeGoldUpgraded;
+            trade1.sprite = (cityData.LockedTradesForThisRound.Count >= 0)? cityData.LockedTradesForThisRound[0]: null;
+            trade2.sprite = (cityData.LockedTradesForThisRound.Count >= 1) ? cityData.LockedTradesForThisRound[1] : null;
+            trade3.sprite = (cityData.LockedTradesForThisRound.Count >= 2) ? cityData.LockedTradesForThisRound[2] : null;
         }
-
-        int selection2 = SelectRandomTrade(cityData, trade2, -1);
-        int selection3 = SelectRandomTrade(cityData, trade3, selection2);
 
         this.gameObject.SetActive(true);
     }
@@ -141,22 +155,18 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeQuest))
         {
-            int eventIndex = Random.Range(-1, villageGameMapData.TavernStoryTextEvents.Count - 1);
+            if (villageGameMapData.TavernStoryTextEvents.Count > 0)
+            { 
+                int eventIndex = Random.Range(0, villageGameMapData.TavernStoryTextEvents.Count);
 
-            if (eventIndex >= 0)
-            {
                 DemoController.Instance.storyTextManager.ActiveStoryTextEventList.Add(villageGameMapData.TavernStoryTextEvents[eventIndex]);
                 villageGameMapData.TavernStoryTextEvents.RemoveAt(eventIndex);
             }
             else
             {
                 // todo get default tavern quest
-                eventIndex = Random.Range(0, DefaultTavernQuests.Count - 1);
-
-                if (eventIndex >= 0)
-                {
-                    DemoController.Instance.storyTextManager.ActiveStoryTextEventList.Add(DefaultTavernQuests[eventIndex]);
-                }
+                int eventIndex = Random.Range(0, DefaultTavernQuests.Count);
+                DemoController.Instance.storyTextManager.ActiveStoryTextEventList.Add(DefaultTavernQuests[eventIndex]);
             }
         }
         else if (selectedSR.sprite.Equals(spriteTradeFood))

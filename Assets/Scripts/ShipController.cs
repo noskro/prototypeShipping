@@ -111,6 +111,7 @@ public class ShipController : MonoBehaviour
                     }
                     else if (gameMapHandler.CanTrade(mouseCellCoordinates))
                     {
+                        gameMapHandler.CoinIcon.gameObject.SetActive(false);
                         transform.position = gameMapHandler.GetCellPosition(mouseCellCoordinates); 
                         tradeController.ShowTrade(gameMapHandler.GetCellPosition(mouseCellCoordinates), StaticTileDataContainer.Instance.gameMapData[mouseCellCoordinates.x, mouseCellCoordinates.y].CityData);
                     }
