@@ -29,6 +29,8 @@ public class ShipStats : MonoBehaviour
     private int shipViewRangeCurrentLevel;
     private int shipDiscoverRangeCurrentLevel;
 
+    private int temporaryViewRangeAddition = 0;
+
     public ShipModelSO shipModel;
 
     [Header("Settings")]
@@ -101,30 +103,39 @@ public class ShipStats : MonoBehaviour
     internal void AddStatsModifier(RandomEventResult randomEventResult)
     {
         float randomValue = Random.Range(randomEventResult.valueMin, randomEventResult.valueMax);
+        AddStatsModifier(randomEventResult.type, randomValue);
+    }
 
-        if (randomEventResult.type.Equals(EnumShipStatModifierType.Durability))
+    internal void AddStatsModifier(EnumEventModifierRewardType modifierType, float randomValue)
+    {
+        if (modifierType.Equals(EnumEventModifierRewardType.Durability))
         {
             AddShipStatus(randomValue);
             Debug.Log("Added " + randomValue + " Durability");
         }
-        else if (randomEventResult.type.Equals(EnumShipStatModifierType.Crew))
+        else if (modifierType.Equals(EnumEventModifierRewardType.Crew))
         {
             AddShipCrew(randomValue);
             Debug.Log("Added " + randomValue + " Crew");
         }
-        else if (randomEventResult.type.Equals(EnumShipStatModifierType.Food))
+        else if (modifierType.Equals(EnumEventModifierRewardType.Food))
         {
             AddShipFood(randomValue);
             Debug.Log("Added " + randomValue + " Food");
         }
-        else if (randomEventResult.type.Equals(EnumShipStatModifierType.Moral))
+        else if (modifierType.Equals(EnumEventModifierRewardType.Moral))
         {
             AddShipMoral(randomValue);
             Debug.Log("Added " + randomValue + " Moral");
         }
-        else if (randomEventResult.type.Equals(EnumShipStatModifierType.Gold))
+        else if (modifierType.Equals(EnumEventModifierRewardType.Gold))
         {
             AddGold(randomValue);
+            Debug.Log("Added " + randomValue + " Gold");
+        }
+        else if (modifierType.Equals(EnumEventModifierRewardType.ViewRange))
+        {
+            AddViewRange(randomValue);
             Debug.Log("Added " + randomValue + " Gold");
         }
 
@@ -151,116 +162,121 @@ public class ShipStats : MonoBehaviour
         MoralStatus = Mathf.Min(MoralStatus + randomValue, shipModel.ShipMaxMoralUpgradeList[shipMaxMoralCurrentLevel].Value);
     }
 
+    private void AddViewRange(float randomValue)
+    {
+        temporaryViewRangeAddition++;
+    }
+
     private void AddGold(float randomValue)
     {
         Gold = Gold + Mathf.FloorToInt(randomValue);
     }
 
-    internal int GetUpgradeableSingleStatCurrent(EnumShipStatModifierType shipStatModifier)
+    internal int GetUpgradeableSingleStatCurrent(EnumEventModifierRewardType shipStatModifier)
     {
-        if (shipStatModifier.Equals(EnumShipStatModifierType.Durability))
+        if (shipStatModifier.Equals(EnumEventModifierRewardType.Durability))
         {
             return shipDurabilityCurrentLevel;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Crew))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Crew))
         {
             return shipMaxCrewCurrentLevel;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Food))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Food))
         {
             return shipMaxFoodCurrentLevel;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Moral))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Moral))
         {
             return shipMaxMoralCurrentLevel;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Canons))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Canons))
         {
             return shipMaxCanonsCurrentLevel;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.ViewRange))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.ViewRange))
         {
             return shipViewRangeCurrentLevel;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.DiscoverRange))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.DiscoverRange))
         {
             return shipDiscoverRangeCurrentLevel;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Speed))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Speed))
         {
             return shipSpeedCurrentLevel; ;
         }
         return -1;
     }
 
-    internal List<ShipSingleStatUpgadeItem> GetUpgradeableSingleStatList(EnumShipStatModifierType shipStatModifier)
+    internal List<ShipSingleStatUpgadeItem> GetUpgradeableSingleStatList(EnumEventModifierRewardType shipStatModifier)
     {
-        if (shipStatModifier.Equals(EnumShipStatModifierType.Durability))
+        if (shipStatModifier.Equals(EnumEventModifierRewardType.Durability))
         {
             return this.shipModel.ShipDurabilityUpgradeList;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Crew))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Crew))
         {
             return this.shipModel.ShipMaxCrewUpgradeList;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Food))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Food))
         {
             return this.shipModel.ShipMaxFoodUpgradeList;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Moral))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Moral))
         {
             return this.shipModel.ShipMaxMoralUpgradeList;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Canons))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Canons))
         {
             return this.shipModel.ShipMaxCanonsUpgradeList;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.ViewRange))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.ViewRange))
         {
             return this.shipModel.ShipViewRangeUpgradeList;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.DiscoverRange))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.DiscoverRange))
         {
             return this.shipModel.ShipDiscoverRangeUpgradeList;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Speed))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Speed))
         {
             return this.shipModel.ShipSpeedUpgradeList;
         }
         return null;
     }
 
-    internal void SetUpgradeableSingleStat(EnumShipStatModifierType shipStatModifier, int value)
+    internal void SetUpgradeableSingleStat(EnumEventModifierRewardType shipStatModifier, int value)
     {
-        if (shipStatModifier.Equals(EnumShipStatModifierType.Durability))
+        if (shipStatModifier.Equals(EnumEventModifierRewardType.Durability))
         {
             shipDurabilityCurrentLevel = value;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Crew))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Crew))
         {
             shipMaxCrewCurrentLevel = value;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Food))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Food))
         {
             shipMaxFoodCurrentLevel = value;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Moral))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Moral))
         {
             shipMaxMoralCurrentLevel = value;
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Canons))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Canons))
         {
             shipMaxCanonsCurrentLevel= value;   
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.ViewRange))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.ViewRange))
         {
             shipViewRangeCurrentLevel= value;   
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.DiscoverRange))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.DiscoverRange))
         {
             shipDiscoverRangeCurrentLevel= value;   
         }
-        else if (shipStatModifier.Equals(EnumShipStatModifierType.Speed))
+        else if (shipStatModifier.Equals(EnumEventModifierRewardType.Speed))
         {
             shipSpeedCurrentLevel= value;   
         }
@@ -268,12 +284,12 @@ public class ShipStats : MonoBehaviour
 
     internal int GetCurrentDiscoverRange()
     {
-        return shipModel.ShipDiscoverRangeUpgradeList[shipDiscoverRangeCurrentLevel].Value;
+        return shipModel.ShipDiscoverRangeUpgradeList[shipDiscoverRangeCurrentLevel].Value + temporaryViewRangeAddition;
     }
 
     internal int GetCurrentViewRange()
     {
-        return shipModel.ShipViewRangeUpgradeList[shipViewRangeCurrentLevel].Value;
+        return shipModel.ShipViewRangeUpgradeList[shipViewRangeCurrentLevel].Value + temporaryViewRangeAddition;
     }
 
     internal int GetCurrentMaxDurability()

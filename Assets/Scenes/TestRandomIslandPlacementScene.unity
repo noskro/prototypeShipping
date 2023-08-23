@@ -218,8 +218,8 @@ GameObject:
   - component: {fileID: 69672696}
   - component: {fileID: 69672694}
   - component: {fileID: 69672695}
-  - component: {fileID: 69672697}
   - component: {fileID: 69672698}
+  - component: {fileID: 69672697}
   m_Layer: 0
   m_Name: Tilemap_FOW
   m_TagString: Untagged
@@ -111592,6 +111592,12 @@ MonoBehaviour:
   spriteTradeCrew: {fileID: 21300000, guid: 5c6508ad1dfe86f46a1a78ca2a1bd51b, type: 3}
   spriteTradeQuest: {fileID: 21300000, guid: 575e3ae2c4cf8d84f85beaa1c4d35982, type: 3}
   shipStats: {fileID: 974539787}
+  DefaultTavernQuests:
+  - {fileID: 11400000, guid: 566bb0b90b075f24390df49ad213926d, type: 2}
+  - {fileID: 11400000, guid: 9ab07f2296aa17741aa4ac7e9c962bdf, type: 2}
+  - {fileID: 11400000, guid: f75cea738bc106c4c9c6d985124d8a5f, type: 2}
+  - {fileID: 11400000, guid: 50d9930c8eaf3fc4a857968e772beb1f, type: 2}
+  - {fileID: 11400000, guid: b1817a49e5181cf429f0bea345e3b9c7, type: 2}
 --- !u!1 &859707174
 GameObject:
   m_ObjectHideFlags: 0
@@ -115540,6 +115546,7 @@ MonoBehaviour:
   metaUpgrade: {fileID: 1929106746}
   storyTextManager: {fileID: 1655714838}
   Round: 0
+  FieldsTravelled: 0
 --- !u!1 &1785108731
 GameObject:
   m_ObjectHideFlags: 0

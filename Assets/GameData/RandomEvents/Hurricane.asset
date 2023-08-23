@@ -20,9 +20,9 @@ MonoBehaviour:
   EventMaxOccurence: 50
   EventRepeatable: 1
   RandomEventResultList:
-  - type: 0
+  - type: 1
     valueMin: 0
     valueMax: -2
-  - type: 0
+  - type: 4
     valueMin: 0
     valueMax: -2

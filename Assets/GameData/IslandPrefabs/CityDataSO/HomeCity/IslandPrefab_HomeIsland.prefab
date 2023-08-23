@@ -256,7 +256,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IslandName: Home Island
-  unlockEvent: 3
+  unlockEvent: 0
   cityDataList:
   - {fileID: 11400000, guid: 0f466c06b9de2324cb3cc7798c01d0b0, type: 2}
   prefabTilemapMap: {fileID: 6337959835539090929}

@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class RandomEventResult
 {
-    public EnumShipStatModifierType type;
+    public EnumEventModifierRewardType type;
     public float valueMin;
     public float valueMax;
 }

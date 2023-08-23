@@ -40,6 +40,7 @@ public partial class DemoController : MonoBehaviour
     public StoryTextManager storyTextManager;
 
     public int Round = 0;
+    public int FieldsTravelled = 0;
 
     public void SetGameState(EnumGameStates newGameState)
     {
@@ -102,6 +103,9 @@ public partial class DemoController : MonoBehaviour
 
     public void GenerateNewRun()
     {
+        Round = 0;
+        FieldsTravelled = 0;
+
         StaticTileDataContainer.Instance.TilemapFOW.gameObject.SetActive(true);
         RandomWorldCreater worldCreator = StaticTileDataContainer.Instance.TilemapFOW.GetComponentInParent<RandomWorldCreater>();
 

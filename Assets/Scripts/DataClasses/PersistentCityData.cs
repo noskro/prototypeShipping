@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PersistentCityData
@@ -17,14 +18,16 @@ public class PersistentCityData
 
     public bool CityDiscovered;
 
-    public CityDataSO cityDataSO;
+    public Sprite sprite;
+    public List<StoryTextEventSO> TavernStoryTextEvents;
 
     public PersistentCityData(CityDataSO cityDataSo)
     {
         CityName = cityDataSo.CityName;
         CityLevel = cityDataSo.startingCityLevel;
 
-        this.cityDataSO = cityDataSo;
+        this.sprite = cityDataSo.spriteCityLocation;
+        this.TavernStoryTextEvents = cityDataSo.TavernStoryTextEvents;
 
         DocksBuild = false;
         TavernBuild = false;

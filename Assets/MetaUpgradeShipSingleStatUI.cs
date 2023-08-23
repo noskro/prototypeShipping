@@ -7,7 +7,7 @@ using UnityEngine;
 public class MetaUpgradeShipSingleStatUI : MonoBehaviour
 {
     public string SingleStatName;
-    public EnumShipStatModifierType shipStatModifier;
+    public EnumEventModifierRewardType shipStatModifier;
 
     public TextMeshProUGUI textSingleStatName;
     public TextMeshProUGUI textSingleStatCurrentLevel;
@@ -65,9 +65,9 @@ public class MetaUpgradeShipSingleStatUI : MonoBehaviour
                 DemoController.Instance.shipController.shipStats.Gold -= priceNextLevel;
                 DemoController.Instance.shipController.shipStats.SetUpgradeableSingleStat(shipStatModifier, iCurrentLevel + 1);
 
-                if (shipStatModifier.Equals(EnumShipStatModifierType.ViewRange))
+                if (shipStatModifier.Equals(EnumEventModifierRewardType.ViewRange))
                 {
-                    DemoController.Instance.shipController.shipStats.SetUpgradeableSingleStat(EnumShipStatModifierType.DiscoverRange, iCurrentLevel + 1);
+                    DemoController.Instance.shipController.shipStats.SetUpgradeableSingleStat(EnumEventModifierRewardType.DiscoverRange, iCurrentLevel + 1);
                 }
             }
         }

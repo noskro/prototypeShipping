@@ -106,6 +106,7 @@ public class ShipController : MonoBehaviour
                         CustomTile targetTile = gameMapHandler.GetMapTile(mouseCellCoordinates);
                         shipStats.direction = gameMapHandler.GetDirection(currentShipCoords, mouseCellCoordinates);
                         shipStats.NextTurn(targetTile);
+                        demoController.FieldsTravelled++;
                     }
                     else if (gameMapHandler.CanTrade(mouseCellCoordinates))
                     {

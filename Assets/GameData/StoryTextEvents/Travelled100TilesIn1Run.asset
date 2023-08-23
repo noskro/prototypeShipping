@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c33982ea55cc0a40aa83612aae7de6f, type: 3}
+  m_Name: Travelled100TilesIn1Run
+  m_EditorClassIdentifier: 
+  Title: Travelled 100 Tiles
+  Texts:
+  - It seems like forever ago when you left your home. You never travelled such a
+    long distance with the same ship. Who knows which islands are still out there.
+    You feel good and your ship suddenly feeld much sturdier as just a moment ago.
+  StoryTextEventTrigger:
+  - type: 5
+    intValue: 100
+    revelantCity: {fileID: 0}
+    nextGameState: 0
+  StoryTextEventRewards:
+  - unlockIslands: 2
+    rewardType: 1
+    intValue: 3
+  FollowingStoryTextEvents: []

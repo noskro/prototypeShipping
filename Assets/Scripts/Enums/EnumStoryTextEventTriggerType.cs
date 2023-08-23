@@ -4,6 +4,7 @@
     NextRun,
     Round,
     DiscoverCity,
-    NextGameState
+    NextGameState,
+    FieldsTravelled
 
 }

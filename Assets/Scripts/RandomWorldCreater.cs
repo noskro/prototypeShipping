@@ -56,12 +56,16 @@ public class RandomWorldCreater : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++) 
+        for (int x = -1; x < StaticTileDataContainer.Instance.mapWidth + 1; x++) 
         { 
-            for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+            for (int y = -1; y < StaticTileDataContainer.Instance.mapHeight + 1; y++)
             {
                 StaticTileDataContainer.Instance.TilemapMap.SetTile(new Vector3Int(x,y,0), StaticTileDataContainer.Instance.CustomTileWater);
-                StaticTileDataContainer.Instance.gameMapData[x, y].Reset(0);
+
+                if (x >= 0 && y >= 0 && x < StaticTileDataContainer.Instance.mapWidth && y < StaticTileDataContainer.Instance.mapHeight)
+                {
+                    StaticTileDataContainer.Instance.gameMapData[x, y].Reset(0);
+                }
             }
         }
 
@@ -74,6 +78,35 @@ public class RandomWorldCreater : MonoBehaviour
             island.Reset(); // reset all run specific temporary data
             TryPlaceIslandAtRandomPosition(island);
         }
+
+
+        //StaticTileDataContainer.Instance.TilemapMap.CompressBounds();
+        //BoundsInt bound = StaticTileDataContainer.Instance.TilemapMap.cellBounds;
+        //TileBase[] originalTiles = StaticTileDataContainer.Instance.TilemapMap.GetTilesBlock(bound);
+
+        //BoundsInt newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
+        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
+
+        //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
+        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
+
+        //newBound = new BoundsInt(bound.position - new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
+
+        //newBound = new BoundsInt(bound.position + new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
+
+        //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
+
+        //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
+
+        //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
+
+        //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
     }
 
     private void TryPlaceIslandAtRandomPosition(PersistentIslandData islandData, Vector2Int? fixedPosition = null)

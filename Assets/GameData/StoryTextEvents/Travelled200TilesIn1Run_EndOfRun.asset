@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c33982ea55cc0a40aa83612aae7de6f, type: 3}
+  m_Name: Travelled200TilesIn1Run_EndOfRun
+  m_EditorClassIdentifier: 
+  Title: Travelled 200 Tiles end of run
+  Texts:
+  - You travelled further than anyone ever before. When you get home many people
+    will wnat to know what you discovered in those distant lands. You should be able
+    to make a pretty profit with your stories.
+  StoryTextEventTrigger:
+  - type: 4
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: 8e054c1904d60e64cac420ae27435e6e, type: 2}
+    nextGameState: 3
+  - type: 3
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: fc7e1a87e69f5de46a4861a360621fb4, type: 2}
+    nextGameState: 0
+  StoryTextEventRewards:
+  - unlockIslands: 3
+    rewardType: 5
+    intValue: 10
+  FollowingStoryTextEvents: []

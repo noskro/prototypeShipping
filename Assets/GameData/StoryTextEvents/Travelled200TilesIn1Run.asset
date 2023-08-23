@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c33982ea55cc0a40aa83612aae7de6f, type: 3}
+  m_Name: Travelled200TilesIn1Run
+  m_EditorClassIdentifier: 
+  Title: Travelled 200 Tiles
+  Texts:
+  - 100 Tiles? That was yesterday. Now you managed to travel at least double that
+    distance. The craftsmenship of the dock workers surely is amazing. New riches
+    will surely await you soon
+  StoryTextEventTrigger:
+  - type: 4
+    intValue: 200
+    revelantCity: {fileID: 0}
+    nextGameState: 0
+  StoryTextEventRewards:
+  - unlockIslands: 3
+    rewardType: 1
+    intValue: 3
+  FollowingStoryTextEvents:
+  - {fileID: 11400000, guid: 7839c2bd51b25f045bdb00e2a5a5a13b, type: 2}

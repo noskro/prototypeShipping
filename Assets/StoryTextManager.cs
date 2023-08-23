@@ -35,6 +35,7 @@ public class StoryTextManager : MonoBehaviour
                 if (trigger.type.Equals(EnumStoryTextEventTriggerType.Now) ||
                     (gameState.Equals(EnumGameStates.Start) && trigger.type.Equals(EnumStoryTextEventTriggerType.NextRun)) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.Round) && (int)trigger.intValue >= DemoController.Instance.Round) ||
+                    (trigger.type.Equals(EnumStoryTextEventTriggerType.FieldsTravelled) && (int)trigger.intValue >= DemoController.Instance.FieldsTravelled) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.DiscoverCity) && StaticTileDataContainer.Instance.IsCityDiscovered(trigger.revelantCity)) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.NextGameState) && trigger.nextGameState.Equals(DemoController.Instance.GameState)) ||
                     false) // false is here just so I can copy the condition lines without caring about the || at the end
@@ -64,6 +65,18 @@ public class StoryTextManager : MonoBehaviour
             if (!reward.unlockIslands.Equals(EnumIslandUnlockEvent.None))
             {
                 DemoController.Instance.worldCreator.AddNewIslandPrefabsToAvailable(reward.unlockIslands);
+            }
+
+            if (!reward.rewardType.Equals(EnumEventModifierRewardType.None))
+            {
+                if (reward.rewardType.Equals(EnumEventModifierRewardType.MapUncover))
+                {
+                    DemoController.Instance.shipController.gameMapHandler.DiscoverNewAreaByShip(DemoController.Instance.shipController.shipCoordinates, 7, 5);
+                }
+                else
+                {
+                    DemoController.Instance.shipController.shipStats.AddStatsModifier(reward.rewardType, reward.intValue);
+                }
             }
         }
 

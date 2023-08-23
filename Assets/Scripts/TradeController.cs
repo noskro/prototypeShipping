@@ -21,6 +21,8 @@ public class TradeController : MonoBehaviour
     public bool IsTrading { get; internal set; }
     private PersistentCityData villageGameMapData;
 
+    public List<StoryTextEventSO> DefaultTavernQuests;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -139,7 +141,23 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeQuest))
         {
-            DemoController.Instance.storyTextManager.ActiveStoryTextEventList.AddRange(villageGameMapData.cityDataSO.TavernStoryTextEvents);
+            int eventIndex = Random.Range(-1, villageGameMapData.TavernStoryTextEvents.Count - 1);
+
+            if (eventIndex >= 0)
+            {
+                DemoController.Instance.storyTextManager.ActiveStoryTextEventList.Add(villageGameMapData.TavernStoryTextEvents[eventIndex]);
+                villageGameMapData.TavernStoryTextEvents.RemoveAt(eventIndex);
+            }
+            else
+            {
+                // todo get default tavern quest
+                eventIndex = Random.Range(0, DefaultTavernQuests.Count - 1);
+
+                if (eventIndex >= 0)
+                {
+                    DemoController.Instance.storyTextManager.ActiveStoryTextEventList.Add(DefaultTavernQuests[eventIndex]);
+                }
+            }
         }
         else if (selectedSR.sprite.Equals(spriteTradeFood))
         {

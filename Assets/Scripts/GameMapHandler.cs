@@ -242,9 +242,14 @@ public partial class GameMapHandler : MonoBehaviour
 
     internal void DiscoverNewAreaByShip(Vector2Int coords, ShipStats ship)
     {
+        DiscoverNewAreaByShip(coords, ship.GetCurrentDiscoverRange(), ship.GetCurrentViewRange());
+    }
+
+    internal void DiscoverNewAreaByShip(Vector2Int coords, int discoverRange, int viewRange)
+    {
         StaticTileDataContainer.Instance.gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Visible;
 
-        var farNeighbors = GetNeighbors(coords, ship.GetCurrentDiscoverRange());
+        var farNeighbors = GetNeighbors(coords, discoverRange);
         foreach (var neighbor in farNeighbors)
         {
             if (IsWithinMap(neighbor) && StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow != EnumFogOfWar.Visible)
@@ -254,7 +259,7 @@ public partial class GameMapHandler : MonoBehaviour
                 StaticTileDataContainer.Instance.TilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
             }
         }
-        var nearNeighbors = GetNeighbors(coords, ship.GetCurrentViewRange());
+        var nearNeighbors = GetNeighbors(coords, viewRange);
         foreach (Vector2Int neighbor in nearNeighbors)
         {
             if (IsWithinMap(neighbor))
@@ -267,7 +272,7 @@ public partial class GameMapHandler : MonoBehaviour
 
         UpdateFOWMap();
         foreach (TilemapMask mask in StaticTileDataContainer.Instance.TilemapFOW.GetComponents<TilemapMask>())
-        { 
+        {
             mask.DoIt();
         }
 
@@ -321,6 +326,36 @@ public partial class GameMapHandler : MonoBehaviour
                     }
                 }
             }
+
+            //// copy for 8 other sides
+            //StaticTileDataContainer.Instance.TilemapFOW.CompressBounds();
+            //BoundsInt bound = StaticTileDataContainer.Instance.TilemapFOW.cellBounds;
+            //TileBase[] originalTiles = StaticTileDataContainer.Instance.TilemapFOW.GetTilesBlock(bound);
+
+            //BoundsInt newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
+            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+            //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
+            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+            //newBound = new BoundsInt(bound.position - new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+            //newBound = new BoundsInt(bound.position + new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+            //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+            //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+            //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+            //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
         }
     }
 

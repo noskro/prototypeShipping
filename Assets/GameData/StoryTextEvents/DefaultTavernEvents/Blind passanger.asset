@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c33982ea55cc0a40aa83612aae7de6f, type: 3}
+  m_Name: Blind passanger
+  m_EditorClassIdentifier: 
+  Title: Blind passenger
+  Texts:
+  - As you leave the harbour you notice some movement between the storage chests.
+    On further investigation you find the 3 drunk guys from last night at the tavern.
+    They decided to join you on your journey
+  StoryTextEventTrigger:
+  - type: 4
+    intValue: 0
+    revelantCity: {fileID: 0}
+    nextGameState: 2
+  StoryTextEventRewards:
+  - unlockIslands: 4
+    rewardType: 2
+    intValue: 3
+  - unlockIslands: 4
+    rewardType: 3
+    intValue: 10
+  FollowingStoryTextEvents: []

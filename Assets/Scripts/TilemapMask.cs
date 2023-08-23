@@ -19,7 +19,7 @@ public class TilemapMask : MonoBehaviour
     }
 
     public void DoIt()
-    { 
+    {
         Tilemap tilemap = GetComponent<Tilemap>();
 
         Vector3Int startCoord = tilemap.origin;
