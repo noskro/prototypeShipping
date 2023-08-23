@@ -109506,7 +109506,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SingleStatName: Canons
-  shipStatModifier: 5
+  shipStatModifier: 6
   textSingleStatName: {fileID: 500708023}
   textSingleStatCurrentLevel: {fileID: 2100720042}
   textSingleStatUpgradeButton: {fileID: 1392243901}
@@ -111022,7 +111022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SingleStatName: View
-  shipStatModifier: 6
+  shipStatModifier: 7
   textSingleStatName: {fileID: 1804026751}
   textSingleStatCurrentLevel: {fileID: 559563597}
   textSingleStatUpgradeButton: {fileID: 859707176}
@@ -111491,7 +111491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SingleStatName: Speed
-  shipStatModifier: 8
+  shipStatModifier: 9
   textSingleStatName: {fileID: 483248106}
   textSingleStatCurrentLevel: {fileID: 734623514}
   textSingleStatUpgradeButton: {fileID: 163001823}
@@ -112935,7 +112935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SingleStatName: Durability
-  shipStatModifier: 0
+  shipStatModifier: 1
   textSingleStatName: {fileID: 421595073}
   textSingleStatCurrentLevel: {fileID: 875767528}
   textSingleStatUpgradeButton: {fileID: 1266841021}
@@ -115004,6 +115004,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: afb31185d701ac940b5a043f38348c77, type: 2}
   - {fileID: 11400000, guid: 6dd48f0e2502274418c29d135302f66e, type: 2}
   - {fileID: 11400000, guid: d81753a56ac41b14f9141bac155d1577, type: 2}
+  - {fileID: 11400000, guid: f06dd4b8542c6e240b95fddf62400838, type: 2}
+  - {fileID: 11400000, guid: f00a51e9a25a7284c8547b8906da702d, type: 2}
   CompletedStoryTextEventList: []
 --- !u!4 &1655714839
 Transform:

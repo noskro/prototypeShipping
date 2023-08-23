@@ -172,6 +172,7 @@ public class TradeController : MonoBehaviour
             return; // do nothing; 
         }
 
+        DemoController.Instance.shipController.ResetShipPosition();
         shipStats.TriggerShipUpdated();
 
         villageGameMapData.SetTradedThisRun(true);

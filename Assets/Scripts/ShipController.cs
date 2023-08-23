@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -110,6 +111,7 @@ public class ShipController : MonoBehaviour
                     }
                     else if (gameMapHandler.CanTrade(mouseCellCoordinates))
                     {
+                        transform.position = gameMapHandler.GetCellPosition(mouseCellCoordinates); 
                         tradeController.ShowTrade(gameMapHandler.GetCellPosition(mouseCellCoordinates), StaticTileDataContainer.Instance.gameMapData[mouseCellCoordinates.x, mouseCellCoordinates.y].CityData);
                     }
                     else
@@ -171,6 +173,11 @@ public class ShipController : MonoBehaviour
             }
         }
 
+    }
+
+    internal void ResetShipPosition()
+    {
+        transform.position = shipTargetPosition;
     }
 }
 

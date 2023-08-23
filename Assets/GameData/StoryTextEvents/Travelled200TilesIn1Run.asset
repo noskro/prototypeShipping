@@ -18,7 +18,7 @@ MonoBehaviour:
     distance. The craftsmenship of the dock workers surely is amazing. New riches
     will surely await you soon
   StoryTextEventTrigger:
-  - type: 4
+  - type: 5
     intValue: 200
     revelantCity: {fileID: 0}
     nextGameState: 0
