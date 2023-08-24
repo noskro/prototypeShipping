@@ -11,7 +11,7 @@ public class ShipController : MonoBehaviour
     private SpriteRenderer shipSpriteRenderer;
     private TradeController tradeController;
     private DemoController demoController;
-    public Vector2Int shipCoordinates;
+    //public Vector2Int shipCoordinates;
 
     public Vector3 shipStartPosition;
     public Vector3 shipTargetPosition;
@@ -105,26 +105,34 @@ public class ShipController : MonoBehaviour
 
                     if (gameMapHandler.CanNavigate(mouseCellCoordinates))
                     {
-                        if (demoController.GameState == EnumGameStates.ShipMoving)
+                        // check for pirates
+                        if (gameMapHandler.PiratesPresent(mouseCellCoordinates) != null)
                         {
-                            if (nextScheduledTarget == null)
-                            {
-                                nextScheduledTarget = mouseCellCoordinates;
-                            }
+                            DemoController.Instance.gameMapHandler.CalculateFight(shipStats, gameMapHandler.PiratesPresent(mouseCellCoordinates));
                         }
                         else
                         {
-                            gameMapHandler.SetDestination(mouseCellCoordinates);
-                            shipStartPosition = transform.position;
-                            shipTargetPosition = gameMapHandler.GetCellPosition(mouseCellCoordinates);
+                            if (demoController.GameState == EnumGameStates.ShipMoving)
+                            {
+                                if (nextScheduledTarget == null)
+                                {
+                                    nextScheduledTarget = mouseCellCoordinates;
+                                }
+                            }
+                            else
+                            {
+                                gameMapHandler.SetDestination(mouseCellCoordinates);
+                                shipStartPosition = transform.position;
+                                shipTargetPosition = gameMapHandler.GetCellPosition(mouseCellCoordinates);
 
-                            demoController.SetGameState(EnumGameStates.ShipMoving);
-                            shipMovingTimer = 1f;
+                                demoController.SetGameState(EnumGameStates.ShipMoving);
+                                shipMovingTimer = 1f;
 
-                            CustomTile targetTile = gameMapHandler.GetMapTile(mouseCellCoordinates);
-                            shipStats.direction = gameMapHandler.GetDirection(currentShipCoords, mouseCellCoordinates);
-                            shipStats.NextTurn(targetTile);
-                            demoController.FieldsTravelled++;
+                                CustomTile targetTile = gameMapHandler.GetMapTile(mouseCellCoordinates);
+                                shipStats.direction = gameMapHandler.GetDirection(currentShipCoords, mouseCellCoordinates);
+                                shipStats.NextTurn(targetTile);
+                                demoController.FieldsTravelled++;
+                            }
                         }
                     }
                     else if (gameMapHandler.CanTrade(mouseCellCoordinates))
@@ -151,6 +159,8 @@ public class ShipController : MonoBehaviour
         gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, this.shipStats);
 
         gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
+        
+        gameMapHandler.HandleOtherShips();
 
         demoController.SetGameState(EnumGameStates.ShipIdle);
     }
@@ -200,10 +210,8 @@ public class ShipController : MonoBehaviour
                 }
 
                 shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
-
             }
         }
-
     }
 
     internal void ResetShipPosition()

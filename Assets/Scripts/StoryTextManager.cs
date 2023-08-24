@@ -72,7 +72,7 @@ public class StoryTextManager : MonoBehaviour
             {
                 if (reward.rewardType.Equals(EnumEventModifierRewardType.MapUncover))
                 {
-                    DemoController.Instance.shipController.gameMapHandler.DiscoverNewAreaByShip(DemoController.Instance.shipController.shipCoordinates, 7, 5);
+                    DemoController.Instance.shipController.gameMapHandler.DiscoverNewAreaByShip(DemoController.Instance.gameMapHandler.shipCoordinates, 7, 5);
                 }
                 else
                 {

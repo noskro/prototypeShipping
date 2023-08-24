@@ -54,13 +54,16 @@ public class ShipStats : MonoBehaviour
         shipSpeedCurrentLevel = 0;
         shipViewRangeCurrentLevel = 0;
         shipDiscoverRangeCurrentLevel = 0;
+
+        if (shipModel != null)
+        {
+            SetShipModel(shipModel);
+        }
     }
 
     public void SetShipModel(ShipModelSO newShipModel)
     {
         this.shipModel = newShipModel;
-        // shipVisual.ShowShipidle();
-
 
         ShipDurability = shipModel.ShipDurabilityUpgradeList[shipDurabilityCurrentLevel].Value;
         CrewCount = (int)Mathf.Ceil(shipModel.ShipMaxCrewUpgradeList[shipMaxCrewCurrentLevel].Value / 2);

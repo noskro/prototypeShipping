@@ -6,12 +6,13 @@ using Random = UnityEngine.Random;
 
 public partial class GameMapHandler : MonoBehaviour
 {
+    public Transform AttackIcon;
     public Transform MoveToIcon;
     public Transform CoinIcon;
 
-    [HideInInspector]
-
     public Vector2Int shipCoordinates;
+
+    public List<PirateShipController> pirateShips;
 
     public void NewRun()
     {
@@ -98,13 +99,18 @@ public partial class GameMapHandler : MonoBehaviour
 
     }
 
-    internal bool CanNavigate(Vector2Int cursorCoords)
+    internal bool CanNavigate(Vector2Int targetCoord)
     {
-        if (cursorCoords.x >= 0 && cursorCoords.x <StaticTileDataContainer.Instance.mapWidth && cursorCoords.y >= 0 && cursorCoords.y < StaticTileDataContainer.Instance.mapHeight)
+        return CanNavigate(targetCoord, shipCoordinates);
+    }
+
+    internal bool CanNavigate(Vector2Int targetCoord, Vector2Int sourceCoord)
+    {
+        if (targetCoord.x >= 0 && targetCoord.x <StaticTileDataContainer.Instance.mapWidth && targetCoord.y >= 0 && targetCoord.y < StaticTileDataContainer.Instance.mapHeight)
         {
-            if (IsNeighbour(cursorCoords, shipCoordinates))
+            if (IsNeighbour(sourceCoord, targetCoord))
             {
-                CustomTile mapTile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)cursorCoords);
+                CustomTile mapTile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)targetCoord);
 
                 if (mapTile != null && mapTile.movability.Equals(EnumTileMovability.ShipMoveable))
                 {
@@ -133,39 +139,49 @@ public partial class GameMapHandler : MonoBehaviour
     }
     internal void ShowMouseCursor(Vector2Int cursorCoords)
     {
+        AttackIcon.gameObject.SetActive(false);
         MoveToIcon.gameObject.SetActive(false);
         CoinIcon.gameObject.SetActive(false);
 
         if (CanNavigate(cursorCoords))
         {
-            Direction? direction = this.GetDirection(shipCoordinates, cursorCoords);
+            // check for pirates
+            if (PiratesPresent(cursorCoords) != null)
+            {
+                AttackIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
+                AttackIcon.gameObject.SetActive(true);
+            }
+            else
+            {
+                Direction? direction = this.GetDirection(shipCoordinates, cursorCoords);
 
-            int rotation = 0;
-            if (direction.Equals(Direction.South))
-            {
-                rotation = 180;
-            }
-            else if (direction.Equals(Direction.NorthEast))
-            {
-                rotation = 300;
-            }
-            else if (direction.Equals(Direction.SouthEast))
-            {
-                rotation = 240;
-            }
-            else if (direction.Equals(Direction.NorthWest))
-            {
-                rotation = 60;
-            }
-            else if (direction.Equals(Direction.SouthWest))
-            {
-                rotation = 120;
-            }
+                int rotation = 0;
+                if (direction.Equals(Direction.South))
+                {
+                    rotation = 180;
+                }
+                else if (direction.Equals(Direction.NorthEast))
+                {
+                    rotation = 300;
+                }
+                else if (direction.Equals(Direction.SouthEast))
+                {
+                    rotation = 240;
+                }
+                else if (direction.Equals(Direction.NorthWest))
+                {
+                    rotation = 60;
+                }
+                else if (direction.Equals(Direction.SouthWest))
+                {
+                    rotation = 120;
+                }
 
-            MoveToIcon.transform.localRotation = Quaternion.Euler(0, 0, rotation);          
+                MoveToIcon.transform.localRotation = Quaternion.Euler(0, 0, rotation);
 
-            MoveToIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
-            MoveToIcon.gameObject.SetActive(true);
+                MoveToIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
+                MoveToIcon.gameObject.SetActive(true);
+            }
         }
         else if (CanTrade(cursorCoords))
         {
@@ -377,7 +393,7 @@ public partial class GameMapHandler : MonoBehaviour
         }
     }
 
-    private List<Vector2Int> GetNeighbors(Vector2Int unityCell, int range, bool includeSelf = false)
+    public List<Vector2Int> GetNeighbors(Vector2Int unityCell, int range, bool includeSelf = false)
     {
         // from https://github.com/Unity-Technologies/2d-extras/issues/69#issuecomment-684190243
 
@@ -464,5 +480,50 @@ public partial class GameMapHandler : MonoBehaviour
     internal CustomTile GetMapTile(Vector2Int mouseCellCoordinates)
     {
         return StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)mouseCellCoordinates);
+    }
+
+    internal void HandleOtherShips()
+    {
+        foreach(PirateShipController pirateShip in pirateShips)
+        {
+            pirateShip.PerformAction();
+        }
+    }
+
+    internal void CalculateFight(ShipStats attackingShip, ShipStats defendingShip)
+    {
+        float attackMinDamage = 0; // Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount);
+        float attackMaxDamage = Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount); // modifiers???
+        float attackingDamage = Random.Range(attackMinDamage, attackMaxDamage);
+
+        float percentageCrewLost = Random.Range(0f, 1f);
+        defendingShip.ShipDurability -= attackingDamage * (1- percentageCrewLost);
+        defendingShip.CrewCount -= Mathf.FloorToInt(attackingDamage * percentageCrewLost);
+
+        if (defendingShip.ShipDurability > 0 && defendingShip.CrewCount > 0)
+        {
+            float defendingMinDamage = 0; // Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount);
+            float defendingxDamage = Math.Min(defendingShip.GetCurrentMaxCanons(), defendingShip.CrewCount); // modifiers???
+            float defendingDamage = Random.Range(defendingMinDamage, defendingxDamage);
+
+            percentageCrewLost = Random.Range(0f, 1f);
+            attackingShip.ShipDurability -= defendingDamage * (1 - percentageCrewLost);
+            attackingShip.CrewCount -= Mathf.FloorToInt(defendingDamage * percentageCrewLost);
+        }
+
+        // end of fight round
+    }
+
+    internal ShipStats PiratesPresent(Vector2Int mouseCellCoordinates)
+    {
+        foreach(PirateShipController pirate in pirateShips)
+        {
+            if (pirate.pirateShipCoordinates.Equals(mouseCellCoordinates))
+            {
+                return pirate.shipStats;
+            }
+        }
+
+        return null;
     }
 }

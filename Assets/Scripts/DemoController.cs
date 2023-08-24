@@ -24,6 +24,7 @@ public partial class DemoController : MonoBehaviour
     public TradeController tradeController;
     public ShipController shipController;
 
+    public GameMapHandler gameMapHandler;
     //public ShipStats shipStats;
 
     //public ShipModelSO currentShipModel;
@@ -81,7 +82,6 @@ public partial class DemoController : MonoBehaviour
         ShipStats.OnShipUpdated -= UpdateZoom;
     }
 
-    private GameMapHandler gameMapHandler;
     // Start is called before the first frame update
     void Start()
     {
@@ -124,9 +124,8 @@ public partial class DemoController : MonoBehaviour
         SetGameState(EnumGameStates.Start);
         shipController.shipStats.SetShipModel(shipController.shipStats.shipModel);
 
-        shipController.shipCoordinates = StaticTileDataContainer.Instance.GetMapStartingCoordinates();
-        gameMapHandler.shipCoordinates = shipController.shipCoordinates; // this seems redundant
-        shipController.transform.position = StaticTileDataContainer.Instance.TilemapFOW.GetCellCenterWorld((Vector3Int)shipController.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+        gameMapHandler.shipCoordinates = StaticTileDataContainer.Instance.GetMapStartingCoordinates(); 
+        shipController.transform.position = StaticTileDataContainer.Instance.TilemapFOW.GetCellCenterWorld((Vector3Int)gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         shipController.gameObject.SetActive(true);
 
 
