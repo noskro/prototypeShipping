@@ -26345,7 +26345,6 @@ MonoBehaviour:
   ShipMovementAnimationSpeed: 2
   gameMapHandler: {fileID: 1758241113}
   shipStats: {fileID: 0}
-  shipCoordinates: {x: 0, y: 0}
   shipStartPosition: {x: 0, y: 0, z: 0}
   shipTargetPosition: {x: 0, y: 0, z: 0}
   doShipRotate: 0
@@ -30235,7 +30234,6 @@ GameObject:
   - component: {fileID: 2097412913}
   - component: {fileID: 2097412916}
   - component: {fileID: 2097412915}
-  - component: {fileID: 2097412914}
   m_Layer: 0
   m_Name: PirateShipContainer
   m_TagString: Untagged
@@ -30259,18 +30257,6 @@ Transform:
   m_Father: {fileID: 427470544}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2097412914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2097412912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7207439008995c046a516ceafcbabbf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2097412915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30308,6 +30294,7 @@ MonoBehaviour:
   gameMapHandler: {fileID: 1758241113}
   shipStats: {fileID: 0}
   pirateShipCoordinates: {x: 15, y: 15}
+  pirateShipState: 0
 --- !u!1 &2100720041
 GameObject:
   m_ObjectHideFlags: 0

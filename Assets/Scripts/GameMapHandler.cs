@@ -497,7 +497,7 @@ public partial class GameMapHandler : MonoBehaviour
         float attackingDamage = Random.Range(attackMinDamage, attackMaxDamage);
 
         float percentageCrewLost = Random.Range(0f, 1f);
-        defendingShip.ShipDurability -= attackingDamage * (1- percentageCrewLost);
+        defendingShip.ShipDurability -= attackingDamage * (1 - percentageCrewLost);
         defendingShip.CrewCount -= Mathf.FloorToInt(attackingDamage * percentageCrewLost);
 
         if (defendingShip.ShipDurability > 0 && defendingShip.CrewCount > 0)
@@ -509,9 +509,44 @@ public partial class GameMapHandler : MonoBehaviour
             percentageCrewLost = Random.Range(0f, 1f);
             attackingShip.ShipDurability -= defendingDamage * (1 - percentageCrewLost);
             attackingShip.CrewCount -= Mathf.FloorToInt(defendingDamage * percentageCrewLost);
-        }
 
-        // end of fight round
+            if (attackingShip.ShipDurability > 0 && attackingShip.CrewCount > 0)
+            {
+                if (DemoController.Instance.shipController.shipStats.Equals(attackingShip))
+                {
+                    SetPirateShipLost(defendingShip);
+                }
+                else
+                {
+                    DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
+                }
+            }
+            else
+            {
+                if (DemoController.Instance.shipController.shipStats.Equals(attackingShip))
+                {
+                    DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
+                }
+                else
+                {
+                    SetPirateShipLost(defendingShip);
+                }
+            }
+
+            // end of fight round
+        }
+    }
+
+    private void SetPirateShipLost(ShipStats defendingShip)
+    {
+        foreach (PirateShipController pirate in pirateShips)
+        {
+            if (pirate.shipStats.Equals(defendingShip))
+            {
+                pirate.pirateShipState = EnumGameStates.ShipLost;
+                pirate.UpdateSprite();
+            }
+        }
     }
 
     internal ShipStats PiratesPresent(Vector2Int mouseCellCoordinates)

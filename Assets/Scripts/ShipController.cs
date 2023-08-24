@@ -167,51 +167,51 @@ public class ShipController : MonoBehaviour
 
     void UpdateShip(ShipStats stats)
     {
-        if (doShipRotate)
-        {
-            if (demoController.GameState == EnumGameStates.ShipLost)
-            {
+        //if (doShipRotate)
+        //{
+        //    if (demoController.GameState == EnumGameStates.ShipLost)
+        //    {
 
-                shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);  // probably not needed
-            }
-            else
-            {
-                float rotation = 0;
-                shipSpriteRenderer.flipX = false;
+        //        shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);  // probably not needed
+        //    }
+        //    else
+        //    {
+        //        float rotation = 0;
+        //        shipSpriteRenderer.flipX = false;
 
-                switch (shipStats.direction)
-                {
-                    case Direction.North:
-                        Debug.Log("North");
-                        rotation = -90;
-                        break;
-                    case Direction.NorthEast:
-                        Debug.Log("NorthEast");
-                        shipSpriteRenderer.flipX = true;
-                        rotation = 30;
-                        break;
-                    case Direction.NorthWest:
-                        Debug.Log("NorthWest");
-                        rotation = -30;
-                        break;
-                    case Direction.South:
-                        Debug.Log("South");
-                        rotation = 90;
-                        break;
-                    case Direction.SouthEast:
-                        Debug.Log("SouthEast");
-                        shipSpriteRenderer.flipX = true;
-                        rotation = -30;
-                        break;
-                    case Direction.SouthWest:
-                        Debug.Log("SouthWest");
-                        rotation = 30;
-                        break;
-                }
+        //        switch (shipStats.direction)
+        //        {
+        //            case Direction.North:
+        //                Debug.Log("North");
+        //                rotation = -90;
+        //                break;
+        //            case Direction.NorthEast:
+        //                Debug.Log("NorthEast");
+        //                shipSpriteRenderer.flipX = true;
+        //                rotation = 30;
+        //                break;
+        //            case Direction.NorthWest:
+        //                Debug.Log("NorthWest");
+        //                rotation = -30;
+        //                break;
+        //            case Direction.South:
+        //                Debug.Log("South");
+        //                rotation = 90;
+        //                break;
+        //            case Direction.SouthEast:
+        //                Debug.Log("SouthEast");
+        //                shipSpriteRenderer.flipX = true;
+        //                rotation = -30;
+        //                break;
+        //            case Direction.SouthWest:
+        //                Debug.Log("SouthWest");
+        //                rotation = 30;
+        //                break;
+        //        }
 
-                shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
-            }
-        }
+        //        shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+        //    }
+        //}
     }
 
     internal void ResetShipPosition()
