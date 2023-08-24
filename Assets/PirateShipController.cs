@@ -51,7 +51,7 @@ public class PirateShipController : MonoBehaviour
                 {
                     int randomTarget = Random.Range(0, possibleTargets.Count);
                     targetCell = possibleTargets[randomTarget];
-                    if (!DemoController.Instance.gameMapHandler.CanNavigate(targetCell, pirateShipCoordinates))
+                    if (!DemoController.Instance.gameMapHandler.CanNavigate(targetCell, pirateShipCoordinates)) // check if the pirate ship can move the 1 space to the target
                     {
                         possibleTargets.RemoveAt(randomTarget);
                         continue;
@@ -69,7 +69,7 @@ public class PirateShipController : MonoBehaviour
                 if (targetCell == DemoController.Instance.gameMapHandler.shipCoordinates)
                 {
                     // attack
-                    DemoController.Instance.gameMapHandler.CalculateFight(shipStats, DemoController.Instance.shipController.shipStats);
+                    DemoController.Instance.shipBattleManager.CalculateFight(shipStats, DemoController.Instance.shipController.shipStats);
                 }
                 else
                 {

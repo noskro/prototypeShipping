@@ -65,6 +65,18 @@ public partial class GameMapHandler : MonoBehaviour
         UpdateFOWMap();
     }
 
+    internal bool IsValidTarget(Vector2Int targetCell)
+    {
+        CustomTile mapTile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)targetCell);
+
+        if (mapTile != null && mapTile.movability.Equals(EnumTileMovability.ShipMoveable))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     internal void UpdateBeacons(Vector2Int shipCoordinates)
     {
         //foreach (ArtefactBeacon beacon in DemoController.Instance.artecaftBeaconList)
@@ -490,54 +502,7 @@ public partial class GameMapHandler : MonoBehaviour
         }
     }
 
-    internal void CalculateFight(ShipStats attackingShip, ShipStats defendingShip)
-    {
-        float attackMinDamage = 0; // Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount);
-        float attackMaxDamage = Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount); // modifiers???
-        float attackingDamage = Random.Range(attackMinDamage, attackMaxDamage);
-
-        float percentageCrewLost = Random.Range(0f, 1f);
-        defendingShip.ShipDurability -= attackingDamage * (1 - percentageCrewLost);
-        defendingShip.CrewCount -= Mathf.FloorToInt(attackingDamage * percentageCrewLost);
-
-        if (defendingShip.ShipDurability > 0 && defendingShip.CrewCount > 0)
-        {
-            float defendingMinDamage = 0; // Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount);
-            float defendingxDamage = Math.Min(defendingShip.GetCurrentMaxCanons(), defendingShip.CrewCount); // modifiers???
-            float defendingDamage = Random.Range(defendingMinDamage, defendingxDamage);
-
-            percentageCrewLost = Random.Range(0f, 1f);
-            attackingShip.ShipDurability -= defendingDamage * (1 - percentageCrewLost);
-            attackingShip.CrewCount -= Mathf.FloorToInt(defendingDamage * percentageCrewLost);
-
-            if (attackingShip.ShipDurability > 0 && attackingShip.CrewCount > 0)
-            {
-                if (DemoController.Instance.shipController.shipStats.Equals(attackingShip))
-                {
-                    SetPirateShipLost(defendingShip);
-                }
-                else
-                {
-                    DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
-                }
-            }
-            else
-            {
-                if (DemoController.Instance.shipController.shipStats.Equals(attackingShip))
-                {
-                    DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
-                }
-                else
-                {
-                    SetPirateShipLost(defendingShip);
-                }
-            }
-
-            // end of fight round
-        }
-    }
-
-    private void SetPirateShipLost(ShipStats defendingShip)
+    public void SetPirateShipLost(ShipStats defendingShip)
     {
         foreach (PirateShipController pirate in pirateShips)
         {

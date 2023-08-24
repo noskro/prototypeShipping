@@ -78,7 +78,11 @@ public class ShipController : MonoBehaviour
 
     void HandleInput()
     {
-        if (demoController.GameState == EnumGameStates.ShipLost)
+        if (demoController.shipBattleManager.battleInProgress)
+        {
+            // no game input while in battle
+        }
+        else if (demoController.GameState == EnumGameStates.ShipLost)
         {
             // no game input while ship is lost
         }
@@ -108,7 +112,7 @@ public class ShipController : MonoBehaviour
                         // check for pirates
                         if (gameMapHandler.PiratesPresent(mouseCellCoordinates) != null)
                         {
-                            DemoController.Instance.gameMapHandler.CalculateFight(shipStats, gameMapHandler.PiratesPresent(mouseCellCoordinates));
+                            DemoController.Instance.shipBattleManager.CalculateFight(shipStats, gameMapHandler.PiratesPresent(mouseCellCoordinates));
                         }
                         else
                         {

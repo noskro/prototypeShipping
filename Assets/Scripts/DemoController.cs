@@ -25,6 +25,7 @@ public partial class DemoController : MonoBehaviour
     public ShipController shipController;
 
     public GameMapHandler gameMapHandler;
+    public ShipBattleManager shipBattleManager;
     //public ShipStats shipStats;
 
     //public ShipModelSO currentShipModel;

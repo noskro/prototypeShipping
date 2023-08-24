@@ -20,6 +20,9 @@ public class ShipStats : MonoBehaviour
     [HideInInspector]
     public int Gold;
 
+    public SpriteRenderer spriteCanonFireSmoke;
+    public SpriteRenderer spriteCanonFireHit;
+
     private int shipDurabilityCurrentLevel;
     private int shipMaxCrewCurrentLevel;
     private int shipMaxFoodCurrentLevel;
