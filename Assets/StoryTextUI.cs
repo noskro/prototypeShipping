@@ -30,7 +30,8 @@ public class StoryTextUI : MonoBehaviour, IPointerUpHandler
         {
             if (Input.GetKeyUp(KeyCode.Escape) ||
                 Input.GetKeyUp(KeyCode.Space) ||
-                Input.GetKeyUp(KeyCode.Return))
+                Input.GetKeyUp(KeyCode.Return) ||
+                Input.GetMouseButtonUp(0)) // "Up" ist hier wichtig, da bei Down oder nur Button, der Dialog zu geht und der ShipController instant den Button nimmt und das schiff bewegt. Bei "Up" ist der Button druck danach vorbei
             {
                 ShowNextStoryText();
             }
