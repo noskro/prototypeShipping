@@ -4,6 +4,8 @@ using UnityEngine.Tilemaps;
 
 public class ShipController : MonoBehaviour
 {
+    public float ShipMovementAnimationSpeed;
+
     public GameMapHandler gameMapHandler;
     public ShipStats shipStats;
     private SpriteRenderer shipSpriteRenderer;
@@ -44,7 +46,7 @@ public class ShipController : MonoBehaviour
         if (demoController.GameState == EnumGameStates.ShipMoving)
         {
             transform.position = Vector3.Lerp(shipTargetPosition, shipStartPosition, shipMovingTimer);
-            shipMovingTimer -= Time.deltaTime * 2;
+            shipMovingTimer -= Time.deltaTime * ShipMovementAnimationSpeed;
 
             if (shipMovingTimer <= 0)
             {
@@ -70,10 +72,6 @@ public class ShipController : MonoBehaviour
         {
             // no game input while ship is lost
         }
-        else if (demoController.GameState == EnumGameStates.ShipMoving)
-        {
-            // no game input while ship is moving
-        }
         else if (tradeController.IsTrading) // maybe handle this in DemoController instead?
         {
             // handled by tradeController
@@ -91,8 +89,18 @@ public class ShipController : MonoBehaviour
             {
                 gameMapHandler.ShowMouseCursor(mouseCellCoordinates);
 
-                if (Input.GetMouseButton(0))
+                if ((Input.GetMouseButton(0) && demoController.GameState != EnumGameStates.ShipMoving) ||
+                    (Input.GetMouseButtonDown(0) && demoController.GameState == EnumGameStates.ShipMoving))
                 {
+                    if (demoController.GameState == EnumGameStates.ShipMoving) // TEST: moving ship can be skipped for next movement 
+                    {
+                        demoController.GameState = EnumGameStates.ShipIdle;
+                        shipMovingTimer = 0;
+                        transform.position = shipTargetPosition;
+                        gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, this.shipStats);
+                        gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
+                    }
+
                     Vector2Int currentShipCoords = gameMapHandler.shipCoordinates;
 
                     if (gameMapHandler.CanNavigate(mouseCellCoordinates))
