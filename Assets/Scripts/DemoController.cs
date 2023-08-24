@@ -163,13 +163,11 @@ public partial class DemoController : MonoBehaviour
     {
         if (gameMapHandler.GetShipTileType() == EnumTileType.CoastalWater)
         {
-            Debug.Log("Coastal");
             coastal.gameObject.SetActive(true);
             openSea.gameObject.SetActive(false);
         }
         else if (gameMapHandler.GetShipTileType() == EnumTileType.DeepSea)
         {
-            Debug.Log("Open Sea");
             coastal.gameObject.SetActive(false);
             openSea.gameObject.SetActive(true);
         }

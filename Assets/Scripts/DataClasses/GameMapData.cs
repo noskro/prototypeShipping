@@ -9,6 +9,7 @@ public class GameMapData
     public PersistentIslandData islandData;
     public int cityIndex;
 
+    public CityLabelView cityLabelOverlay;
 
 
     internal void Reset(float distanceToStartingCell)
@@ -18,7 +19,11 @@ public class GameMapData
         if (islandData != null)
         {
             islandData.Reset(); // hasVillageTraded = false;
+            islandData = null;
+            cityIndex = -1;
         }
+
+        cityLabelOverlay = null;
 
         //CartographyLevelSO currentCartographyLevel = DemoController.Instance.GetCurrentCartograhpyLevel();
 
@@ -69,5 +74,16 @@ public class GameMapData
     internal bool hasVillageTraded()
     {
         return islandData.PersistentCityDataList[cityIndex].HasTradedThisRun;
+    }
+
+    internal void setCityNameOverlay(CityLabelView cityLabelView)
+    {
+        this.cityLabelOverlay = cityLabelView;
+    }
+
+    internal void SetCityDiscovered(bool v)
+    {
+        this.CityData.CityDiscovered = v;
+        this.cityLabelOverlay.SetCityDiscovered(v);
     }
 }

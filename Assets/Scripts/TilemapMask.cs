@@ -43,7 +43,7 @@ public class TilemapMask : MonoBehaviour
                     //Create maskCell on the cell coords
                     Vector3 coord = tilemap.CellToWorld(new Vector3Int(x, y, startCoord.z));
                     masks.Add(Instantiate(maskCell, coord, Quaternion.identity, transform));
-                    tilemap.SetTile(new Vector3Int(x, y, startCoord.z), null);
+                    //tilemap.SetTile(new Vector3Int(x, y, startCoord.z), null);
                 }
             }
         }

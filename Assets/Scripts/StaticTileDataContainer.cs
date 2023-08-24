@@ -69,7 +69,7 @@ public class StaticTileDataContainer : MonoBehaviour
                 {
                     if (gmd.fow.Equals(EnumFogOfWar.Visible))
                     {
-                        gmd.CityData.CityDiscovered = true;
+                        gmd.SetCityDiscovered(true);
                     }
                 }
             }

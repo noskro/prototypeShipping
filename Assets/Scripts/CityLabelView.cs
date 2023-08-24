@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CityLabelView: MonoBehaviour
 {
+    public Transform hideableCityData;
     public TextMeshPro textCityName;
     public TextMeshPro textCityLevel;
 
@@ -20,5 +21,12 @@ public class CityLabelView: MonoBehaviour
         {
             CitySprite.sprite = SpriteCityLevelList[persistentCityData.CityLevel];
         }
+
+        hideableCityData.gameObject.SetActive(false);
+    }
+
+    internal void SetCityDiscovered(bool v)
+    {
+        hideableCityData?.gameObject.SetActive(v);
     }
 }

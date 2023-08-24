@@ -195,6 +195,7 @@ public class RandomWorldCreater : MonoBehaviour
                 Transform newCityLabel = Instantiate(StaticTileDataContainer.Instance.CityLabelPrefab, StaticTileDataContainer.Instance.TilemapObjects.transform);
                 newCityLabel.position = StaticTileDataContainer.Instance.TilemapObjects.CellToWorld(new Vector3Int(kvp.Key.x + randomX, kvp.Key.y + randomY, 0));
                 newCityLabel.GetComponent<CityLabelView>().SetCityData(islandData.PersistentCityDataList[iCityIndex]);
+                StaticTileDataContainer.Instance.gameMapData[kvp.Key.x + randomX, kvp.Key.y + randomY].setCityNameOverlay(newCityLabel.GetComponent<CityLabelView>()); // .SetTile(kvp.Key + new Vector3Int(randomX, randomY, 0), kvp.Value);
 
                 iCityIndex++;
             }

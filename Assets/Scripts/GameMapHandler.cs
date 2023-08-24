@@ -327,34 +327,52 @@ public partial class GameMapHandler : MonoBehaviour
                 }
             }
 
-            //// copy for 8 other sides
-            //StaticTileDataContainer.Instance.TilemapFOW.CompressBounds();
-            //BoundsInt bound = StaticTileDataContainer.Instance.TilemapFOW.cellBounds;
-            //TileBase[] originalTiles = StaticTileDataContainer.Instance.TilemapFOW.GetTilesBlock(bound);
+            // create FoW for the outside border
+            for (int x = -1; x < StaticTileDataContainer.Instance.mapWidth+1; x++)
+            {
+                int y = -1;
+                StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
 
-            //BoundsInt newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
-            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+                y = StaticTileDataContainer.Instance.mapHeight;
+                StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
+            }
+            for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+            {
+                int x = -1;
+                StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
 
-            //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
-            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+                x = StaticTileDataContainer.Instance.mapWidth;
+                StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
+            }
 
-            //newBound = new BoundsInt(bound.position - new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+                    //// copy for 8 other sides
+                    //StaticTileDataContainer.Instance.TilemapFOW.CompressBounds();
+                    //BoundsInt bound = StaticTileDataContainer.Instance.TilemapFOW.cellBounds;
+                    //TileBase[] originalTiles = StaticTileDataContainer.Instance.TilemapFOW.GetTilesBlock(bound);
 
-            //newBound = new BoundsInt(bound.position + new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+                    //BoundsInt newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
+                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
 
-            //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+                    //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
+                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
 
-            //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+                    //newBound = new BoundsInt(bound.position - new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
 
-            //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+                    //newBound = new BoundsInt(bound.position + new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
 
-            //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-            //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+                    //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+                    //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+                    //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
+
+                    //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
+                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
 
         }
     }
