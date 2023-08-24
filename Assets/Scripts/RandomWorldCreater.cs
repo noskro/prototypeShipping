@@ -56,6 +56,8 @@ public class RandomWorldCreater : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
+        StaticTileDataContainer.Instance.mapWidth = StaticTileDataContainer.Instance.mapHeight = 14 + AvailableIslands.Count * 4; // for reasons of rendering the height must be the double of odd number (e.g 30 = 15*2) / start value is 4 islands * 4 = 16 + 14 = 30
+
         for (int x = -1; x < StaticTileDataContainer.Instance.mapWidth + 1; x++) 
         { 
             for (int y = -1; y < StaticTileDataContainer.Instance.mapHeight + 1; y++)
