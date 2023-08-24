@@ -80,7 +80,7 @@ public class ShipController : MonoBehaviour
                 gameMapHandler.ShowMouseCursor(mouseCellCoordinates);
 
                 if ((Input.GetMouseButton(0) && demoController.GameState != EnumGameStates.ShipMoving) ||
-                    (Input.GetMouseButtonDown(0) && demoController.GameState == EnumGameStates.ShipMoving))
+                    (shipMovingTimer <= 0.2f && demoController.GameState == EnumGameStates.ShipMoving && Input.GetMouseButtonDown(0)))
                 {
                     if (demoController.GameState == EnumGameStates.ShipMoving) // TEST: moving ship can be skipped for next movement 
                     {

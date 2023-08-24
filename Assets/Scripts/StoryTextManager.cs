@@ -12,6 +12,7 @@ public class StoryTextManager : MonoBehaviour
 
     private EnumGameStates currentGameState;
 
+
     private void Start()
     {
         DemoController.OnGameStateChanged += CheckForNewEvents;

@@ -15,6 +15,8 @@ public class StoryTextUI : MonoBehaviour, IPointerUpHandler
     private bool isActive;
     private int currentTextShown;
 
+    private float preventMouseClickCooldown; // prevent mouse click in the first x (0.5) seconds
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,12 +28,17 @@ public class StoryTextUI : MonoBehaviour, IPointerUpHandler
 
     private void Update()
     {
+        if (preventMouseClickCooldown > 0)
+        {
+            preventMouseClickCooldown -= Time.deltaTime; 
+        }
+
         if (isActive)
         {
             if (Input.GetKeyUp(KeyCode.Escape) ||
                 Input.GetKeyUp(KeyCode.Space) ||
                 Input.GetKeyUp(KeyCode.Return) ||
-                Input.GetMouseButtonUp(0)) // "Up" ist hier wichtig, da bei Down oder nur Button, der Dialog zu geht und der ShipController instant den Button nimmt und das schiff bewegt. Bei "Up" ist der Button druck danach vorbei
+                (preventMouseClickCooldown <= 0 && Input.GetMouseButtonUp(0))) // "Up" ist hier wichtig, da bei Down oder nur Button, der Dialog zu geht und der ShipController instant den Button nimmt und das schiff bewegt. Bei "Up" ist der Button druck danach vorbei
             {
                 ShowNextStoryText();
             }
@@ -40,6 +47,7 @@ public class StoryTextUI : MonoBehaviour, IPointerUpHandler
 
     public void SetStoryText(StoryTextEventSO story)
     {
+        preventMouseClickCooldown = 0.5f;
         DemoController.Instance.IsStoryTextShown = true;
         this.storyText = story;
         currentTextShown = 0;
