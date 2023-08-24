@@ -12,6 +12,8 @@ public class ShipBattleManager : MonoBehaviour
 
     private float attackingDamage = 0f;
     private float defendingDamage = 0f;
+    private int deltaDurability;
+    private int deltaCrew;
 
     public bool battleInProgress = false;
 
@@ -90,11 +92,15 @@ public class ShipBattleManager : MonoBehaviour
         {
             float attackMinDamage = 0; // Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount);
             float attackMaxDamage = Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount); // modifiers???
-            attackingDamage = UnityEngine.Random.Range(attackMinDamage, attackMaxDamage);
+            attackingDamage = UnityEngine.Random.Range(attackMinDamage, attackMaxDamage) * 2;
 
-            float percentageCrewLost = UnityEngine.Random.Range(0f, 1f);
-            defendingShip.ShipDurability -= attackingDamage * (1 - percentageCrewLost);
-            defendingShip.CrewCount -= Mathf.FloorToInt(attackingDamage * percentageCrewLost);
+            float percentageCrewLostAttack = UnityEngine.Random.Range(0f, 1f);
+            int oldDurability = Mathf.FloorToInt(defendingShip.ShipDurability);
+            defendingShip.ShipDurability -= attackingDamage * (1 - percentageCrewLostAttack);
+            deltaDurability = Mathf.FloorToInt(defendingShip.ShipDurability) - oldDurability;
+
+            deltaCrew = -1 * Mathf.FloorToInt(attackingDamage * percentageCrewLostAttack);
+            defendingShip.CrewCount += deltaCrew;
 
             audioSourceBattle.PlayOneShot(audioClipCanonShot);
         }
@@ -104,11 +110,18 @@ public class ShipBattleManager : MonoBehaviour
             if (attackingDamage > 0)
             {
                 audioSourceBattle.PlayOneShot(audioClipCanonHit);
+
+                if (DemoController.Instance.shipController.shipStats.Equals(defendingShip))
+                {
+                    DemoController.Instance.shipController.shipStatusUI.ShowStatChange(deltaDurability, deltaCrew, 0, 0, 0, 0);
+                    DemoController.Instance.shipController.shipStats.TriggerShipUpdated();
+                }
             }
             else
             {
                 audioSourceBattle.PlayOneShot(audioClipCanonMiss);
             }
+
         }
         if (shipBattlePhase == 3)
         {
@@ -116,11 +129,11 @@ public class ShipBattleManager : MonoBehaviour
             {
                 float defendingMinDamage = 0; // Math.Min(attackingShip.GetCurrentMaxCanons(), attackingShip.CrewCount);
                 float defendingxDamage = Math.Min(defendingShip.GetCurrentMaxCanons(), defendingShip.CrewCount); // modifiers???
-                defendingDamage = UnityEngine.Random.Range(defendingMinDamage, defendingxDamage);
+                defendingDamage = UnityEngine.Random.Range(defendingMinDamage, defendingxDamage) * 2;
 
-                float percentageCrewLost = UnityEngine.Random.Range(0f, 1f);
-                attackingShip.ShipDurability -= defendingDamage * (1 - percentageCrewLost);
-                attackingShip.CrewCount -= Mathf.FloorToInt(defendingDamage * percentageCrewLost);
+                float percentageCrewLostDefense = UnityEngine.Random.Range(0f, 1f);
+                attackingShip.ShipDurability -= defendingDamage * (1 - percentageCrewLostDefense);
+                attackingShip.CrewCount -= Mathf.FloorToInt(defendingDamage * percentageCrewLostDefense);
 
                 audioSourceBattle.PlayOneShot(audioClipCanonShot);
             }
@@ -137,6 +150,7 @@ public class ShipBattleManager : MonoBehaviour
                 else
                 {
                     DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
+                    DemoController.Instance.shipController.shipStats.TriggerShipUpdated();
                 }
             }
         }
@@ -146,6 +160,12 @@ public class ShipBattleManager : MonoBehaviour
             if (defendingDamage > 0)
             {
                 audioSourceBattle.PlayOneShot(audioClipCanonHit);
+
+                if (DemoController.Instance.shipController.shipStats.Equals(attackingShip))
+                {
+                    DemoController.Instance.shipController.shipStatusUI.ShowStatChange(deltaDurability, deltaCrew, 0, 0, 0, 0);
+                    DemoController.Instance.shipController.shipStats.TriggerShipUpdated();
+                }
             }
             else
             {
@@ -160,6 +180,7 @@ public class ShipBattleManager : MonoBehaviour
                 {
                     // player is attacker = defeat
                     DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
+                    DemoController.Instance.shipController.shipStats.TriggerShipUpdated();
                 }
                 else
                 {

@@ -8,6 +8,7 @@ public class ShipController : MonoBehaviour
 
     public GameMapHandler gameMapHandler;
     public ShipStats shipStats;
+    public ShipStatsUI shipStatusUI;
     private SpriteRenderer shipSpriteRenderer;
     private TradeController tradeController;
     private DemoController demoController;
