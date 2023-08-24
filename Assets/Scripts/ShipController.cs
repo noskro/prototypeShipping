@@ -50,21 +50,11 @@ public class ShipController : MonoBehaviour
 
             if (shipMovingTimer <= 0)
             {
-                // ship.GetComponent<ShipVisual>().ShowShipMoving(false);
-
-                transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
-
-                gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, this.shipStats);
-
-                //gameMapHandler.UpdateBeacons(gameMapHandler.shipCoordinates);
-
-                // handle random events               
-                gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
-
-                demoController.SetGameState(EnumGameStates.ShipIdle);
+                EndShipMovement();
             }
         }
     }
+
 
     void HandleInput()
     {
@@ -94,11 +84,7 @@ public class ShipController : MonoBehaviour
                 {
                     if (demoController.GameState == EnumGameStates.ShipMoving) // TEST: moving ship can be skipped for next movement 
                     {
-                        demoController.GameState = EnumGameStates.ShipIdle;
-                        shipMovingTimer = 0;
-                        transform.position = shipTargetPosition;
-                        gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, this.shipStats);
-                        gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
+                        EndShipMovement();
                     }
 
                     Vector2Int currentShipCoords = gameMapHandler.shipCoordinates;
@@ -131,6 +117,19 @@ public class ShipController : MonoBehaviour
             }
         }
 
+    }
+
+    private void EndShipMovement()
+    {
+        shipMovingTimer = 0;
+
+        transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+
+        gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, this.shipStats);
+
+        gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
+
+        demoController.SetGameState(EnumGameStates.ShipIdle);
     }
 
     void UpdateShip(ShipStats stats)
