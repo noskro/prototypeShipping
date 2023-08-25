@@ -5,5 +5,6 @@
     ShipMoving,
     ShipLost,
     ShipTrading,
-    GameOver
+    GameOver,
+    InBattle
 }

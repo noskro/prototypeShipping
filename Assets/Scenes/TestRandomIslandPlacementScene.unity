@@ -23322,6 +23322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d481ed898304b9478216db1630a39e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showOnlyOnTag: 0
   SingleStatName: Canons
   shipStatModifier: 6
   textSingleStatName: {fileID: 500708023}
@@ -24924,6 +24925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d481ed898304b9478216db1630a39e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showOnlyOnTag: 0
   SingleStatName: View
   shipStatModifier: 7
   textSingleStatName: {fileID: 1804026751}
@@ -25393,6 +25395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d481ed898304b9478216db1630a39e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showOnlyOnTag: 0
   SingleStatName: Crew
   shipStatModifier: 2
   textSingleStatName: {fileID: 483248106}
@@ -26844,6 +26847,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d481ed898304b9478216db1630a39e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showOnlyOnTag: 0
   SingleStatName: Durability
   shipStatModifier: 1
   textSingleStatName: {fileID: 421595073}
@@ -29075,6 +29079,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: de67f2f848c9e3a4e95b819bfd9e5370, type: 2}
   - {fileID: 11400000, guid: f06dd4b8542c6e240b95fddf62400838, type: 2}
   - {fileID: 11400000, guid: f00a51e9a25a7284c8547b8906da702d, type: 2}
+  - {fileID: 11400000, guid: ac1398813128a1241b03a59507ccddf3, type: 2}
   CompletedStoryTextEventList: []
 --- !u!4 &1655714839
 Transform:
@@ -29623,6 +29628,7 @@ MonoBehaviour:
   worldCreator: {fileID: 1687757951}
   metaUpgrade: {fileID: 1929106746}
   storyTextManager: {fileID: 1655714838}
+  StoryProgressionTags: 
   Run: 0
   FieldsTravelled: 0
 --- !u!114 &1758241116

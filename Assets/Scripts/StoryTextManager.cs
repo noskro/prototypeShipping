@@ -79,6 +79,14 @@ public class StoryTextManager : MonoBehaviour
                     DemoController.Instance.shipController.shipStats.AddStatsModifier(reward.rewardType, reward.intValue);
                 }
             }
+
+            if (!reward.progressionTag.Equals(EnumStoryProgressionTags.None))
+            {
+                if (!DemoController.Instance.StoryProgressionTags.Contains(reward.progressionTag))
+                {
+                    DemoController.Instance.StoryProgressionTags.Add(reward.progressionTag);
+                }
+            }
         }
 
         CompletedStoryTextEventList.Add(story);

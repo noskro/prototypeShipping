@@ -42,6 +42,8 @@ public partial class DemoController : MonoBehaviour
     public MetaUpgradeUI metaUpgrade;
     public StoryTextManager storyTextManager;
 
+    public List<EnumStoryProgressionTags> StoryProgressionTags;
+
     public int Run = 0;
     public int FieldsTravelled = 0;
 

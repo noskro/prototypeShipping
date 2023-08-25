@@ -71,7 +71,7 @@ public class PirateShipController : MonoBehaviour
                 if (targetCell == DemoController.Instance.gameMapHandler.shipCoordinates)
                 {
                     // attack
-                    DemoController.Instance.shipBattleManager.CalculateFight(shipStats, DemoController.Instance.shipController.shipStats);
+                    DemoController.Instance.shipBattleManager.StartShipBattle(shipStats, DemoController.Instance.shipController.shipStats);
                 }
                 else
                 {

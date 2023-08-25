@@ -187,17 +187,23 @@ public class ShipBattleManager : MonoBehaviour
                     DemoController.Instance.gameMapHandler.SetPirateShipLost(defendingShip);
                 }
             }
+            shipBattlePhase = 6;
         }
         if (shipBattlePhase >= 6)
         {
             battleInProgress = false;
             this.shipBattlePhase = 0;
             shipBattleTimer = 0f;
+            if (DemoController.Instance.GameState.Equals(EnumGameStates.InBattle))
+            {
+                DemoController.Instance.SetGameState(EnumGameStates.ShipIdle);
+            }
         }
     }
 
-    internal void CalculateFight(ShipStats attackingShip, ShipStats defendingShip)
+    internal void StartShipBattle(ShipStats attackingShip, ShipStats defendingShip)
     {
+        DemoController.Instance.SetGameState(EnumGameStates.InBattle);
         this.attackingShip = attackingShip;
         this.defendingShip = defendingShip;
 

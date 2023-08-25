@@ -115,7 +115,7 @@ public class ShipController : MonoBehaviour
                         // check for pirates
                         if (gameMapHandler.PiratesPresent(mouseCellCoordinates) != null)
                         {
-                            DemoController.Instance.shipBattleManager.CalculateFight(shipStats, gameMapHandler.PiratesPresent(mouseCellCoordinates));
+                            DemoController.Instance.shipBattleManager.StartShipBattle(shipStats, gameMapHandler.PiratesPresent(mouseCellCoordinates));
                         }
                         else
                         {
