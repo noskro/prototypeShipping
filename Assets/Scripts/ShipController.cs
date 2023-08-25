@@ -79,6 +79,8 @@ public class ShipController : MonoBehaviour
 
     void HandleInput()
     {
+        gameMapHandler.HideAllMouseCursor();
+
         if (demoController.shipBattleManager.battleInProgress)
         {
             // no game input while in battle

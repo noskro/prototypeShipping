@@ -51,7 +51,7 @@ public class ShipStatsUI : MonoBehaviour
 
         if (!shipLost)
         {
-            textShowStats.text = string.Format("Schiff: {0}/{1}\nCrew: {2}/{3}\nNahrung: {4}/{5}\nCanons: {8}\nGold: {9}", /*Moral {6}/{7}\n*/
+            textShowStats.text = string.Format("Duraility: {0}/{1}\nCrew: {2}/{3}\nFood: {4}/{5}\nCanons: {8}\nGold: {9}", /*Moral {6}/{7}\n*/
                 Mathf.Ceil(shipStats.ShipDurability), shipStats.GetCurrentMaxDurability(),
                 Mathf.Ceil(shipStats.CrewCount), shipStats.GetCurrentMaxCrew(),
                 Mathf.Ceil(shipStats.FoodStatus), shipStats.GetCurrentMaxFood(),
@@ -76,14 +76,14 @@ public class ShipStatsUI : MonoBehaviour
                 (foodChange > 0) ? "+" + foodChange : " ",
                 (moralChange > 0) ? "+" + moralChange : " ",
                 (canonChange > 0) ? "+" + canonChange : " ",
-                (goldChange > 0) ? "+" + goldChange : " ");
+                (goldChange > 0) ? "+" + goldChange : ".");
 
         textShowStatChangeNegative.text = string.Format("{0}\n {1}\n {2}\n {4}\n {5}\n",
-                (durabilityChange < 0) ? "" + durabilityChange : ".",
-                (crewChange < 0) ? "" + crewChange : ".",
-                (foodChange < 0) ? "" + foodChange : ".",
-                (moralChange < 0) ? "" + moralChange : ".",
-                (canonChange < 0) ? "" + canonChange : ".",
+                (durabilityChange < 0) ? "" + durabilityChange : " ",
+                (crewChange < 0) ? "" + crewChange : " ",
+                (foodChange < 0) ? "" + foodChange : " ",
+                (moralChange < 0) ? "" + moralChange : " ",
+                (canonChange < 0) ? "" + canonChange : " ",
                 (goldChange < 0) ? "" + goldChange : ".");
 
         statChangeTimeout = 3f;

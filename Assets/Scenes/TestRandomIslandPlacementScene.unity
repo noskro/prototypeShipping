@@ -25393,8 +25393,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d481ed898304b9478216db1630a39e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SingleStatName: Speed
-  shipStatModifier: 9
+  SingleStatName: Crew
+  shipStatModifier: 2
   textSingleStatName: {fileID: 483248106}
   textSingleStatCurrentLevel: {fileID: 734623514}
   textSingleStatUpgradeButton: {fileID: 163001823}
@@ -25488,7 +25488,7 @@ MonoBehaviour:
   trade2: {fileID: 978563386}
   trade3: {fileID: 1938637682}
   spriteTradeGold: {fileID: 21300000, guid: 8acec328228e90344adc9907888340b2, type: 3}
-  spriteTradeGoldUpgraded: {fileID: 0}
+  spriteTradeGoldUpgraded: {fileID: 21300000, guid: 8acec328228e90344adc9907888340b2, type: 3}
   spriteTradeFood: {fileID: 21300000, guid: 56c4c8eb0634d464da75ac146d1e8ea2, type: 3}
   spriteTradeRepair: {fileID: 21300000, guid: 16f1f7499888e20499fe468a9970803a, type: 3}
   spriteTradeRum: {fileID: 21300000, guid: 13a8a200a8e26df4ba6ec5f2010c5344, type: 3}
@@ -29618,6 +29618,8 @@ MonoBehaviour:
   randomMapEventList:
   - {fileID: 11400000, guid: bc58bbf1b74c19649bfc8f7bfcf305d3, type: 2}
   - {fileID: 11400000, guid: 9dbfda0d6b80e8642ac9592272ab8683, type: 2}
+  pirateDefeatEventList:
+  - {fileID: 11400000, guid: b19112d5e74c30f43b5db2d302b5e16e, type: 2}
   worldCreator: {fileID: 1687757951}
   metaUpgrade: {fileID: 1929106746}
   storyTextManager: {fileID: 1655714838}
@@ -31067,6 +31069,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMapHandler: {fileID: 1758241113}
   shipStats: {fileID: 0}
+  pirateShipCoordinatesStarting: {x: 16, y: 18}
   pirateShipCoordinates: {x: 16, y: 18}
   pirateShipState: 0
 --- !u!1 &2100720041

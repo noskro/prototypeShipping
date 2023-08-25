@@ -35,6 +35,7 @@ public partial class DemoController : MonoBehaviour
     //public List<CartographyLevelSO> cartographyProgressionList;
 
     public List<RandomMapEventSO> randomMapEventList;
+    public List<RandomMapEventSO> pirateDefeatEventList;
 
     //public List<ArtefactBeacon> artecaftBeaconList;
     public RandomWorldCreater worldCreator;

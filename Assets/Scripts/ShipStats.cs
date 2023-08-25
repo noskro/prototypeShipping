@@ -33,6 +33,7 @@ public class ShipStats : MonoBehaviour
     private int shipDiscoverRangeCurrentLevel;
 
     private int temporaryViewRangeAddition = 0;
+    private int temporaryCanonAddition = 0;
 
     public ShipModelSO shipModel;
 
@@ -69,7 +70,7 @@ public class ShipStats : MonoBehaviour
         this.shipModel = newShipModel;
 
         ShipDurability = shipModel.ShipDurabilityUpgradeList[shipDurabilityCurrentLevel].Value;
-        CrewCount = (int)Mathf.Ceil(shipModel.ShipMaxCrewUpgradeList[shipMaxCrewCurrentLevel].Value / 2);
+        CrewCount = (int)Mathf.Ceil(shipModel.ShipMaxCrewUpgradeList[shipMaxCrewCurrentLevel].Value / 1); // max crew to start with
         FoodStatus = shipModel.ShipMaxFoodUpgradeList[shipMaxFoodCurrentLevel].Value;
         MoralStatus = shipModel.ShipMaxMoralUpgradeList[shipMaxMoralCurrentLevel].Value;
 
@@ -78,7 +79,7 @@ public class ShipStats : MonoBehaviour
 
     public void NextTurn(CustomTile newTile)
     {
-        float partOfDay = 1f / shipModel.ShipSpeedUpgradeList[shipMaxCanonsCurrentLevel].Value;
+        float partOfDay = 1f / shipModel.ShipSpeedUpgradeList[shipSpeedCurrentLevel].Value;
             
         ShipDurability -= shipDamagePerDayfromSailing * partOfDay;
         FoodStatus -= foodPerCrewPerDay * partOfDay;
@@ -93,7 +94,7 @@ public class ShipStats : MonoBehaviour
         }
 
 
-        if (ShipDurability < 0 || CrewCount < 0 || MoralStatus < 0 || FoodStatus < 0)
+        if (ShipDurability < 0 || CrewCount < 0) // || MoralStatus < 0 || FoodStatus < 0)
         {
             DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
         }
@@ -116,7 +117,7 @@ public class ShipStats : MonoBehaviour
     {
         if (modifierType.Equals(EnumEventModifierRewardType.Durability))
         {
-            AddShipStatus(randomValue);
+            AddShipDurability(randomValue);
             Debug.Log("Added " + randomValue + " Durability");
         }
         else if (modifierType.Equals(EnumEventModifierRewardType.Crew))
@@ -142,40 +143,53 @@ public class ShipStats : MonoBehaviour
         else if (modifierType.Equals(EnumEventModifierRewardType.ViewRange))
         {
             AddViewRange(randomValue);
-            Debug.Log("Added " + randomValue + " Gold");
         }
 
         TriggerShipUpdated();
     }
 
-    private void AddShipStatus(float randomValue)
+    public void AddShipDurability(float randomValue)
     {
+        int prevShipDurability = Mathf.FloorToInt(ShipDurability);
         ShipDurability = Mathf.Min(ShipDurability + randomValue, shipModel.ShipDurabilityUpgradeList[shipDurabilityCurrentLevel].Value);
+        DemoController.Instance.shipController.shipStatusUI.ShowStatChange(Mathf.FloorToInt(ShipDurability)-prevShipDurability, 0, 0, 0, 0, 0);
     }
 
-    private void AddShipCrew(float randomValue)
+    public void AddShipCrew(float randomValue)
     {
         CrewCount = Mathf.Min(CrewCount + Mathf.FloorToInt(randomValue), shipModel.ShipMaxCrewUpgradeList[shipMaxCrewCurrentLevel].Value);
+        DemoController.Instance.shipController.shipStatusUI.ShowStatChange(0, Mathf.FloorToInt(randomValue), 0, 0, 0, 0);
     }
 
-    private void AddShipFood(float randomValue)
+    public void AddShipFood(float randomValue)
     {
+        int prevFoodStatus = Mathf.FloorToInt(FoodStatus);
         FoodStatus = Mathf.Min(FoodStatus + randomValue, shipModel.ShipMaxFoodUpgradeList[shipMaxFoodCurrentLevel].Value);
+        DemoController.Instance.shipController.shipStatusUI.ShowStatChange(0,0,Mathf.FloorToInt(FoodStatus) - prevFoodStatus, 0, 0, 0);
     }
 
-    private void AddShipMoral(float randomValue)
+    public void AddShipMoral(float randomValue)
     {
+        int prevMoralStatus = Mathf.FloorToInt(MoralStatus);
         MoralStatus = Mathf.Min(MoralStatus + randomValue, shipModel.ShipMaxMoralUpgradeList[shipMaxMoralCurrentLevel].Value);
+        DemoController.Instance.shipController.shipStatusUI.ShowStatChange(0, 0, 0, Mathf.FloorToInt(MoralStatus) - prevMoralStatus, 0, 0);
     }
 
-    private void AddViewRange(float randomValue)
+    public void AddViewRange(float randomValue)
     {
         temporaryViewRangeAddition++;
     }
 
-    private void AddGold(float randomValue)
+    public void AddTemporaryCanon(float randomValue)
+    {
+        temporaryCanonAddition++;
+        DemoController.Instance.shipController.shipStatusUI.ShowStatChange(0, 0, 0, 0, Mathf.FloorToInt(randomValue), 0);
+    }
+
+    public void AddGold(float randomValue)
     {
         Gold = Gold + Mathf.FloorToInt(randomValue);
+        DemoController.Instance.shipController.shipStatusUI.ShowStatChange(0, 0, 0, 0, 0, Mathf.FloorToInt(randomValue));
     }
 
     internal int GetUpgradeableSingleStatCurrent(EnumEventModifierRewardType shipStatModifier)

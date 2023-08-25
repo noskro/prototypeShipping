@@ -8,6 +8,7 @@ public class PirateShipController : MonoBehaviour
     public ShipStats shipStats;
     private SpriteRenderer shipSpriteRenderer;
 
+    public Vector2Int pirateShipCoordinatesStarting;
     public Vector2Int pirateShipCoordinates;
 
     public EnumGameStates pirateShipState;
@@ -17,6 +18,7 @@ public class PirateShipController : MonoBehaviour
     {
         shipStats = GetComponent<ShipStats>();
         shipSpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        ResetForNewRun();
     }
 
     public void PerformAction()
@@ -89,13 +91,32 @@ public class PirateShipController : MonoBehaviour
         UpdateSprite();
     }
 
+    internal void ResetForNewRun()
+    {
+        this.gameObject.SetActive(true);
+
+        if (this.shipStats != null)
+        {
+            this.shipStats.SetShipModel(shipStats.shipModel);
+
+            pirateShipCoordinates = pirateShipCoordinatesStarting;
+            Vector3 shipTargetPosition = gameMapHandler.GetCellPosition(pirateShipCoordinates);
+            transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+
+            shipStats.direction = Direction.SouthEast;
+            pirateShipState = EnumGameStates.ShipIdle;
+            UpdateSprite();
+        }
+    }
+
     public void UpdateSprite()
     {
         if (shipSpriteRenderer != null && shipStats != null)
         {
             if (pirateShipState == EnumGameStates.ShipLost)
             {
-                shipSpriteRenderer.sprite = shipStats.shipModel.ShipSpriteLost;
+                shipSpriteRenderer.sprite = null; // shipStats.shipModel.ShipSpriteLost;
+                this.gameObject.SetActive(false);
             }
             else
             {
@@ -111,5 +132,15 @@ public class PirateShipController : MonoBehaviour
                 };
             }
         }
+    }
+
+    internal void SetPirateShipLost()
+    {
+        pirateShipState = EnumGameStates.ShipLost;
+        UpdateSprite();
+
+        int randomID = Random.Range(0, DemoController.Instance.pirateDefeatEventList.Count);
+        RandomMapEventSO pirateDefeatresult = DemoController.Instance.pirateDefeatEventList[randomID];
+        StaticTileDataContainer.Instance.TilemapObjects.SetTile(new Vector3Int(pirateShipCoordinates.x, pirateShipCoordinates.y, 0), pirateDefeatresult.eventTile);
     }
 }

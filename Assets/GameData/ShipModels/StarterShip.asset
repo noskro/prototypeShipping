@@ -29,6 +29,16 @@ MonoBehaviour:
   ShipMaxCrewUpgradeList:
   - Price: 1
     Value: 5
+  - Price: 1
+    Value: 6
+  - Price: 1
+    Value: 7
+  - Price: 1
+    Value: 8
+  - Price: 1
+    Value: 9
+  - Price: 1
+    Value: 10
   ShipMaxFoodUpgradeList:
   - Price: 1
     Value: 5
@@ -39,13 +49,19 @@ MonoBehaviour:
   - Price: 0
     Value: 0
   - Price: 2
+    Value: 1
+  - Price: 2
+    Value: 2
+  - Price: 2
+    Value: 3
+  - Price: 2
+    Value: 4
+  - Price: 2
     Value: 5
   - Price: 2
-    Value: 10
+    Value: 6
   - Price: 2
-    Value: 15
-  - Price: 2
-    Value: 20
+    Value: 7
   ShipSpeedUpgradeList:
   - Price: 0
     Value: 3

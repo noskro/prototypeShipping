@@ -61,6 +61,13 @@ public partial class GameMapHandler : MonoBehaviour
         //    beacon.SetShipCoordinates(StaticTileDataContainer.Instance.TilemapMap, shipCoordinates);
         //}
 
+        // reset pirates
+        foreach (PirateShipController pirate in pirateShips)
+        {
+            pirate.ResetForNewRun();
+        }
+
+
         DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipController.shipStats);
         UpdateFOWMap();
     }
@@ -107,6 +114,20 @@ public partial class GameMapHandler : MonoBehaviour
                     }
                 }
             }
+
+            foreach(RandomMapEventSO e in DemoController.Instance.pirateDefeatEventList)
+            { 
+                if (e.eventTile.Equals(tile))
+                {
+                    // event triggered;
+                    int reResultIndex = Random.Range(0, e.RandomEventResultList.Count);
+                    RandomEventResult reResult = e.RandomEventResultList[reResultIndex];
+
+                    DemoController.Instance.shipController.shipStats.AddStatsModifier(reResult);
+                    
+                    StaticTileDataContainer.Instance.TilemapObjects.SetTile(new Vector3Int(shipCoordinates.x, shipCoordinates.y, 0), null);
+                }
+            }
         }
 
     }
@@ -149,11 +170,17 @@ public partial class GameMapHandler : MonoBehaviour
         }
         return false;
     }
-    internal void ShowMouseCursor(Vector2Int cursorCoords)
+
+    internal void HideAllMouseCursor()
     {
         AttackIcon.gameObject.SetActive(false);
         MoveToIcon.gameObject.SetActive(false);
         CoinIcon.gameObject.SetActive(false);
+    }
+
+    internal void ShowMouseCursor(Vector2Int cursorCoords)
+    {
+        HideAllMouseCursor();
 
         if (CanNavigate(cursorCoords))
         {
@@ -508,8 +535,7 @@ public partial class GameMapHandler : MonoBehaviour
         {
             if (pirate.shipStats.Equals(defendingShip))
             {
-                pirate.pirateShipState = EnumGameStates.ShipLost;
-                pirate.UpdateSprite();
+                pirate.SetPirateShipLost();
             }
         }
     }
@@ -518,7 +544,7 @@ public partial class GameMapHandler : MonoBehaviour
     {
         foreach(PirateShipController pirate in pirateShips)
         {
-            if (pirate.pirateShipCoordinates.Equals(mouseCellCoordinates))
+            if (!pirate.pirateShipState.Equals(EnumGameStates.ShipLost) && pirate.pirateShipCoordinates.Equals(mouseCellCoordinates))
             {
                 return pirate.shipStats;
             }

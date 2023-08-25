@@ -139,19 +139,19 @@ public class TradeController : MonoBehaviour
 
         if (selectedSR.sprite.Equals(spriteTradeGold))
         {
-            shipStats.Gold += Random.Range(1,1);
+            shipStats.AddGold(Random.Range(1,1));
         }
         else if (selectedSR.sprite.Equals(spriteTradeGoldUpgraded))
         {
-            shipStats.Gold += Random.Range(2,3);
+            shipStats.AddGold(Random.Range(2,3));
         }
         else if (selectedSR.sprite.Equals(spriteTradeRepair))
         {
-            shipStats.ShipDurability = Mathf.Min(shipStats.ShipDurability + 1, shipStats.GetCurrentMaxDurability());
+            shipStats.AddShipDurability(Mathf.Min(shipStats.ShipDurability + 1, shipStats.GetCurrentMaxDurability()));
         }
         else if (selectedSR.sprite.Equals(spriteTradeCrew))
         {
-            shipStats.CrewCount = Mathf.Min(shipStats.CrewCount + 1, shipStats.GetCurrentMaxMoral());
+            shipStats.AddShipCrew(Mathf.Min(shipStats.CrewCount + 1, shipStats.GetCurrentMaxMoral()));
         }
         else if (selectedSR.sprite.Equals(spriteTradeQuest))
         {
@@ -171,11 +171,11 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeFood))
         {
-            shipStats.FoodStatus = Mathf.Min(shipStats.FoodStatus + 2, shipStats.GetCurrentMaxFood());
+            shipStats.AddShipFood(Mathf.Min(shipStats.FoodStatus + 2, shipStats.GetCurrentMaxFood()));
         }
         else if (selectedSR.sprite.Equals(spriteTradeRum))
         {
-            shipStats.MoralStatus = Mathf.Min(shipStats.MoralStatus + Random.Range(1,2), shipStats.GetCurrentMaxMoral());
+            shipStats.AddShipMoral(Mathf.Min(shipStats.MoralStatus + Random.Range(1,2), shipStats.GetCurrentMaxMoral()));
         }
         else if (selectedSR.sprite == null)
         {
