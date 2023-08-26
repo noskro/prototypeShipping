@@ -119,6 +119,15 @@ public class MetaUpgradeCityUI : MonoBehaviour
         }
     }
 
+    internal void SetUpgradeText(TextMeshProUGUI textUpgradeDescription)
+    {
+        buttonDocks.GetComponent<ShowTooltipUI>().SetText(textUpgradeDescription);
+        buttonTavern.GetComponent<ShowTooltipUI>().SetText(textUpgradeDescription);
+        buttonIndustry.GetComponent<ShowTooltipUI>().SetText(textUpgradeDescription);
+        buttonTrader.GetComponent<ShowTooltipUI>().SetText(textUpgradeDescription);
+        buttonBeacon.GetComponent<ShowTooltipUI>().SetText(textUpgradeDescription);
+    }
+
     internal void SetCityData(CityDataSO cityData, PersistentIslandData islandData)
     {
         this.islandData = islandData;

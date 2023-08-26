@@ -148,11 +148,12 @@ public class RandomWorldCreater : MonoBehaviour
                 {
                     // can place on deep water
                 }
-                else if (StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(kbpTile.Key + new Vector3Int(randomX, randomY, 0))) &&
-                        StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(kbpTile.Value))
-                {
-                    // can place coastal water on existing coastal water
-                }
+                // Active to place island is coastal water of other islands
+                //else if (StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(kbpTile.Key + new Vector3Int(randomX, randomY, 0))) &&
+                //        StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(kbpTile.Value))
+                //{
+                //    // can place coastal water on existing coastal water
+                //}
                 else
                 {
                     canPlaceIslandHere = false;

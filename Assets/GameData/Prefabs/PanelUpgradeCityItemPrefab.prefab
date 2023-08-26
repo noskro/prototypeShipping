@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3709737110656734458}
   - component: {fileID: 4459849685045655750}
   - component: {fileID: 6230760343419694693}
+  - component: {fileID: 608693802641095986}
   m_Layer: 5
   m_Name: ButtonUpgradeCityIndustry
   m_TagString: Untagged
@@ -37,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -227.0679, y: 0}
+  m_AnchoredPosition: {x: -139.6, y: 0}
   m_SizeDelta: {x: 84.1914, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3709737110656734458
@@ -134,6 +135,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &608693802641095986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50947599362646217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b152882a8221a47b4021a0ef529719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  tooltip: Extend a cities industries will provide the city richer goods to trade.
+    This will permanently increase your trade profit here.
 --- !u!1 &2235635215490564492
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +545,7 @@ GameObject:
   - component: {fileID: 8806383767967963622}
   - component: {fileID: 5734434674490373133}
   - component: {fileID: 2465740722170994142}
+  - component: {fileID: 4858001910061096293}
   m_Layer: 5
   m_Name: ButtonUpgradeCityTavern
   m_TagString: Untagged
@@ -554,7 +571,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -320.0437, y: 0}
+  m_AnchoredPosition: {x: -232.5758, y: 0}
   m_SizeDelta: {x: 84.1914, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8806383767967963622
@@ -651,6 +668,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4858001910061096293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3501138549525617245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b152882a8221a47b4021a0ef529719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  tooltip: Taverns are a great place to recruite more crew and catch the latest gossip.
+    You never know what you will pick up there. Or you can have a pint if nothign
+    else.
 --- !u!1 &3938831606763868791
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,13 +835,14 @@ GameObject:
   - component: {fileID: 8563423039992985318}
   - component: {fileID: 1142732209027327867}
   - component: {fileID: 7756369678409078883}
+  - component: {fileID: 4620785916865322587}
   m_Layer: 5
   m_Name: ButtonUpgradeCityTradePost
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5476397219379438105
 RectTransform:
   m_ObjectHideFlags: 0
@@ -924,6 +958,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4620785916865322587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4357500639519070189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b152882a8221a47b4021a0ef529719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  tooltip: 
 --- !u!1 &4761882852980745795
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,7 +1038,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Beacon
+  m_text: 'Light house
 
     (8g)'
   m_isRightToLeft: 0
@@ -1019,7 +1067,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24.75
+  m_fontSize: 20.5
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1421,6 +1469,7 @@ GameObject:
   - component: {fileID: 4132356404068513905}
   - component: {fileID: 4125663120025151379}
   - component: {fileID: 2963211188066345567}
+  - component: {fileID: 2995526958323620104}
   m_Layer: 5
   m_Name: ButtonUpgradeCityBeacon
   m_TagString: Untagged
@@ -1543,6 +1592,21 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &2995526958323620104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7342085954490122158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b152882a8221a47b4021a0ef529719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  tooltip: A lighthouse will shine bringt into the darkness. Cities will be visible
+    from far away and direct you towards their harbour.
 --- !u!1 &8448683234660304464
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,6 +1756,7 @@ GameObject:
   - component: {fileID: 1201228660787961529}
   - component: {fileID: 5377242243955996014}
   - component: {fileID: 7031315473828481931}
+  - component: {fileID: 9105202824346356060}
   m_Layer: 5
   m_Name: ButtonUpgradeCityDocks
   m_TagString: Untagged
@@ -1717,7 +1782,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -411.97583, y: 0}
+  m_AnchoredPosition: {x: -324.50793, y: 0}
   m_SizeDelta: {x: 84.1914, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1201228660787961529
@@ -1814,3 +1879,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9105202824346356060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8662641745357395964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b152882a8221a47b4021a0ef529719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 0}
+  tooltip: Extending the docks will provid a city with the equipment to make repairs
+    to ships. This will come in handy on your adventures to travel further out

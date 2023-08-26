@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e7b92474abb0a4db8cbce750c1ee01, type: 3}
   m_Name: RE_ShipWreck
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: dd6ed28adf90db741b6d30a63f51a530, type: 3}
+  m_DefaultSprite: {fileID: 21300000, guid: 87bc06363ebe5dd47a115b884e59231f, type: 3}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules: []
   m_FlatTop: 1
   movability: 1
   type: 1
+  siblingGroup: 0

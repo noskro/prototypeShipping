@@ -22,7 +22,7 @@ MonoBehaviour:
   RandomEventResultList:
   - type: 1
     valueMin: 0
-    valueMax: -2
-  - type: 4
+    valueMax: -20
+  - type: 2
     valueMin: 0
     valueMax: -2

@@ -12,6 +12,7 @@ public class MetaUpgradeShipSingleStatUI : MonoBehaviour
     public string SingleStatName;
     public EnumEventModifierRewardType shipStatModifier;
 
+    public Image imageBackground;
     public TextMeshProUGUI textSingleStatName;
     public TextMeshProUGUI textSingleStatCurrentLevel;
     public TextMeshProUGUI textSingleStatUpgradeButton;
@@ -35,13 +36,15 @@ public class MetaUpgradeShipSingleStatUI : MonoBehaviour
     {
         if (!showOnlyOnTag.Equals(EnumStoryProgressionTags.None) && !DemoController.Instance.StoryProgressionTags.Contains(showOnlyOnTag))
         {
+            textSingleStatUpgradeButton.GetComponentInParent<Button>().gameObject.SetActive(false);
+            imageBackground.enabled = false;
             textSingleStatName.gameObject.SetActive(false);
             textSingleStatCurrentLevel.gameObject.SetActive(false);
-            textSingleStatUpgradeButton.GetComponentInParent<Button>().gameObject.SetActive(false);
         }
         else
         {
-            textSingleStatName.gameObject.SetActive(true);
+            imageBackground.gameObject.SetActive(true);
+            imageBackground.enabled = true;
             textSingleStatCurrentLevel.gameObject.SetActive(true);
             textSingleStatUpgradeButton.GetComponentInParent<Button>().gameObject.SetActive(true);
 

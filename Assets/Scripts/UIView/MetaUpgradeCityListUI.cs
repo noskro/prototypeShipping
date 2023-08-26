@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class MetaUpgradeCityListUI : MonoBehaviour
 {
     public Transform cityListTransform;
     public Transform cityListItemPrefab;
+
+    public TextMeshProUGUI textUpgradeDescription;
 
     private List<Transform> allCitiesList;
 
@@ -36,6 +39,7 @@ public class MetaUpgradeCityListUI : MonoBehaviour
         // home city
         Transform newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
         newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(DemoController.Instance.worldCreator.HomeIsland.PersistentCityDataList[0], DemoController.Instance.worldCreator.HomeIsland);
+        newPrefab.GetComponent<MetaUpgradeCityUI>().SetUpgradeText(textUpgradeDescription);
         allCitiesList.Add(newPrefab);
 
         // all discovered islands first
@@ -45,6 +49,7 @@ public class MetaUpgradeCityListUI : MonoBehaviour
             {
                 newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
                 newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData, islandData);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetUpgradeText(textUpgradeDescription);
                 allCitiesList.Add(newPrefab);
             }
 
@@ -52,6 +57,7 @@ public class MetaUpgradeCityListUI : MonoBehaviour
             {
                 newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
                 newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData, islandData);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetUpgradeText(textUpgradeDescription);
                 allCitiesList.Add(newPrefab);
             }
         }
@@ -63,6 +69,7 @@ public class MetaUpgradeCityListUI : MonoBehaviour
             {
                 newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
                 newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData, islandData);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetUpgradeText(textUpgradeDescription);
                 allCitiesList.Add(newPrefab);
             }
 
@@ -70,6 +77,7 @@ public class MetaUpgradeCityListUI : MonoBehaviour
             {
                 newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
                 newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityData, islandData);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetUpgradeText(textUpgradeDescription);
                 allCitiesList.Add(newPrefab);
             }
         }
@@ -81,6 +89,7 @@ public class MetaUpgradeCityListUI : MonoBehaviour
             {
                 newPrefab = Instantiate(cityListItemPrefab, cityListTransform);
                 newPrefab.GetComponent<MetaUpgradeCityUI>().SetCityData(cityDataSo, islandData);
+                newPrefab.GetComponent<MetaUpgradeCityUI>().SetUpgradeText(textUpgradeDescription);
                 allCitiesList.Add(newPrefab);
             }
         }
