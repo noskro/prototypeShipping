@@ -43,6 +43,16 @@ public class ShipStatsUI : MonoBehaviour
             c = textShowStatChangeNegative.color;
             c.a = Mathf.Lerp(0, 1, statChangeTimeout);
             textShowStatChangeNegative.color = c;
+
+            c = textShowStatChangePossible.color;
+            c.a = 0;
+            textShowStatChangePossible.color = c;
+        }
+        else
+        {
+            Color c = textShowStatChangePossible.color;
+            c.a = 1;
+            textShowStatChangePossible.color = c;
         }
     }
 
@@ -102,6 +112,8 @@ public class ShipStatsUI : MonoBehaviour
                     (moralChange != null) ? moralChange : "~",
                     (canonChange != null) ? canonChange : "~",
                     (goldChange != null) ? goldChange : "~");
+            textShowStatChangePositive.text = "";
+            textShowStatChangeNegative.text = "";
         }
     }
 

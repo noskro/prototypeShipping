@@ -232,17 +232,7 @@ public partial class GameMapHandler : MonoBehaviour
 
                 CustomTile targetTile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)cursorCoords);
 
-                int? shipDamage = null;
-                if (StaticTileDataContainer.Instance.CustomTileWater.Equals(targetTile))
-                {
-                    shipDamage = DemoController.Instance.shipController.shipStats.shipDamageAtSea;
-                }
-                else if (StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(targetTile))
-                {
-                    shipDamage = DemoController.Instance.shipController.shipStats.shipDamageAtCoast;
-                }
-
-                DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChange(-1*shipDamage, null, null, null, null, null);
+                showShipStatsChange(targetTile, cursorCoords);
             }
         }
         else if (CanTrade(cursorCoords))
@@ -252,6 +242,91 @@ public partial class GameMapHandler : MonoBehaviour
         }
     }
 
+    private void showShipStatsChange(CustomTile targetTile, Vector2Int cursorCoords)
+    {
+        int shipDamageMin = 0;
+        int shipDamageMax = 0;
+
+        int shipCanonsMax = 0;
+        int shipCrewMax = 0;
+
+        int goldMax = 0;
+
+        if (StaticTileDataContainer.Instance.CustomTileWater.Equals(targetTile))
+        {
+            shipDamageMin = -1 * DemoController.Instance.shipController.shipStats.shipDamageAtSea;
+        }
+        else if (StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(targetTile))
+        {
+            shipDamageMin = -1 * DemoController.Instance.shipController.shipStats.shipDamageAtCoast;
+        }
+
+        shipDamageMax = shipDamageMin;
+
+        CustomTile tile = GetObjectTile(cursorCoords.x, cursorCoords.y);
+        // check for random events
+        if (tile != null)
+        {
+            shipDamageMax = 0;
+            shipDamageMin = 0;
+            foreach (RandomMapEventSO e in DemoController.Instance.randomMapEventList)
+            {
+                if (e.eventTile.Equals(tile))
+                {
+                    foreach (RandomEventResult reResult in e.RandomEventResultList)
+                    {
+                        if (reResult.type.Equals(EnumEventModifierRewardType.Durability))
+                        {
+                            shipDamageMax += Mathf.CeilToInt(reResult.valueMax);
+                        }
+                        if (reResult.type.Equals(EnumEventModifierRewardType.Crew))
+                        {
+                            shipCrewMax += Mathf.CeilToInt(reResult.valueMax);
+                        }
+                        if (reResult.type.Equals(EnumEventModifierRewardType.Gold))
+                        {
+                            goldMax += Mathf.CeilToInt(reResult.valueMax);
+                        }
+                    }
+                }
+            }
+
+            foreach (RandomMapEventSO e in DemoController.Instance.pirateDefeatEventList)
+            {
+                if (e.eventTile.Equals(tile))
+                {
+                    foreach (RandomEventResult reResult in e.RandomEventResultList)
+                    {
+                        if (reResult.type.Equals(EnumEventModifierRewardType.Durability))
+                        {
+                            shipDamageMax += Mathf.CeilToInt(reResult.valueMax);
+                        }
+                        if (reResult.type.Equals(EnumEventModifierRewardType.Canons))
+                        {
+                            shipCanonsMax += Mathf.CeilToInt(reResult.valueMax);
+                        }
+                    }
+                }
+            }
+        }
+
+        string sDamage = (shipDamageMax == shipDamageMin) ? 
+                            "" + shipDamageMax :
+                            (shipDamageMax > 0) ? 
+                                "+(" + shipDamageMin + "-" + shipDamageMax + ")" : 
+                                (shipDamageMax < 0) ? 
+                                    "-(" + Mathf.Abs(shipDamageMin) + "-" + Mathf.Abs(shipDamageMax) + ")": 
+                                    null;
+        string sCrew = (shipCrewMax > 0) ? "+(0-" + shipCrewMax + ")" : (shipCrewMax < 0) ? "-(0-" + Mathf.Abs(shipCrewMax) + ")" : null;
+        string sCanon = (shipCanonsMax > 0) ? "+(0-" + shipCanonsMax + ")" : (shipCanonsMax < 0) ? "-(0-" + Mathf.Abs(shipCanonsMax) + ")" : null;
+        string sGold = (goldMax > 0) ? "+(0-" + goldMax + ")" : (goldMax < 0) ? "-(0-" + Mathf.Abs(goldMax) + ")" : null;
+
+        DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChangeString(
+            sDamage,
+            sCrew, null, null, 
+            sCanon,
+            sGold);
+    }
 
     internal void SetDestination(Vector2Int destinationCoords)
     {
