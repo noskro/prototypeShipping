@@ -166,10 +166,17 @@ public class ShipController : MonoBehaviour
         gameMapHandler.DiscoverNewAreaByShip(gameMapHandler.shipCoordinates, this.shipStats);
 
         gameMapHandler.HandleRandomEvents(gameMapHandler.shipCoordinates);
-        
+
+        EndTurn();
+    }
+
+    public void EndTurn()
+    {
         gameMapHandler.HandleOtherShips();
 
         demoController.SetGameState(EnumGameStates.ShipIdle);
+
+        DemoController.Instance.storyTextManager.CheckForNewEvents();
     }
 
     void UpdateShip(ShipStats stats)

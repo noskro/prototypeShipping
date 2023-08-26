@@ -196,7 +196,7 @@ public class ShipBattleManager : MonoBehaviour
             shipBattleTimer = 0f;
             if (DemoController.Instance.GameState.Equals(EnumGameStates.InBattle))
             {
-                DemoController.Instance.SetGameState(EnumGameStates.ShipIdle);
+                DemoController.Instance.shipController.EndTurn();
             }
         }
     }

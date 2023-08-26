@@ -432,6 +432,21 @@ public partial class GameMapHandler : MonoBehaviour
         }
     }
 
+    public List<Vector2Int> GetMoveableNeighbors(Vector2Int unityCell, int range, bool includeSelf = false)
+    {
+        List<Vector2Int> neighbors = GetNeighbors(unityCell, range, includeSelf);
+        for (int i = neighbors.Count - 1; i >= 0; i--)
+        {
+            Vector3Int cell = new Vector3Int(neighbors[i].x, neighbors[i].y, 0);
+            if (!StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(cell).movability.Equals(EnumTileMovability.ShipMoveable))
+            {
+                neighbors.RemoveAt(i);
+            }
+        }
+
+        return neighbors;
+    }
+
     public List<Vector2Int> GetNeighbors(Vector2Int unityCell, int range, bool includeSelf = false)
     {
         // from https://github.com/Unity-Technologies/2d-extras/issues/69#issuecomment-684190243
