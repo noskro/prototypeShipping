@@ -44,6 +44,8 @@ public partial class DemoController : MonoBehaviour
 
     public List<EnumStoryProgressionTags> StoryProgressionTags;
 
+    public int DamagePerCanon;
+
     public int Run = 0;
     public int FieldsTravelled = 0;
 
@@ -67,6 +69,7 @@ public partial class DemoController : MonoBehaviour
         }
     }
 
+
     private void Awake()
     {
         instance = this;
@@ -78,12 +81,12 @@ public partial class DemoController : MonoBehaviour
 
     private void OnEnable()
     {
-        ShipStats.OnShipUpdated += UpdateZoom;
+        ShipController.OnShipUpdated += UpdateZoom;
     }
 
     private void OnDisable()
     {
-        ShipStats.OnShipUpdated -= UpdateZoom;
+        ShipController.OnShipUpdated -= UpdateZoom;
     }
 
     // Start is called before the first frame update
@@ -124,6 +127,8 @@ public partial class DemoController : MonoBehaviour
 
     private void PlaceNewShip()
     {
+        gameMapHandler.NewRun();
+
         // place Ship
         SetGameState(EnumGameStates.Start);
         shipController.shipStats.SetShipModel(shipController.shipStats.shipModel);
@@ -132,8 +137,8 @@ public partial class DemoController : MonoBehaviour
         shipController.transform.position = StaticTileDataContainer.Instance.TilemapFOW.GetCellCenterWorld((Vector3Int)gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
         shipController.gameObject.SetActive(true);
 
-
-        gameMapHandler.NewRun();
+        shipController.TriggerShipUpdated(); 
+        gameMapHandler.StartRun();
     }
 
     internal ShipModelSO GetCurrentShipModel()

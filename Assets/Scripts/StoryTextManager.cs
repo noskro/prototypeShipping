@@ -89,6 +89,7 @@ public class StoryTextManager : MonoBehaviour
             }
         }
 
+        DemoController.Instance.shipController.TriggerShipUpdated();
         CompletedStoryTextEventList.Add(story);
         ActiveStoryTextEventList.Remove(story);
     }

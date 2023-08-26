@@ -7,6 +7,11 @@ public class TradeSelection : MonoBehaviour
     public TradeController tradeController;
     public int id;
 
+    private void OnMouseOver()
+    {
+        tradeController.MouseOverTrade(id);        
+    }
+
     private void OnMouseUp()
     {
         tradeController.ClickTrade(id);

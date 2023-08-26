@@ -20,6 +20,8 @@ public class ShipController : MonoBehaviour
     public bool doShipRotate;
     public float shipMovingTimer = 0f;
 
+    public delegate void ShipUpdated(ShipStats stats);
+    public static event ShipUpdated OnShipUpdated;
 
     // Start is called before the first frame update
     void Start()
@@ -30,15 +32,15 @@ public class ShipController : MonoBehaviour
         demoController = DemoController.Instance;
     }
 
-    private void OnEnable()
-    {
-        ShipStats.OnShipUpdated += UpdateShip;
-    }
+    //private void OnEnable()
+    //{
+    //    ShipStats.OnShipUpdated += UpdateShip;
+    //}
 
-    private void OnDisable()
-    {
-        ShipStats.OnShipUpdated -= UpdateShip;
-    }
+    //private void OnDisable()
+    //{
+    //    ShipStats.OnShipUpdated -= UpdateShip;
+    //}
 
     // Update is called once per frame
     void Update()
@@ -68,6 +70,7 @@ public class ShipController : MonoBehaviour
                     CustomTile targetTile = gameMapHandler.GetMapTile(target);
                     shipStats.direction = gameMapHandler.GetDirection(currentShipCoords, target);
                     shipStats.NextTurn(targetTile);
+                    TriggerShipUpdated();
                     demoController.FieldsTravelled++;
 
                     nextScheduledTarget = null;
@@ -106,8 +109,9 @@ public class ShipController : MonoBehaviour
             {
                 gameMapHandler.ShowMouseCursor(mouseCellCoordinates);
 
-                if (Input.GetMouseButtonUp(0))
+                if (Input.GetMouseButton(0))
                 {
+                    DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChangeString(null,null,null, null, null, null);
                     Vector2Int currentShipCoords = gameMapHandler.shipCoordinates;
 
                     if (gameMapHandler.CanNavigate(mouseCellCoordinates))
@@ -115,13 +119,19 @@ public class ShipController : MonoBehaviour
                         // check for pirates
                         if (gameMapHandler.PiratesPresent(mouseCellCoordinates) != null)
                         {
-                            DemoController.Instance.shipBattleManager.StartShipBattle(shipStats, gameMapHandler.PiratesPresent(mouseCellCoordinates));
+                            if (demoController.GameState != EnumGameStates.ShipMoving)
+                            {
+                                if (shipStats.GetCurrentCanons() > 0)
+                                {
+                                    DemoController.Instance.shipBattleManager.StartShipBattle(shipStats, gameMapHandler.PiratesPresent(mouseCellCoordinates));
+                                }
+                            }
                         }
                         else
                         {
                             if (demoController.GameState == EnumGameStates.ShipMoving)
                             {
-                                if (nextScheduledTarget == null)
+                                if (nextScheduledTarget == null && mouseCellCoordinates != gameMapHandler.shipCoordinates)
                                 {
                                     nextScheduledTarget = mouseCellCoordinates;
                                 }
@@ -144,17 +154,18 @@ public class ShipController : MonoBehaviour
                     }
                     else if (gameMapHandler.CanTrade(mouseCellCoordinates))
                     {
-                        gameMapHandler.CoinIcon.gameObject.SetActive(false);
-                        transform.position = gameMapHandler.GetCellPosition(mouseCellCoordinates); 
-                        tradeController.ShowTrade(gameMapHandler.GetCellPosition(mouseCellCoordinates), StaticTileDataContainer.Instance.gameMapData[mouseCellCoordinates.x, mouseCellCoordinates.y].CityData);
-                    }
-                    else
-                    {
-                        Debug.Log("Can't navigate or trade here");
+                        if (demoController.GameState != EnumGameStates.ShipMoving)
+                        {
+                            gameMapHandler.CoinIcon.gameObject.SetActive(false);
+                            transform.position = gameMapHandler.GetCellPosition(mouseCellCoordinates);
+                            tradeController.ShowTrade(gameMapHandler.GetCellPosition(mouseCellCoordinates), StaticTileDataContainer.Instance.gameMapData[mouseCellCoordinates.x, mouseCellCoordinates.y].CityData);
+                        }
                     }
                 }
             }
         }
+
+        TriggerShipUpdated();
     }
 
     private void EndShipMovement()
@@ -179,58 +190,16 @@ public class ShipController : MonoBehaviour
         DemoController.Instance.storyTextManager.CheckForNewEvents();
     }
 
-    void UpdateShip(ShipStats stats)
-    {
-        //if (doShipRotate)
-        //{
-        //    if (demoController.GameState == EnumGameStates.ShipLost)
-        //    {
-
-        //        shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);  // probably not needed
-        //    }
-        //    else
-        //    {
-        //        float rotation = 0;
-        //        shipSpriteRenderer.flipX = false;
-
-        //        switch (shipStats.direction)
-        //        {
-        //            case Direction.North:
-        //                Debug.Log("North");
-        //                rotation = -90;
-        //                break;
-        //            case Direction.NorthEast:
-        //                Debug.Log("NorthEast");
-        //                shipSpriteRenderer.flipX = true;
-        //                rotation = 30;
-        //                break;
-        //            case Direction.NorthWest:
-        //                Debug.Log("NorthWest");
-        //                rotation = -30;
-        //                break;
-        //            case Direction.South:
-        //                Debug.Log("South");
-        //                rotation = 90;
-        //                break;
-        //            case Direction.SouthEast:
-        //                Debug.Log("SouthEast");
-        //                shipSpriteRenderer.flipX = true;
-        //                rotation = -30;
-        //                break;
-        //            case Direction.SouthWest:
-        //                Debug.Log("SouthWest");
-        //                rotation = 30;
-        //                break;
-        //        }
-
-        //        shipSpriteRenderer.transform.localRotation = Quaternion.Euler(0, 0, rotation);
-        //    }
-        //}
-    }
-
     internal void ResetShipPosition()
     {
         transform.position = shipTargetPosition;
+        TriggerShipUpdated();
+    }
+
+
+    public void TriggerShipUpdated()
+    {
+        OnShipUpdated?.Invoke(shipStats);
     }
 }
 

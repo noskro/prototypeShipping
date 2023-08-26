@@ -114,6 +114,62 @@ public class TradeController : MonoBehaviour
         return -1;
     }
 
+    public void MouseOverTrade(int id)
+    {
+        string tradeDurability = null;
+        string tradeCrew = null;
+        string tradeFood = null;
+        string tradeMoral = null;
+        string tradeCanons = null;
+        string tradeGold = null;
+
+        if (id == 0)
+        {
+            return;
+        }
+
+        SpriteRenderer selectedSR = null;
+        if (id == 1)
+        {
+            selectedSR = trade1;
+        }
+        else if (id == 2)
+        {
+            selectedSR = trade2;
+        }
+        else if (id == 3)
+        {
+            selectedSR = trade3;
+        }
+
+        if (selectedSR.sprite.Equals(spriteTradeGold))
+        {
+            tradeGold = "+1";
+        }
+        else if (selectedSR.sprite.Equals(spriteTradeGoldUpgraded))
+        {
+            tradeGold = "+(2-3)";
+        }
+        else if (selectedSR.sprite.Equals(spriteTradeRepair))
+        {
+            tradeDurability = "+" + (shipStats.GetCurrentMaxDurability() - shipStats.ShipDurability);
+        }
+        else if (selectedSR.sprite.Equals(spriteTradeCrew))
+        {
+            tradeCrew = "+" + (Mathf.Min(shipStats.CrewCount + 1, shipStats.GetCurrentMaxMoral()));
+        }
+        else if (selectedSR.sprite.Equals(spriteTradeFood))
+        {
+            tradeFood = "+" + (Mathf.Min(shipStats.FoodStatus + 2, shipStats.GetCurrentMaxFood()));
+        }
+        else if (selectedSR.sprite.Equals(spriteTradeRum))
+        {
+            tradeMoral = "+" + (Mathf.Min(shipStats.MoralStatus + Random.Range(1, 2), shipStats.GetCurrentMaxMoral()));
+        }
+
+        DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChangeString(tradeDurability, tradeCrew, tradeFood, tradeMoral, tradeCanons, tradeGold);
+    }
+
     public void ClickTrade(int id)
     {
         if (id == 0)
@@ -147,7 +203,7 @@ public class TradeController : MonoBehaviour
         }
         else if (selectedSR.sprite.Equals(spriteTradeRepair))
         {
-            shipStats.AddShipDurability(Mathf.Min(shipStats.ShipDurability + 1, shipStats.GetCurrentMaxDurability()));
+            shipStats.AddShipDurability((shipStats.GetCurrentMaxDurability() - shipStats.ShipDurability)); // Mathf.Min(shipStats.ShipDurability + 1, shipStats.GetCurrentMaxDurability()));
         }
         else if (selectedSR.sprite.Equals(spriteTradeCrew))
         {
@@ -183,11 +239,11 @@ public class TradeController : MonoBehaviour
         }
 
         DemoController.Instance.shipController.ResetShipPosition();
-        shipStats.TriggerShipUpdated();
 
         villageGameMapData.SetTradedThisRun(true);
         IsTrading = false;
         this.gameObject.SetActive(false);
-        DemoController.Instance.storyTextManager.CheckForNewEvents();
+
+        DemoController.Instance.shipController.EndTurn();
     }
 }

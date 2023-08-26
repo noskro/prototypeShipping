@@ -15,30 +15,70 @@ MonoBehaviour:
   ShipModelName: Starter Ship
   ShipDurabilityUpgradeList:
   - Price: 1
-    Value: 3
+    Value: 100
   - Price: 1
-    Value: 4
+    Value: 110
   - Price: 1
-    Value: 5
+    Value: 120
   - Price: 1
-    Value: 6
+    Value: 130
   - Price: 1
-    Value: 7
+    Value: 140
   - Price: 1
-    Value: 8
+    Value: 150
+  - Price: 1
+    Value: 160
+  - Price: 1
+    Value: 170
+  - Price: 1
+    Value: 180
+  - Price: 1
+    Value: 190
+  - Price: 1
+    Value: 200
+  - Price: 1
+    Value: 220
+  - Price: 1
+    Value: 240
+  - Price: 1
+    Value: 260
+  - Price: 1
+    Value: 280
+  - Price: 1
+    Value: 300
   ShipMaxCrewUpgradeList:
-  - Price: 1
-    Value: 5
-  - Price: 1
-    Value: 6
-  - Price: 1
-    Value: 7
-  - Price: 1
-    Value: 8
-  - Price: 1
-    Value: 9
-  - Price: 1
+  - Price: 0
     Value: 10
+  - Price: 1
+    Value: 12
+  - Price: 1
+    Value: 14
+  - Price: 1
+    Value: 16
+  - Price: 1
+    Value: 18
+  - Price: 1
+    Value: 20
+  - Price: 2
+    Value: 22
+  - Price: 2
+    Value: 24
+  - Price: 2
+    Value: 26
+  - Price: 3
+    Value: 28
+  - Price: 3
+    Value: 30
+  - Price: 3
+    Value: 32
+  - Price: 4
+    Value: 34
+  - Price: 4
+    Value: 36
+  - Price: 4
+    Value: 38
+  - Price: 5
+    Value: 40
   ShipMaxFoodUpgradeList:
   - Price: 1
     Value: 5
@@ -49,19 +89,25 @@ MonoBehaviour:
   - Price: 0
     Value: 0
   - Price: 2
-    Value: 1
-  - Price: 2
     Value: 2
-  - Price: 2
-    Value: 3
   - Price: 2
     Value: 4
   - Price: 2
-    Value: 5
-  - Price: 2
     Value: 6
   - Price: 2
-    Value: 7
+    Value: 8
+  - Price: 3
+    Value: 10
+  - Price: 3
+    Value: 12
+  - Price: 4
+    Value: 14
+  - Price: 4
+    Value: 16
+  - Price: 6
+    Value: 18
+  - Price: 6
+    Value: 20
   ShipSpeedUpgradeList:
   - Price: 0
     Value: 3
@@ -76,22 +122,22 @@ MonoBehaviour:
     Value: 1
   - Price: 2
     Value: 2
-  - Price: 2
+  - Price: 5
     Value: 3
-  - Price: 2
+  - Price: 10
     Value: 4
-  - Price: 2
+  - Price: 20
     Value: 5
   ShipDiscoverRangeUpgradeList:
   - Price: 0
     Value: 2
-  - Price: 2
+  - Price: 0
     Value: 3
-  - Price: 2
+  - Price: 0
     Value: 4
-  - Price: 2
+  - Price: 0
     Value: 5
-  - Price: 2
+  - Price: 0
     Value: 6
   ShipPrice: 1
   ShipSpriteIdle: {fileID: 518642141, guid: a258eb415877e2646859a1f7f071c7a9, type: 3}

@@ -23,6 +23,8 @@ public class PirateShipController : MonoBehaviour
 
     public void PerformAction()
     {
+        DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChangeString(null, null, null, null, null, null);
+
         if (pirateShipState != EnumGameStates.ShipLost)
         {
             Vector2Int targetCell = new Vector2Int(-1, -1);

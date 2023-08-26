@@ -21,7 +21,7 @@ public class ShipVisual : MonoBehaviour
             this.state = state;
             UpdateSprite();
         };
-        ShipStats.OnShipUpdated += (stats) =>
+        ShipController.OnShipUpdated += (stats) =>
         {
             shipStats = stats;
             UpdateSprite();

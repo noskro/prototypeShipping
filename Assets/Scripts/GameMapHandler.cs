@@ -16,14 +16,6 @@ public partial class GameMapHandler : MonoBehaviour
 
     public void NewRun()
     {
-        //for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++)
-        //{
-        //    for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
-        //    {
-        //        StaticTileDataContainer.Instance.gameMapData[x, y].Reset(DistanceBetweenCells(new Vector2Int(x,y), GetMapStartingCoordinates()));
-        //    }
-        //}
-
         // place random events
         foreach (RandomMapEventSO e in DemoController.Instance.randomMapEventList)
         {
@@ -66,8 +58,10 @@ public partial class GameMapHandler : MonoBehaviour
         {
             pirate.ResetForNewRun();
         }
+    }
 
-
+    public void StartRun()
+    { 
         DiscoverNewAreaByShip(shipCoordinates, DemoController.Instance.shipController.shipStats);
         UpdateFOWMap();
     }
@@ -130,6 +124,7 @@ public partial class GameMapHandler : MonoBehaviour
             }
         }
 
+        DemoController.Instance.shipController.TriggerShipUpdated();
     }
 
     internal bool CanNavigate(Vector2Int targetCoord)
@@ -181,14 +176,28 @@ public partial class GameMapHandler : MonoBehaviour
     internal void ShowMouseCursor(Vector2Int cursorCoords)
     {
         HideAllMouseCursor();
+        DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChange(null, null, null, null, null, null);
 
         if (CanNavigate(cursorCoords))
         {
             // check for pirates
-            if (PiratesPresent(cursorCoords) != null)
+            ShipStats possiblePirate = PiratesPresent(cursorCoords);
+            if (possiblePirate != null)
             {
+                if (DemoController.Instance.shipController.shipStats.GetCurrentCanons() <= 0)
+                {
+                    return;
+                }
+
                 AttackIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
                 AttackIcon.gameObject.SetActive(true);
+
+                int attackDamage = possiblePirate.getMaxAttackDamage();
+                int attackDamageHalf = Mathf.FloorToInt(attackDamage / 2);
+                DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChangeString(
+                    "-(" + attackDamageHalf +"-"+ attackDamage + ")", 
+                    "-(" + Mathf.CeilToInt(attackDamageHalf/10) + "-" + Mathf.CeilToInt(attackDamage / 10) + ")", 
+                    null, null, null, null);
             }
             else
             {
@@ -220,6 +229,20 @@ public partial class GameMapHandler : MonoBehaviour
 
                 MoveToIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
                 MoveToIcon.gameObject.SetActive(true);
+
+                CustomTile targetTile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)cursorCoords);
+
+                int? shipDamage = null;
+                if (StaticTileDataContainer.Instance.CustomTileWater.Equals(targetTile))
+                {
+                    shipDamage = DemoController.Instance.shipController.shipStats.shipDamageAtSea;
+                }
+                else if (StaticTileDataContainer.Instance.CustomTileCoastalWater.Equals(targetTile))
+                {
+                    shipDamage = DemoController.Instance.shipController.shipStats.shipDamageAtCoast;
+                }
+
+                DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChange(-1*shipDamage, null, null, null, null, null);
             }
         }
         else if (CanTrade(cursorCoords))

@@ -8,6 +8,7 @@ public class ShipStatsUI : MonoBehaviour
     public TextMeshProUGUI textShowStats;
     public TextMeshProUGUI textShowStatChangePositive;
     public TextMeshProUGUI textShowStatChangeNegative;
+    public TextMeshProUGUI textShowStatChangePossible;
     public Button buttonEndRund;
     public RunEndUIController runEndUIController;
 
@@ -15,12 +16,12 @@ public class ShipStatsUI : MonoBehaviour
 
     private void OnEnable()
     {
-        ShipStats.OnShipUpdated += OnShipUpdated;
+        ShipController.OnShipUpdated += OnShipUpdated;
     }
 
     private void OnDisable()
     {
-        ShipStats.OnShipUpdated -= OnShipUpdated;
+        ShipController.OnShipUpdated -= OnShipUpdated;
     }
 
     private void Start()
@@ -51,7 +52,7 @@ public class ShipStatsUI : MonoBehaviour
 
         if (!shipLost)
         {
-            textShowStats.text = string.Format("Duraility: {0}/{1}\nCrew: {2}/{3}\nFood: {4}/{5}\nCanons: {8}\nGold: {9}", /*Moral {6}/{7}\n*/
+            textShowStats.text = string.Format("Duraility: {0}/{1}\nCrew: {2}/{3}\nCanons: {8}\nGold: {9}", /*Moral {6}/{7}\n Food: { 4}/{ 5}\n */
                 Mathf.Ceil(shipStats.ShipDurability), shipStats.GetCurrentMaxDurability(),
                 Mathf.Ceil(shipStats.CrewCount), shipStats.GetCurrentMaxCrew(),
                 Mathf.Ceil(shipStats.FoodStatus), shipStats.GetCurrentMaxFood(),
@@ -68,17 +69,53 @@ public class ShipStatsUI : MonoBehaviour
         }
     }
 
+    public void ShowPossibleStatChange(int? durabilityChange, int? crewChange, int? foodChange, int? moralChange, int? canonChange, int? goldChange)
+    {
+        if (durabilityChange == null && crewChange == null && foodChange == null && moralChange == null && canonChange == null && goldChange == null)
+        {
+            textShowStatChangePossible.text = "";
+        }
+        else
+        {
+            string dur = (durabilityChange != null) ? (durabilityChange > 0) ? "+" + durabilityChange : "" + durabilityChange : "~";
+            string crew = (crewChange != null) ? (crewChange > 0) ? "+" + crewChange : "" + crewChange : "~";
+            string food = (foodChange != null) ? (foodChange > 0) ? "+" + foodChange : "" + foodChange : "~";
+            string mor = (moralChange != null) ? (moralChange > 0) ? "+" + moralChange : "" + moralChange : "~";
+            string can = (canonChange != null) ? (canonChange > 0) ? "+" + canonChange : "" + canonChange : "~";
+            string gold = (goldChange != null) ? (goldChange > 0) ? "+" + goldChange : "" + goldChange : "~";
+            ShowPossibleStatChangeString(dur, crew, food, mor, can, gold);
+        }
+    }
+
+    public void ShowPossibleStatChangeString(string durabilityChange, string crewChange, string foodChange, string moralChange, string canonChange, string goldChange)
+    {
+        if (durabilityChange == null && crewChange == null && foodChange == null && moralChange == null && canonChange == null && goldChange == null)
+        {
+            textShowStatChangePossible.text = "";
+        }
+        else
+        {
+            textShowStatChangePossible.text = string.Format("{0}\n{1}\n{4}\n{5}\n",  /*\n{ 2}*/
+                    (durabilityChange != null) ? durabilityChange : "~",
+                    (crewChange != null) ? crewChange : "~",
+                    (foodChange != null) ? foodChange : "~",
+                    (moralChange != null) ? moralChange : "~",
+                    (canonChange != null) ? canonChange : "~",
+                    (goldChange != null) ? goldChange : "~");
+        }
+    }
+
     public void ShowStatChange(int durabilityChange, int crewChange, int foodChange, int moralChange, int canonChange, int goldChange)
     {
-        textShowStatChangePositive.text = string.Format("{0}\n{1}\n{2}\n{4}\n{5}\n",
-                (durabilityChange > 0) ? durabilityChange : " ",
+        textShowStatChangePositive.text = string.Format("{0}\n{1}\n{4}\n{5}\n", /*\n{ 2}*/
+                (durabilityChange > 0) ? "+" + durabilityChange : " ",
                 (crewChange > 0) ? "+" + crewChange : " ",
                 (foodChange > 0) ? "+" + foodChange : " ",
                 (moralChange > 0) ? "+" + moralChange : " ",
                 (canonChange > 0) ? "+" + canonChange : " ",
                 (goldChange > 0) ? "+" + goldChange : ".");
 
-        textShowStatChangeNegative.text = string.Format("{0}\n {1}\n {2}\n {4}\n {5}\n",
+        textShowStatChangeNegative.text = string.Format("{0}\n {1}\n {4}\n {5}\n",  /*{ 2}\n*/
                 (durabilityChange < 0) ? "" + durabilityChange : " ",
                 (crewChange < 0) ? "" + crewChange : " ",
                 (foodChange < 0) ? "" + foodChange : " ",

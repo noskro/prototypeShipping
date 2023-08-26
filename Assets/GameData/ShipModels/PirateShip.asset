@@ -14,21 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShipModelName: Pirate Ship
   ShipDurabilityUpgradeList:
-  - Price: 1
-    Value: 3
-  - Price: 1
-    Value: 4
-  - Price: 1
-    Value: 5
-  - Price: 1
-    Value: 6
-  - Price: 1
-    Value: 7
-  - Price: 1
-    Value: 8
+  - Price: 0
+    Value: 100
   ShipMaxCrewUpgradeList:
-  - Price: 1
-    Value: 5
+  - Price: 0
+    Value: 15
   ShipMaxFoodUpgradeList:
   - Price: 1
     Value: 5
@@ -37,46 +27,16 @@ MonoBehaviour:
     Value: 10
   ShipMaxCanonsUpgradeList:
   - Price: 0
-    Value: 2
-  - Price: 2
-    Value: 5
-  - Price: 2
     Value: 10
-  - Price: 2
-    Value: 15
-  - Price: 2
-    Value: 20
   ShipSpeedUpgradeList:
   - Price: 0
-    Value: 3
-  - Price: 1
-    Value: 4
-  - Price: 1
-    Value: 5
-  - Price: 1
-    Value: 6
+    Value: 0
   ShipViewRangeUpgradeList:
   - Price: 0
-    Value: 1
-  - Price: 2
-    Value: 2
-  - Price: 2
-    Value: 3
-  - Price: 2
-    Value: 4
-  - Price: 2
-    Value: 5
+    Value: 0
   ShipDiscoverRangeUpgradeList:
   - Price: 0
     Value: 2
-  - Price: 2
-    Value: 3
-  - Price: 2
-    Value: 4
-  - Price: 2
-    Value: 5
-  - Price: 2
-    Value: 6
   ShipPrice: 1
   ShipSpriteIdle: {fileID: -639832568, guid: 1fd53d7cd43066b498b1acd07e9b1354, type: 3}
   ShipSpriteLost: {fileID: 21300000, guid: dd6ed28adf90db741b6d30a63f51a530, type: 3}

@@ -38,15 +38,14 @@ public class ShipStats : MonoBehaviour
     public ShipModelSO shipModel;
 
     [Header("Settings")]
-    public float shipDamagePerDayfromSailing;
+    public int shipDamageAtCoast;
+    public int shipDamageAtSea;
     public float foodPerCrewPerDay;
     public float moralLossOnSea;
     public float moralLossAtCoast;
 
     public Direction? direction;
 
-    public delegate void ShipUpdated(ShipStats stats);
-    public static event ShipUpdated OnShipUpdated;
 
     private void Start()
     {
@@ -73,24 +72,23 @@ public class ShipStats : MonoBehaviour
         CrewCount = (int)Mathf.Ceil(shipModel.ShipMaxCrewUpgradeList[shipMaxCrewCurrentLevel].Value / 1); // max crew to start with
         FoodStatus = shipModel.ShipMaxFoodUpgradeList[shipMaxFoodCurrentLevel].Value;
         MoralStatus = shipModel.ShipMaxMoralUpgradeList[shipMaxMoralCurrentLevel].Value;
-
-        OnShipUpdated?.Invoke(this);
     }
 
     public void NextTurn(CustomTile newTile)
     {
-        float partOfDay = 1f / shipModel.ShipSpeedUpgradeList[shipSpeedCurrentLevel].Value;
+        float partOfDay = 1f; //  / shipModel.ShipSpeedUpgradeList[shipSpeedCurrentLevel].Value;
             
-        ShipDurability -= shipDamagePerDayfromSailing * partOfDay;
-        FoodStatus -= foodPerCrewPerDay * partOfDay;
+        //FoodStatus -= foodPerCrewPerDay * partOfDay;
 
         if (newTile.type.Equals(EnumTileType.DeepSea))
         {
-            MoralStatus -= moralLossOnSea * partOfDay;
+            //MoralStatus -= moralLossOnSea * partOfDay;
+            ShipDurability -= shipDamageAtSea * partOfDay;
         }
         else if (newTile.type.Equals(EnumTileType.CoastalWater))
         {
-            MoralStatus -= moralLossAtCoast * partOfDay;
+            //MoralStatus -= moralLossAtCoast * partOfDay;
+            ShipDurability -= shipDamageAtCoast * partOfDay;
         }
 
 
@@ -98,13 +96,11 @@ public class ShipStats : MonoBehaviour
         {
             DemoController.Instance.SetGameState(EnumGameStates.ShipLost);
         }
-
-        OnShipUpdated?.Invoke(this);
     }
 
-    public void TriggerShipUpdated()
+    internal int getMaxAttackDamage()
     {
-        OnShipUpdated?.Invoke(this);
+        return (Math.Min(this.GetCurrentCanons(), Mathf.FloorToInt(CrewCount/2)) * DemoController.Instance.DamagePerCanon);
     }
 
     internal void AddStatsModifier(RandomEventResult randomEventResult)
@@ -144,8 +140,6 @@ public class ShipStats : MonoBehaviour
         {
             AddViewRange(randomValue);
         }
-
-        TriggerShipUpdated();
     }
 
     public void AddShipDurability(float randomValue)
@@ -335,5 +329,10 @@ public class ShipStats : MonoBehaviour
     internal int GetCurrentMaxCanons()
     {
         return shipModel.ShipMaxCanonsUpgradeList[shipMaxCanonsCurrentLevel].Value;
+    }
+
+    internal int GetCurrentCanons()
+    {
+        return shipModel.ShipMaxCanonsUpgradeList[shipMaxCanonsCurrentLevel].Value + temporaryCanonAddition;
     }
 }
