@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: After first death
   Texts:
-  - Don't worry when your ship sinks. It happens to the best. We have a pretty decent
-    open seas rescue agency that will pick you and your valueables up and bring you
-    back here. Maybe you should spend your gold for some upgrades
+  - Don't worry when your ship sinks. It happens to the best. Good thing the empire
+    has the best open seas rescue agency, that will pick you and your valuables up
+    and bring you back home. It would be a good idea to spend some of your profits
+    on upgrades for your ship. That way you will last longer in the future.
   StoryTextEventTrigger:
   - type: 4
     intValue: 0
     revelantCity: {fileID: 0}
     nextGameState: 3
+  StoryTextEventRewards: []
   FollowingStoryTextEvents:
   - {fileID: 11400000, guid: b23edc3bfe8115345b3688aed73dcff6, type: 2}

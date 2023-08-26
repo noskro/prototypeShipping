@@ -16,7 +16,7 @@ MonoBehaviour:
   Texts:
   - As you leave the harbour you notice some movement between the storage chests.
     On further investigation you find the 3 drunk guys from last night at the tavern.
-    They decided to join you on your journey
+    They decided to join you and your crew on your journey
   StoryTextEventTrigger:
   - type: 4
     intValue: 0
@@ -26,7 +26,9 @@ MonoBehaviour:
   - unlockIslands: 4
     rewardType: 2
     intValue: 3
+    progressionTag: 0
   - unlockIslands: 4
     rewardType: 3
     intValue: 10
+    progressionTag: 0
   FollowingStoryTextEvents: []

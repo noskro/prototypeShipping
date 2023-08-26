@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: First City Discovered
   Texts:
-  - A new city comes into sight. Those cities will help you in your quest to discover
-    the world. They offer trade  nad can be extended over time to offer other services
-    like repairs and a tavern to keep up on the latest gossip.
+  - Your lookup reports a city, coming into sight. Cities are a geart help to explore
+    the world. They will offer trade opportunities and can be upgraded over time
+    to perform repairs or recruit new crewman.
   StoryTextEventTrigger:
   - type: 3
     intValue: 0
@@ -42,4 +42,5 @@ MonoBehaviour:
     intValue: 0
     revelantCity: {fileID: 11400000, guid: 70ea11bce256bf3448b7929d0289929a, type: 2}
     nextGameState: 0
+  StoryTextEventRewards: []
   FollowingStoryTextEvents: []

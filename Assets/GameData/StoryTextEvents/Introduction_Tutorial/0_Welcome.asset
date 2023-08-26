@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Intro Text
   Texts:
-  - Find the legendary island of Beerland. Now go! You will learn everything on the
-    way... or not.
+  - 'Congratulation graduates! You made it through the naval academy and are now
+    ready to embark on your own ship. Help the empire to explore this world of ours
+    and maybe one thay one of fill find the land of Utopena. '
+  - Now take your ship and set sail. You already know all you need to, to be successful.
   StoryTextEventTrigger:
   - type: 0
     intValue: 0

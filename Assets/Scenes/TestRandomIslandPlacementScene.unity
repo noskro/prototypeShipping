@@ -24442,6 +24442,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6554287594432415076, guid: d671b706381276545ac96acde118b10d, type: 3}
   m_PrefabInstance: {fileID: 492046080}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &492046083 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1382188205298595889, guid: d671b706381276545ac96acde118b10d, type: 3}
+  m_PrefabInstance: {fileID: 492046080}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 547869c0fcfc0dc4c9bbfe817dd3e345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &500708022
 GameObject:
   m_ObjectHideFlags: 0
@@ -29655,6 +29666,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1665467208}
   m_CullTransparentMesh: 1
+--- !u!114 &1666269680 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1382188205298595889, guid: d671b706381276545ac96acde118b10d, type: 3}
+  m_PrefabInstance: {fileID: 1359145425}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 547869c0fcfc0dc4c9bbfe817dd3e345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1687757948
 GameObject:
   m_ObjectHideFlags: 0
@@ -29749,6 +29771,17 @@ MonoBehaviour:
   CityLabelPrefab: {fileID: 7554710093863615896, guid: 31a45a7bbf7d89d4ea5899bf5bd9c627, type: 3}
   mapHeight: 30
   mapWidth: 30
+--- !u!114 &1706203807 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1382188205298595889, guid: d671b706381276545ac96acde118b10d, type: 3}
+  m_PrefabInstance: {fileID: 682093145}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 547869c0fcfc0dc4c9bbfe817dd3e345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1721392114
 GameObject:
   m_ObjectHideFlags: 0
@@ -30009,6 +30042,9 @@ MonoBehaviour:
   shipCoordinates: {x: 0, y: 0}
   pirateShips:
   - {fileID: 2097412916}
+  - {fileID: 492046083}
+  - {fileID: 1666269680}
+  - {fileID: 1706203807}
 --- !u!4 &1758241114
 Transform:
   m_ObjectHideFlags: 0

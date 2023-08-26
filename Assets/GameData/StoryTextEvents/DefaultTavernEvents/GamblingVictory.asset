@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Gambling
   Texts:
-  - You decide to try your look with a few rounds of cards. Luckily the other players
-    had even more to drink than you did. YOu made some nice profits
+  - You decide to try your look with a few hands of cards. Luckily the other players
+    had even more to drink than you did.
+  - You made some nice profits.
   StoryTextEventTrigger:
   - type: 0
     intValue: 0
@@ -25,4 +26,5 @@ MonoBehaviour:
   - unlockIslands: 4
     rewardType: 5
     intValue: 5
+    progressionTag: 0
   FollowingStoryTextEvents: []

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Uncover Map
   Texts:
-  - ... thanks for the drinks, mate. I had a great night. Here have this map. Maybe
-    it will serve you better than me
+  - '"... thanks for the drinks, mate. I had a great night. Here have this map. Maybe
+    it will serve you better than me."'
   StoryTextEventTrigger:
   - type: 0
     intValue: 0
@@ -25,4 +25,5 @@ MonoBehaviour:
   - unlockIslands: 4
     rewardType: 9
     intValue: 5
+    progressionTag: 0
   FollowingStoryTextEvents: []

@@ -14,12 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Moving Islands
   Texts:
-  - Our world  is made out of water to the core. Therefore all islands are constantly
-    floating in the currents. Once you spend some time resting, you can't know anymore
-    which island is where.
+  - You've never been that far out before during you training. So don't be alarmed
+    that the world changed. Everything is eternally flowing in the currents of the
+    world. Even the islands. So it is no wonder the world looks different every time
+    you set sail into it. You just have to get used to it.
   StoryTextEventTrigger:
   - type: 1
     intValue: 0
     revelantCity: {fileID: 0}
     nextGameState: 0
+  StoryTextEventRewards: []
   FollowingStoryTextEvents: []

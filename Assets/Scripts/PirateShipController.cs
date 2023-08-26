@@ -34,7 +34,6 @@ public class PirateShipController : MonoBehaviour
             if (detectionRange.Contains(DemoController.Instance.gameMapHandler.shipCoordinates))
             {
                 // ship in detection range    
-
                 if (DemoController.Instance.gameMapHandler.CanNavigate(DemoController.Instance.gameMapHandler.shipCoordinates, pirateShipCoordinates))
                 {
                     // can attack
@@ -42,7 +41,16 @@ public class PirateShipController : MonoBehaviour
                 }
                 else
                 {
-                    // select random target for now
+                    // select a field to follow player
+                    List<Vector2Int> neighboursOfPlayer = DemoController.Instance.gameMapHandler.GetNeighbors(DemoController.Instance.gameMapHandler.shipCoordinates, 1);
+                    foreach (Vector2Int target in neighboursOfPlayer)
+                    {
+                        if (DemoController.Instance.gameMapHandler.CanNavigate(pirateShipCoordinates, target))
+                        {
+                            targetCell = target;
+                            break;
+                        }
+                    }
                 }
             }
 

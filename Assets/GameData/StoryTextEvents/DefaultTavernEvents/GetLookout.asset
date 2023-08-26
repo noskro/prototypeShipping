@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Get lookout
   Texts:
-  - I've been working as a ships lookout since I was 7. And only fell of the crow's
-    nest maybe 5 times. I am sure I can help you.
+  - '"I''ve been working as a ship''s lookout since I was 7. And only fell of the
+    crow''s nest a couple times. I am sure I can help you."'
+  - A new lookout joins your crew that improves your view range.
   StoryTextEventTrigger:
   - type: 0
     intValue: 0
@@ -25,4 +26,5 @@ MonoBehaviour:
   - unlockIslands: 4
     rewardType: 7
     intValue: 1
+    progressionTag: 0
   FollowingStoryTextEvents: []
