@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Discover Tiverrock
   Texts:
-  - You discovered one of the new islands. It contains a prosperous city, but it
-    is not the legendary island of KUHGFZIHGFLIUKZ that you are looking for
+  - You discovered a new islands. It contains a prosperous city, but it is not the
+    legendary island of Utopena that you are looking for. But you have an inner feeling
+    that you are getting closer ...
   StoryTextEventTrigger:
   - type: 3
     intValue: 0

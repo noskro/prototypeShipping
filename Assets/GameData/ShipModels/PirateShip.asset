@@ -15,7 +15,7 @@ MonoBehaviour:
   ShipModelName: Pirate Ship
   ShipDurabilityUpgradeList:
   - Price: 0
-    Value: 100
+    Value: 50
   ShipMaxCrewUpgradeList:
   - Price: 0
     Value: 15

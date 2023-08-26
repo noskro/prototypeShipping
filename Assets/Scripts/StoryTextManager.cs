@@ -38,10 +38,12 @@ public class StoryTextManager : MonoBehaviour
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.Run) && (int)trigger.intValue <= DemoController.Instance.Run) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.FieldsTravelled) && (int)trigger.intValue <= DemoController.Instance.FieldsTravelled) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.DiscoverCity) && StaticTileDataContainer.Instance.IsCityDiscovered(trigger.revelantCity)) ||
+                    (trigger.type.Equals(EnumStoryTextEventTriggerType.TradeWithCity) && StaticTileDataContainer.Instance.IsTradedWith(trigger.revelantCity)) ||
                     (trigger.type.Equals(EnumStoryTextEventTriggerType.NextGameState) && trigger.nextGameState.Equals(DemoController.Instance.GameState)) ||
                     false) // false is here just so I can copy the condition lines without caring about the || at the end
                 {
                     TriggerStoryTextEvent(story);
+                    CheckForNewEvents(gameState);
                     return;
                 }
             }
@@ -50,6 +52,8 @@ public class StoryTextManager : MonoBehaviour
             {
                 // if there is no trigger, akways trigger
                 TriggerStoryTextEvent(story);
+                CheckForNewEvents(gameState);
+                return;
             }
         }
     }
@@ -63,7 +67,7 @@ public class StoryTextManager : MonoBehaviour
         // fulllfill rewards
         foreach (StoryTextEventRewards reward in story.StoryTextEventRewards)
         {
-            if (!reward.unlockIslands.Equals(EnumIslandUnlockEvent.None))
+            if (!reward.unlockIslands.Equals(EnumIslandUnlockEvent.StarterIsland))
             {
                 DemoController.Instance.worldCreator.AddNewIslandPrefabsToAvailable(reward.unlockIslands);
             }

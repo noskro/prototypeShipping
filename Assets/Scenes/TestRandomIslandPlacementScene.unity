@@ -148,8 +148,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51881891}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.466, y: 14.064, z: 0}
-  m_LocalScale: {x: 5.024409, y: 4.3118153, z: 1}
+  m_LocalPosition: {x: 34.4213, y: 37.1931, z: 0}
+  m_LocalScale: {x: 7.415704, y: 10.562881, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1687757950}
@@ -23246,6 +23246,7 @@ MonoBehaviour:
   textSingleStatName: {fileID: 500708023}
   textSingleStatCurrentLevel: {fileID: 2100720042}
   textSingleStatUpgradeButton: {fileID: 1392243901}
+  buttonUpgrade: {fileID: 718354671}
 --- !u!114 &269177757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25318,6 +25319,7 @@ MonoBehaviour:
   textSingleStatName: {fileID: 1804026751}
   textSingleStatCurrentLevel: {fileID: 559563597}
   textSingleStatUpgradeButton: {fileID: 859707176}
+  buttonUpgrade: {fileID: 2102105043}
 --- !u!114 &683933202
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25806,6 +25808,7 @@ MonoBehaviour:
   textSingleStatName: {fileID: 483248106}
   textSingleStatCurrentLevel: {fileID: 734623514}
   textSingleStatUpgradeButton: {fileID: 163001823}
+  buttonUpgrade: {fileID: 2055489414}
 --- !u!114 &753139827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27276,6 +27279,7 @@ MonoBehaviour:
   textSingleStatName: {fileID: 421595073}
   textSingleStatCurrentLevel: {fileID: 875767528}
   textSingleStatUpgradeButton: {fileID: 1266841021}
+  buttonUpgrade: {fileID: 1625282741}
 --- !u!114 &1104582389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27998,12 +28002,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
+  m_fontSize: 40
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 2
-  m_fontSizeMax: 50
+  m_fontSizeMax: 40
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -29748,6 +29752,10 @@ MonoBehaviour:
   - {fileID: 7887138028428539175, guid: 9e1b266fce9b2104d962548ec483b902, type: 3}
   - {fileID: 7887138028428539175, guid: 877c3e655ab17b849a71bc5ce4551e7f, type: 3}
   - {fileID: 1276863079840381009, guid: 1cb56d48af22502488021966e06abd52, type: 3}
+  - {fileID: 1276863079840381009, guid: a576ddb0f03c3e7479db82a359d61272, type: 3}
+  - {fileID: 1276863079840381009, guid: efeb82c5ed618884eba369532430c059, type: 3}
+  - {fileID: 1276863079840381009, guid: 04f33ed7835fe0a4ea3c476ecbb015b4, type: 3}
+  - {fileID: 450074215514120984, guid: aa6793c8a44d15944abf8da36d5c92a4, type: 3}
 --- !u!114 &1687757952
 MonoBehaviour:
   m_ObjectHideFlags: 0

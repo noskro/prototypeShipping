@@ -26,5 +26,6 @@ MonoBehaviour:
   - unlockIslands: 3
     rewardType: 1
     intValue: 3
+    progressionTag: 0
   FollowingStoryTextEvents:
   - {fileID: 11400000, guid: 7839c2bd51b25f045bdb00e2a5a5a13b, type: 2}

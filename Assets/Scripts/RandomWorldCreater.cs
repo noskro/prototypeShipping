@@ -56,7 +56,17 @@ public class RandomWorldCreater : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
+        for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++)
+        {
+            for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+            {
+                StaticTileDataContainer.Instance.gameMapData[x, y].Reset(0);
+            }
+        }
+
         StaticTileDataContainer.Instance.mapWidth = StaticTileDataContainer.Instance.mapHeight = 14 + AvailableIslands.Count * 4; // for reasons of rendering the height must be the double of odd number (e.g 30 = 15*2) / start value is 4 islands * 4 = 16 + 14 = 30
+
+        StaticTileDataContainer.Instance.CreateGameMapDataArray();
 
         for (int x = -1; x < StaticTileDataContainer.Instance.mapWidth + 1; x++) 
         { 
@@ -66,11 +76,15 @@ public class RandomWorldCreater : MonoBehaviour
 
                 if (x >= 0 && y >= 0 && x < StaticTileDataContainer.Instance.mapWidth && y < StaticTileDataContainer.Instance.mapHeight)
                 {
-                    StaticTileDataContainer.Instance.gameMapData[x, y].Reset(0);
+                    if (StaticTileDataContainer.Instance.gameMapData[x, y] == null)
+                    {
+                        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData(); // on map extension, create new array entry
+                    }
                 }
             }
         }
 
+        PositionHomeIsland = StaticTileDataContainer.Instance.GetHomeIslandStartingCoordinates();
         TryPlaceIslandAtRandomPosition(HomeIsland, PositionHomeIsland);
 
         //foreach (PersistentIslandData island in AvailableIslands.Reverse())

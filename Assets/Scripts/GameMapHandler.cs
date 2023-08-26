@@ -454,6 +454,11 @@ public partial class GameMapHandler : MonoBehaviour
             {
                 for (int y = 0; y <StaticTileDataContainer.Instance.mapHeight; y++)
                 {
+                    if (StaticTileDataContainer.Instance.gameMapData[x, y] == null)
+                    {
+                        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData();
+                    }
+
                     if (StaticTileDataContainer.Instance.gameMapData[x, y].CityData != null && StaticTileDataContainer.Instance.gameMapData[x, y].CityData.BeaconBuild)
                     {
                         // discover cities with beacon and fog the surroundings if they are still undiscovered

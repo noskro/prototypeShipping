@@ -22,12 +22,9 @@ MonoBehaviour:
     intValue: 0
     revelantCity: {fileID: 11400000, guid: 8e054c1904d60e64cac420ae27435e6e, type: 2}
     nextGameState: 3
-  - type: 3
-    intValue: 0
-    revelantCity: {fileID: 11400000, guid: fc7e1a87e69f5de46a4861a360621fb4, type: 2}
-    nextGameState: 0
   StoryTextEventRewards:
   - unlockIslands: 3
     rewardType: 5
     intValue: 10
+    progressionTag: 0
   FollowingStoryTextEvents: []

@@ -5,6 +5,7 @@
     Run,
     DiscoverCity,
     NextGameState,
-    FieldsTravelled
+    FieldsTravelled,
+    TradeWithCity
 
 }

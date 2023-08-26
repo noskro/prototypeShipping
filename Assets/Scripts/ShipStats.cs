@@ -298,41 +298,73 @@ public class ShipStats : MonoBehaviour
 
     internal int GetCurrentDiscoverRange()
     {
+        if (shipModel == null)
+        {
+            return 0;
+        }
         return shipModel.ShipDiscoverRangeUpgradeList[shipDiscoverRangeCurrentLevel].Value + temporaryViewRangeAddition;
     }
 
     internal int GetCurrentViewRange()
     {
+        if (shipModel == null)
+        {
+            return 0;
+        }
         return shipModel.ShipViewRangeUpgradeList[shipViewRangeCurrentLevel].Value + temporaryViewRangeAddition;
     }
 
     internal int GetCurrentMaxDurability()
     {
+        if (shipModel == null)
+        {
+            return 0;
+        }
         return shipModel.ShipDurabilityUpgradeList[shipDurabilityCurrentLevel].Value;
     }
 
     internal int GetCurrentMaxCrew()
     {
+        if (shipModel == null)
+        {
+            return 0;
+        }
         return shipModel.ShipMaxCrewUpgradeList[shipMaxCrewCurrentLevel].Value;
     }
 
     internal int GetCurrentMaxFood()
     {
+        if (shipModel == null)
+        {
+            return 0;
+        }
         return shipModel.ShipMaxFoodUpgradeList[shipMaxFoodCurrentLevel].Value;
     }
 
     internal int GetCurrentMaxMoral()
     {
+        if (shipModel == null)
+        {
+            return 0;
+        }
         return shipModel.ShipMaxMoralUpgradeList[shipMaxMoralCurrentLevel].Value;
     }
 
     internal int GetCurrentMaxCanons()
     {
+        if (shipModel == null)
+        {
+            return 0;
+        }
         return shipModel.ShipMaxCanonsUpgradeList[shipMaxCanonsCurrentLevel].Value;
     }
 
     internal int GetCurrentCanons()
     {
+        if (shipModel == null)
+        {
+            return 0;
+        }
         return shipModel.ShipMaxCanonsUpgradeList[shipMaxCanonsCurrentLevel].Value + temporaryCanonAddition;
     }
 }

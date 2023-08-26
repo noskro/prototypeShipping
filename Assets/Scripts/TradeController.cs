@@ -142,31 +142,33 @@ public class TradeController : MonoBehaviour
             selectedSR = trade3;
         }
 
-        if (selectedSR.sprite.Equals(spriteTradeGold))
+        if (selectedSR.sprite != null)
         {
-            tradeGold = "+1";
+            if (selectedSR.sprite.Equals(spriteTradeGold))
+            {
+                tradeGold = "+1";
+            }
+            else if (selectedSR.sprite.Equals(spriteTradeGoldUpgraded))
+            {
+                tradeGold = "+(2-3)";
+            }
+            else if (selectedSR.sprite.Equals(spriteTradeRepair))
+            {
+                tradeDurability = "+" + (shipStats.GetCurrentMaxDurability() - shipStats.ShipDurability);
+            }
+            else if (selectedSR.sprite.Equals(spriteTradeCrew))
+            {
+                tradeCrew = "+" + (Mathf.Min(shipStats.CrewCount + 1, shipStats.GetCurrentMaxMoral()));
+            }
+            else if (selectedSR.sprite.Equals(spriteTradeFood))
+            {
+                tradeFood = "+" + (Mathf.Min(shipStats.FoodStatus + 2, shipStats.GetCurrentMaxFood()));
+            }
+            else if (selectedSR.sprite.Equals(spriteTradeRum))
+            {
+                tradeMoral = "+" + (Mathf.Min(shipStats.MoralStatus + Random.Range(1, 2), shipStats.GetCurrentMaxMoral()));
+            }
         }
-        else if (selectedSR.sprite.Equals(spriteTradeGoldUpgraded))
-        {
-            tradeGold = "+(2-3)";
-        }
-        else if (selectedSR.sprite.Equals(spriteTradeRepair))
-        {
-            tradeDurability = "+" + (shipStats.GetCurrentMaxDurability() - shipStats.ShipDurability);
-        }
-        else if (selectedSR.sprite.Equals(spriteTradeCrew))
-        {
-            tradeCrew = "+" + (Mathf.Min(shipStats.CrewCount + 1, shipStats.GetCurrentMaxMoral()));
-        }
-        else if (selectedSR.sprite.Equals(spriteTradeFood))
-        {
-            tradeFood = "+" + (Mathf.Min(shipStats.FoodStatus + 2, shipStats.GetCurrentMaxFood()));
-        }
-        else if (selectedSR.sprite.Equals(spriteTradeRum))
-        {
-            tradeMoral = "+" + (Mathf.Min(shipStats.MoralStatus + Random.Range(1, 2), shipStats.GetCurrentMaxMoral()));
-        }
-
         DemoController.Instance.shipController.shipStatusUI.ShowPossibleStatChangeString(tradeDurability, tradeCrew, tradeFood, tradeMoral, tradeCanons, tradeGold);
     }
 

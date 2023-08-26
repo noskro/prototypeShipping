@@ -34,7 +34,7 @@ public class ShipVisual : MonoBehaviour
 
     private void UpdateSprite()
     {
-        if (shipSpriteRenderer != null && shipStats != null)
+        if (shipSpriteRenderer != null && shipStats != null && shipStats.shipModel != null)
         {
             if (state == EnumGameStates.ShipLost)
             {

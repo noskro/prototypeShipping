@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c33982ea55cc0a40aa83612aae7de6f, type: 3}
+  m_Name: Discover_Utopena
+  m_EditorClassIdentifier: 
+  Title: Discover Utopena
+  Texts:
+  - 'You cannot believe your eyes. After all this time you anchor in the harbour
+    of Utopena. The legendary city that will bring prosperity and peace to the world. '
+  - You prepare to disembark and are the first person in ages to set food on the
+    island. A feeling of accomplishment and pride overwhelm you. You know that you
+    achieved your quest and have nothing more to prove.
+  - This is the end of your adventure. You are welcome to continue exploring the
+    rest of the world. But there won't be any further goals to achieve.  Thank you
+    for playing out game jam game.
+  StoryTextEventTrigger:
+  - type: 6
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: 3fcf237175207834b88fa9ee7fae5b57, type: 2}
+    nextGameState: 0
+  StoryTextEventRewards:
+  - unlockIslands: 5
+    rewardType: 5
+    intValue: 100
+    progressionTag: 0
+  FollowingStoryTextEvents: []

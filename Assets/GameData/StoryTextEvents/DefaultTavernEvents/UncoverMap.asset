@@ -22,7 +22,7 @@ MonoBehaviour:
     revelantCity: {fileID: 0}
     nextGameState: 0
   StoryTextEventRewards:
-  - unlockIslands: 4
+  - unlockIslands: 0
     rewardType: 9
     intValue: 5
     progressionTag: 0

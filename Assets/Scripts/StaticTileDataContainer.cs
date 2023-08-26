@@ -42,6 +42,11 @@ public class StaticTileDataContainer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CreateGameMapDataArray();
+    }
+
+    public void CreateGameMapDataArray()
+    { 
         gameMapData = new GameMapData[mapWidth, mapHeight];
         for (int x = 0; x < mapWidth; x++)
         {
@@ -51,7 +56,6 @@ public class StaticTileDataContainer : MonoBehaviour
             }
         }
     }
-
 
     internal Vector2Int GetMapStartingCoordinates()
     {
@@ -74,6 +78,27 @@ public class StaticTileDataContainer : MonoBehaviour
                 }
             }
         }
+    }
+
+    internal bool IsTradedWith(CityDataSO revelantCity)
+    {
+        for (int x = 0; x < mapWidth; x++)
+        {
+            for (int y = 0; y < mapHeight; y++)
+            {
+                GameMapData gmd = gameMapData[x, y];
+
+                if (gmd.CityData != null)
+                {
+                    if (gmd.CityData.CityName.Equals(revelantCity.CityName))
+                    {
+                        return gmd.CityData.TimesTraded > 0;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     internal void CheckIslandDiscovered()
@@ -101,6 +126,12 @@ public class StaticTileDataContainer : MonoBehaviour
             for (int y = 0; y < mapHeight; y++)
             {
                 GameMapData gmd = gameMapData[x, y];
+
+                if (gmd == null)
+                {
+                    gmd = new GameMapData();
+                }
+
                 if (gmd.CityData != null)
                 {
                     if (gmd.CityData.CityName.Equals(value.CityName))

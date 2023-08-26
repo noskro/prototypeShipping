@@ -16,6 +16,7 @@ public class MetaUpgradeShipSingleStatUI : MonoBehaviour
     public TextMeshProUGUI textSingleStatName;
     public TextMeshProUGUI textSingleStatCurrentLevel;
     public TextMeshProUGUI textSingleStatUpgradeButton;
+    public Button buttonUpgrade;
 
     private int iCurrentLevel = -1;
     private int priceNextLevel = -1;
@@ -36,17 +37,17 @@ public class MetaUpgradeShipSingleStatUI : MonoBehaviour
     {
         if (!showOnlyOnTag.Equals(EnumStoryProgressionTags.None) && !DemoController.Instance.StoryProgressionTags.Contains(showOnlyOnTag))
         {
-            textSingleStatUpgradeButton.GetComponentInParent<Button>().gameObject.SetActive(false);
+            buttonUpgrade.gameObject.SetActive(false);
             imageBackground.enabled = false;
             textSingleStatName.gameObject.SetActive(false);
             textSingleStatCurrentLevel.gameObject.SetActive(false);
         }
         else
         {
+            buttonUpgrade.gameObject.SetActive(true);
             imageBackground.gameObject.SetActive(true);
-            imageBackground.enabled = true;
+            textSingleStatName.gameObject.SetActive(true);
             textSingleStatCurrentLevel.gameObject.SetActive(true);
-            textSingleStatUpgradeButton.GetComponentInParent<Button>().gameObject.SetActive(true);
 
             textSingleStatName.text = SingleStatName;
             List<ShipSingleStatUpgadeItem> upgradeList = DemoController.Instance.shipController.shipStats.GetUpgradeableSingleStatList(shipStatModifier);

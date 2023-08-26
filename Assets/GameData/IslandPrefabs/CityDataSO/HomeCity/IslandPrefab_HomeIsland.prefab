@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915fb940f1ca53e46a212f3ea8d672c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IslandName: Home Island
+  IslandName: Xatburg
   unlockEvent: 0
   cityDataList:
   - {fileID: 11400000, guid: 0f466c06b9de2324cb3cc7798c01d0b0, type: 2}

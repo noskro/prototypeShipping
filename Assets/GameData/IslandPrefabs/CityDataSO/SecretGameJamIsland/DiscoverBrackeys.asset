@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c33982ea55cc0a40aa83612aae7de6f, type: 3}
+  m_Name: DiscoverBrackeys
+  m_EditorClassIdentifier: 
+  Title: Discover Breackeys
+  Texts:
+  - What are you gamers doing? I told you there is nothing more to discover. Not
+    even this easter egg! I guess I should have known that you can't stop playing. 
+    If you like the game or have any ideas how to improve it, please let us know.
+    You probably already are on our itch page </advertisement> This is now truly
+    the end. I promise ;)
+  StoryTextEventTrigger:
+  - type: 3
+    intValue: 0
+    revelantCity: {fileID: 11400000, guid: 1ae6850d91a12e244934e92a02608ff3, type: 2}
+    nextGameState: 0
+  StoryTextEventRewards:
+  - unlockIslands: 0
+    rewardType: 5
+    intValue: 1000
+    progressionTag: 0
+  FollowingStoryTextEvents: []
