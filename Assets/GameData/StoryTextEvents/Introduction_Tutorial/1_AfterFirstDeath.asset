@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: After first death
   Texts:
-  - Don't worry when your ship sinks. It happens to the best. Good thing the empire
-    has the best open seas rescue agency, that will pick you and your valuables up
+  - Don't worry when your ship sinks. It happens to the best. Good thing the Empire
+    has the best open seas rescue agency. They will pick up you and your valuables
     and bring you back home. It would be a good idea to spend some of your profits
     on upgrades for your ship. That way you will last longer in the future.
   StoryTextEventTrigger:

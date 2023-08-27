@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Gambling
   Texts:
-  - You decide to try your look with a few hands of cards. Luckily the other players
+  - You decide to try your luck with a few hands of cards. Luckily, the other players
     had even more to drink than you did.
   - You made some nice profits.
   StoryTextEventTrigger:

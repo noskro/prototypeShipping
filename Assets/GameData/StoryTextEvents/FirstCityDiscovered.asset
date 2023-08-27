@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: First City Discovered
   Texts:
-  - Your lookup reports a city, coming into sight. Cities are a geart help to explore
+  - Your lookup reports a city coming into sight. Cities are a great assets to explore
     the world. They will offer trade opportunities and can be upgraded over time
     to perform repairs or recruit new crewman.
   StoryTextEventTrigger:

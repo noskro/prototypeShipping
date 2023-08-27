@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: Get lookout
   Texts:
-  - '"I''ve been working as a ship''s lookout since I was 7. And only fell of the
-    crow''s nest a couple times. I am sure I can help you."'
+  - '"I''ve been working as a ship''s lookout since I was 7. And only fell from the
+    crow''s nest a few times. I am sure I can help you."'
   - A new lookout joins your crew that improves your view range.
   StoryTextEventTrigger:
   - type: 0

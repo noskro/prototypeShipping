@@ -16,7 +16,7 @@ MonoBehaviour:
   Texts:
   - It seems like forever ago when you left your home. You never travelled such a
     long distance with the same ship. Who knows which islands are still out there.
-    You feel good and your ship suddenly feeld much sturdier as just a moment ago.
+    You feel good and your ship suddenly feels much sturdier as just a moment ago.
   StoryTextEventTrigger:
   - type: 5
     intValue: 100
@@ -26,4 +26,5 @@ MonoBehaviour:
   - unlockIslands: 2
     rewardType: 1
     intValue: 3
+    progressionTag: 0
   FollowingStoryTextEvents: []

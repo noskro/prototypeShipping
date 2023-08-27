@@ -62,7 +62,7 @@ public class ShipStatsUI : MonoBehaviour
 
         if (!shipLost)
         {
-            textShowStats.text = string.Format("Duraility: {0}/{1}\nCrew: {2}/{3}\nCanons: {8}\nGold: {9}", /*Moral {6}/{7}\n Food: { 4}/{ 5}\n */
+            textShowStats.text = string.Format("Durability: {0}/{1}\nCrew: {2}/{3}\nCannons: {8}\nGold: {9}", /*Moral {6}/{7}\n Food: { 4}/{ 5}\n */
                 Mathf.Ceil(shipStats.ShipDurability), shipStats.GetCurrentMaxDurability(),
                 Mathf.Ceil(shipStats.CrewCount), shipStats.GetCurrentMaxCrew(),
                 Mathf.Ceil(shipStats.FoodStatus), shipStats.GetCurrentMaxFood(),

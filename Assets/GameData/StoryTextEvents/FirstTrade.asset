@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: First Trade
   Texts:
-  - You docked your ship in the harbor of a city. Here you have the choice on how
-    to improve your coming voyage. All citys offer trade which will bring coin into
-    your pocket. Upgraded cities can also repair your ship, offer crewman to recruite
-    or you can visit the tavern to listen into the latest stories. Choose wisely
-    as every city will only allow you one action.
+  - You've docked your ship in the harbor of a city. Here you have the choice on
+    how to prepare your coming voyage. All citys offer trade which will bring coin
+    into your pocket. Upgraded cities can also repair your ship, offer crewman to
+    recruite or you can visit the tavern to listen into the latest stories. Choose
+    wisely as every city will only allow you one action.
   StoryTextEventTrigger:
   - type: 4
     intValue: 0

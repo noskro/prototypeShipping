@@ -15,7 +15,7 @@ MonoBehaviour:
   Title: Travelled 200 Tiles end of run
   Texts:
   - You travelled further than anyone ever before. When you get home many people
-    will wnat to know what you discovered in those distant lands. You should be able
+    will want to know what you discovered in those distant lands. You should be able
     to make a pretty profit with your stories.
   StoryTextEventTrigger:
   - type: 4

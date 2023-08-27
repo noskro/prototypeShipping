@@ -15,8 +15,8 @@ MonoBehaviour:
   Title: Travelled 200 Tiles
   Texts:
   - 100 Tiles? That was yesterday. Now you managed to travel at least double that
-    distance. The craftsmenship of the dock workers surely is amazing. New riches
-    will surely await you soon
+    distance. The craftsmanship of the dock workers surely is amazing. New riches
+    will surely await you soon!
   StoryTextEventTrigger:
   - type: 5
     intValue: 200

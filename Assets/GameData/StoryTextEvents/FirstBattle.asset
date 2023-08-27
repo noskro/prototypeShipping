@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Title: First Battle
   Texts:
-  - The threat on the open seas are growing. It seems pirates have started to traverse
+  - The threats on the open seas are growing. It seems pirates have started to traverse
     the waters around the known islands. Our current ships are no match. We need
-    to upgrade our canons and extend our crew to stand a chance against them.
+    to upgrade our cannons and extend our crew to stand any chance against them.
   StoryTextEventTrigger:
   - type: 4
     intValue: 0
