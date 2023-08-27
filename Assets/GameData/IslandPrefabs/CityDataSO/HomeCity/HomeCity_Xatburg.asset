@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CityName: Xatburg
   spriteCityLocation: {fileID: 21300000, guid: 8ada5ac5fbd5d4445a7b4556a1834930, type: 3}
-  startingCityLevel: 4
+  startingCityLevel: 1
   ImmediateStoryTextEvents: []
   TavernStoryTextEvents:
   - {fileID: 11400000, guid: 48d4e6c6610a4ab469cff7e4bbacadea, type: 2}
