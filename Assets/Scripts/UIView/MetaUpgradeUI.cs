@@ -33,7 +33,7 @@ public class MetaUpgradeUI : MonoBehaviour
     {
         if (active && DemoController.Instance.shipController.shipStats != null)
         {
-            textGold.text = "GOLD: " + DemoController.Instance.shipController.shipStats.Gold;
+            textGold.text = "" + DemoController.Instance.shipController.shipStats.Gold;
         }
     }
 

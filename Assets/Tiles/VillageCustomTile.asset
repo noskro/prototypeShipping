@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e7b92474abb0a4db8cbce750c1ee01, type: 3}
   m_Name: VillageCustomTile
   m_EditorClassIdentifier: 
-  m_DefaultSprite: {fileID: 21300000, guid: aa3be12054354df4aae45afb7a9a053d, type: 3}
+  m_DefaultSprite: {fileID: 0}
   m_DefaultGameObject: {fileID: 0}
   m_DefaultColliderType: 1
   m_TilingRules: []
-  fogOfWarStatus: 0
+  m_FlatTop: 0
   movability: 2
   type: 2
+  siblingGroup: 0

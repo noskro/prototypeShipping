@@ -101,8 +101,8 @@ public class ShipBattleManager : MonoBehaviour
                 attackingDamage = attackMaxDamage; // UnityEngine.Random.Range(attackMinDamage, attackMaxDamage) * 2;
 
                 float percentageCrewLostAttack = UnityEngine.Random.Range(0f, 1f);
-                deltaDurability = Mathf.CeilToInt(attackingDamage * (1 - percentageCrewLostAttack));
                 deltaCrew = Mathf.CeilToInt(Mathf.FloorToInt(attackingDamage * percentageCrewLostAttack) / 10);
+                deltaDurability = Mathf.CeilToInt(attackingDamage - (10 * deltaCrew));
 
                 audioSourceBattle.PlayOneShot(audioClipCanonShot);
             }
@@ -144,8 +144,8 @@ public class ShipBattleManager : MonoBehaviour
                     defendingDamage = defendingxDamage; // UnityEngine.Random.Range(defendingMinDamage, defendingxDamage) * 2;
 
                     float percentageCrewLostDefense = UnityEngine.Random.Range(0f, 1f);
-                    deltaDurability = Mathf.CeilToInt(defendingDamage * (1 - percentageCrewLostDefense));
                     deltaCrew = Mathf.CeilToInt(Mathf.FloorToInt(defendingDamage * percentageCrewLostDefense) / 10);
+                    deltaDurability = Mathf.CeilToInt(defendingDamage - (10 * deltaCrew));
 
                     audioSourceBattle.PlayOneShot(audioClipCanonShot);
                 }
