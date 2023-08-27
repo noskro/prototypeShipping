@@ -5,6 +5,7 @@ using UnityEngine;
 public class StoryTextEventSO: ScriptableObject
 {
     public string Title;
+    [TextArea(5, 20)]
     public List<string> Texts;
 
     public List<StoryTextEventTrigger> StoryTextEventTrigger;
