@@ -30,7 +30,7 @@ public class PirateShipController : MonoBehaviour
             Vector2Int targetCell = new Vector2Int(-1, -1);
 
             // check if enemy in range
-            List<Vector2Int> detectionRange = DemoController.Instance.gameMapHandler.GetNeighbors(pirateShipCoordinates, 2);
+            List<Vector2Int> detectionRange = StaticTileDataContainer.GetNeighbors(pirateShipCoordinates, 2);
             if (detectionRange.Contains(DemoController.Instance.gameMapHandler.shipCoordinates))
             {
                 // ship in detection range    
@@ -42,7 +42,7 @@ public class PirateShipController : MonoBehaviour
                 else
                 {
                     // select a field to follow player
-                    List<Vector2Int> neighboursOfPlayer = DemoController.Instance.gameMapHandler.GetNeighbors(DemoController.Instance.gameMapHandler.shipCoordinates, 1);
+                    List<Vector2Int> neighboursOfPlayer = StaticTileDataContainer.Instance.GetMoveableNeighbors(DemoController.Instance.gameMapHandler.shipCoordinates, 1);
                     foreach (Vector2Int target in neighboursOfPlayer)
                     {
                         if (DemoController.Instance.gameMapHandler.CanNavigate(pirateShipCoordinates, target))
@@ -57,7 +57,7 @@ public class PirateShipController : MonoBehaviour
             // else get random direction for ship movement
             if (targetCell == new Vector2Int(-1, -1))
             {
-                List<Vector2Int> possibleTargets = DemoController.Instance.gameMapHandler.GetNeighbors(pirateShipCoordinates, 1);
+                List<Vector2Int> possibleTargets = StaticTileDataContainer.Instance.GetMoveableNeighbors(pirateShipCoordinates, 1);
 
                 while (possibleTargets.Count > 0)
                 {

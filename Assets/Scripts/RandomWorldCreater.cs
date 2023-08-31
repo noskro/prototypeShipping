@@ -45,7 +45,6 @@ public class RandomWorldCreater : MonoBehaviour
         }
     }
 
-
     public void GenerateNewWorld()
     {
         StaticTileDataContainer.Instance.TilemapMap.ClearAllTiles();
@@ -78,7 +77,8 @@ public class RandomWorldCreater : MonoBehaviour
                 {
                     if (StaticTileDataContainer.Instance.gameMapData[x, y] == null)
                     {
-                        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData(); // on map extension, create new array entry
+                        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData(new Vector2Int(x, y)); // on map extension, create new array entry
+                        // set pathfindingNode
                     }
                 }
             }
@@ -95,34 +95,31 @@ public class RandomWorldCreater : MonoBehaviour
             TryPlaceIslandAtRandomPosition(island);
         }
 
+        // set pathfinding tile notes
+        for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++)
+        {
+            for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+            {
+                CustomTile tile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(new Vector3Int(x, y, 0));
+                StaticTileDataContainer.Instance.gameMapData[x, y].SetPathfindingNodeMoveable(tile.movability.Equals(EnumTileMovability.ShipMoveable));
 
-        //StaticTileDataContainer.Instance.TilemapMap.CompressBounds();
-        //BoundsInt bound = StaticTileDataContainer.Instance.TilemapMap.cellBounds;
-        //TileBase[] originalTiles = StaticTileDataContainer.Instance.TilemapMap.GetTilesBlock(bound);
+                List<Vector2Int> neighbors = StaticTileDataContainer.Instance.GetMoveableNeighbors(new Vector2Int(x, y), 1);
+                List<PathfindingTileNode> neighborTileNodes = new List<PathfindingTileNode>();
+                foreach(Vector2Int n in neighbors)
+                {
+                    try
+                    {
+                        neighborTileNodes.Add(StaticTileDataContainer.Instance.gameMapData[n.x, n.y].pathfingingTileNode);
+                    }
+                    catch (Exception e)
+                    {
+                        int a = 0;
+                    }
+                }
+                StaticTileDataContainer.Instance.gameMapData[x, y].SetPathfindingNodeNeighbors(neighborTileNodes);
+            }
+        }
 
-        //BoundsInt newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
-        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
-
-        //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
-        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
-
-        //newBound = new BoundsInt(bound.position - new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
-
-        //newBound = new BoundsInt(bound.position + new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
-
-        //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
-
-        //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
-
-        //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
-
-        //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-        //StaticTileDataContainer.Instance.TilemapMap.SetTilesBlock(newBound, originalTiles);
     }
 
     private void TryPlaceIslandAtRandomPosition(PersistentIslandData islandData, Vector2Int? fixedPosition = null)

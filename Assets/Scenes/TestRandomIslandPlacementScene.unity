@@ -48618,12 +48618,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -51372,12 +51372,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1280, y: 720}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -53297,6 +53297,7 @@ GameObject:
   - component: {fileID: 1758241113}
   - component: {fileID: 1758241115}
   - component: {fileID: 1758241116}
+  - component: {fileID: 1758241117}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -53396,6 +53397,18 @@ MonoBehaviour:
   audioClipCanonHit: {fileID: 8300000, guid: 4ca67aaa3ce0902499f976c7def9bf70, type: 3}
   audioClipCanonShot: {fileID: 8300000, guid: 06d4a1907cf8e8e4d943681ac997d1c4, type: 3}
   audioClipCanonMiss: {fileID: 8300000, guid: 424cadfda3a500048928fffadaeba48e, type: 3}
+--- !u!114 &1758241117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758241112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e863704dc863bf4ca2e0edb275c6ef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1770766278
 GameObject:
   m_ObjectHideFlags: 0
@@ -53782,7 +53795,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.7999878, y: -261.90005}
+  m_AnchoredPosition: {x: -0.79992676, y: -261.90005}
   m_SizeDelta: {x: -26.5, y: -536.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &1896829354

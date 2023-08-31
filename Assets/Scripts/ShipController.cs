@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -16,7 +17,7 @@ public class ShipController : MonoBehaviour
 
     public Vector3 shipStartPosition;
     public Vector3 shipTargetPosition;
-    public Vector2Int? nextScheduledTarget = null;
+    public List<Vector2Int> nextScheduledTargets;
     public bool doShipRotate;
     public float shipMovingTimer = 0f;
 
@@ -55,27 +56,28 @@ public class ShipController : MonoBehaviour
             if (shipMovingTimer <= 0)
             {
                 EndShipMovement();
-
-                if (nextScheduledTarget != null)
-                {
-                    Vector2Int target = (Vector2Int)nextScheduledTarget;
-                    Vector2Int currentShipCoords = gameMapHandler.shipCoordinates;
-                    gameMapHandler.SetDestination(target);
-                    shipStartPosition = transform.position;
-                    shipTargetPosition = gameMapHandler.GetCellPosition(target);
-
-                    demoController.SetGameState(EnumGameStates.ShipMoving);
-                    shipMovingTimer = 1f;
-
-                    CustomTile targetTile = gameMapHandler.GetMapTile(target);
-                    shipStats.direction = gameMapHandler.GetDirection(currentShipCoords, target);
-                    shipStats.NextTurn(targetTile);
-                    TriggerShipUpdated();
-                    demoController.FieldsTravelled++;
-
-                    nextScheduledTarget = null;
-                }
             }
+        }
+        else if (nextScheduledTargets.Count != 0 && (demoController.GameState == EnumGameStates.ShipIdle || demoController.GameState == EnumGameStates.Start))
+        {
+            Vector2Int nexttarget = nextScheduledTargets[0];
+            Vector2Int currentShipCoords = gameMapHandler.shipCoordinates;
+            gameMapHandler.SetDestination(nexttarget);
+            shipStartPosition = transform.position;
+            shipTargetPosition = gameMapHandler.GetCellPosition(nexttarget);
+
+            demoController.SetGameState(EnumGameStates.ShipMoving);
+            shipMovingTimer = 1f;
+
+            CustomTile targetTile = gameMapHandler.GetMapTile(nexttarget);
+            shipStats.direction = gameMapHandler.GetDirection(currentShipCoords, nexttarget);
+            shipStats.NextTurn(targetTile);
+            TriggerShipUpdated();
+            demoController.FieldsTravelled++;
+
+
+            Debug.Log("... next Target selected: " + nexttarget.x + ", " + nexttarget.y);
+            nextScheduledTargets.RemoveAt(0);
         }
     }
 
@@ -131,10 +133,17 @@ public class ShipController : MonoBehaviour
                         {
                             if (demoController.GameState == EnumGameStates.ShipMoving)
                             {
-                                if (nextScheduledTarget == null && mouseCellCoordinates != gameMapHandler.shipCoordinates)
+                                if (nextScheduledTargets.Count == 0 && mouseCellCoordinates != gameMapHandler.shipCoordinates)
                                 {
-                                    nextScheduledTarget = mouseCellCoordinates;
+                                    nextScheduledTargets.Add(mouseCellCoordinates);
+                                    Debug.Log("One new target scheudled.");
                                 }
+                                //else
+                                //{
+                                //    // if ship moves and there are more targets, the next click will cancel those targets
+                                //    nextScheduledTargets.Clear();
+                                //    Debug.Log("Next target scheudle cleared.");
+                                //}
                             }
                             else
                             {
@@ -161,6 +170,25 @@ public class ShipController : MonoBehaviour
                             tradeController.ShowTrade(gameMapHandler.GetCellPosition(mouseCellCoordinates), StaticTileDataContainer.Instance.gameMapData[mouseCellCoordinates.x, mouseCellCoordinates.y].CityData);
                         }
                     }
+                    else if (currentShipCoords != mouseCellCoordinates) // check pathfinding route
+                    {
+                        if (nextScheduledTargets.Count == 0 && demoController.GameState != EnumGameStates.ShipMoving)
+                        {
+                            PathfindingTileNode start = StaticTileDataContainer.Instance.gameMapData[currentShipCoords.x, currentShipCoords.y].pathfingingTileNode;
+                            PathfindingTileNode end = StaticTileDataContainer.Instance.gameMapData[mouseCellCoordinates.x, mouseCellCoordinates.y].pathfingingTileNode;
+                            List<PathfindingTileNode> path = Pathfinding.FindPath(start, end);
+
+                            //foreach(PathfindingTileNode tile in path)
+                            for (int i = 1; i < path.Count; i++)
+                            {
+                                nextScheduledTargets.Add(StaticTileDataContainer.CubeToUnityCell(path[i].cubePosition));
+                                //Debug.Log(StaticTileDataContainer.CubeToUnityCell(tile.cubePosition));
+                                Debug.DrawLine(gameMapHandler.GetCellPosition(StaticTileDataContainer.CubeToUnityCell(path[i - 1].cubePosition)), gameMapHandler.GetCellPosition(StaticTileDataContainer.CubeToUnityCell(path[i].cubePosition)), Color.red, 1f);
+                            }
+
+                            Debug.Log("New targets scheduled: " + nextScheduledTargets.Count);
+                        }
+                    }
                 }
             }
         }
@@ -168,8 +196,19 @@ public class ShipController : MonoBehaviour
         TriggerShipUpdated();
     }
 
+    internal void ResetForNewRun()
+    {
+        nextScheduledTargets.Clear();
+        shipStats.SetShipModel(this.shipStats.shipModel);
+        transform.position = StaticTileDataContainer.Instance.TilemapFOW.GetCellCenterWorld((Vector3Int)gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
+        gameObject.SetActive(true);
+        TriggerShipUpdated();
+    }
+
     private void EndShipMovement()
     {
+        Debug.Log("Target reached: " + gameMapHandler.shipCoordinates.x + ", " + gameMapHandler.shipCoordinates.y + ". Targets Scheuded: " + nextScheduledTargets.Count);
+
         shipMovingTimer = 0;
 
         transform.position = shipTargetPosition; // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);

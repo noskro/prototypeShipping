@@ -8,6 +8,7 @@ public partial class GameMapHandler : MonoBehaviour
 {
     public Transform AttackIcon;
     public Transform MoveToIcon;
+    public List<Transform> pathfindingDots;
     public Transform CoinIcon;
 
     public Vector2Int shipCoordinates;
@@ -171,6 +172,11 @@ public partial class GameMapHandler : MonoBehaviour
         AttackIcon.gameObject.SetActive(false);
         MoveToIcon.gameObject.SetActive(false);
         CoinIcon.gameObject.SetActive(false);
+
+        for (int i = 0; i < pathfindingDots.Count; i++)
+        {
+            pathfindingDots[i].gameObject.SetActive(false);
+        }
     }
 
     internal void ShowMouseCursor(Vector2Int cursorCoords)
@@ -239,6 +245,69 @@ public partial class GameMapHandler : MonoBehaviour
         {
             CoinIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
             CoinIcon.gameObject.SetActive(true);
+        }
+        else // show pathfinding
+        {
+            PathfindingTileNode start = StaticTileDataContainer.Instance.gameMapData[shipCoordinates.x, shipCoordinates.y].pathfingingTileNode;
+            PathfindingTileNode end = StaticTileDataContainer.Instance.gameMapData[cursorCoords.x, cursorCoords.y].pathfingingTileNode;
+            List<PathfindingTileNode> path = Pathfinding.FindPath(start, end);
+
+            if (path.Count > 1)
+            {
+                for (int i = 0; i < pathfindingDots.Count; i++)
+                {
+                    if (i <= path.Count - 2)
+                    {
+                        Direction? direction = this.GetDirection(path[i].cellPosition, path[i + 1].cellPosition);
+
+                        int rotation = 0;
+                        if (direction.Equals(Direction.South))
+                        {
+                            rotation = 180;
+                        }
+                        else if (direction.Equals(Direction.NorthEast))
+                        {
+                            rotation = 300;
+                        }
+                        else if (direction.Equals(Direction.SouthEast))
+                        {
+                            rotation = 240;
+                        }
+                        else if (direction.Equals(Direction.NorthWest))
+                        {
+                            rotation = 60;
+                        }
+                        else if (direction.Equals(Direction.SouthWest))
+                        {
+                            rotation = 120;
+                        }
+
+                        if (i < path.Count - 2)
+                        {
+                            pathfindingDots[i].transform.localRotation = Quaternion.Euler(0, 0, rotation);
+
+                            pathfindingDots[i].position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)path[i+1].cellPosition);
+                            pathfindingDots[i].gameObject.SetActive(true);
+                        }
+                        else if (i == path.Count - 2 || pathfindingDots.Count < path.Count)
+                        {
+                            i = path.Count - 1; // always draw the last path element direction on the real compass
+                            MoveToIcon.transform.localRotation = Quaternion.Euler(0, 0, rotation);
+
+                            MoveToIcon.position = StaticTileDataContainer.Instance.TilemapMap.GetCellCenterWorld((Vector3Int)cursorCoords);
+                            MoveToIcon.gameObject.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+
+                //CustomTile targetTile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)cursorCoords);
+                //showShipStatsChange(targetTile, cursorCoords);
+            }
         }
     }
 
@@ -350,7 +419,7 @@ public partial class GameMapHandler : MonoBehaviour
 
     private bool IsNeighbour(Vector2Int cell, Vector2Int center)
     {
-        if (GetNeighbors(center, 1).Contains(cell))
+        if (StaticTileDataContainer.GetNeighbors(center, 1).Contains(cell))
         {
             return true;
         }
@@ -402,7 +471,7 @@ public partial class GameMapHandler : MonoBehaviour
     {
         StaticTileDataContainer.Instance.gameMapData[coords.x, coords.y].fow = EnumFogOfWar.Visible;
 
-        var farNeighbors = GetNeighbors(coords, discoverRange);
+        var farNeighbors = StaticTileDataContainer.GetNeighbors(coords, discoverRange);
         foreach (var neighbor in farNeighbors)
         {
             if (IsWithinMap(neighbor) && StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow != EnumFogOfWar.Visible)
@@ -412,7 +481,7 @@ public partial class GameMapHandler : MonoBehaviour
                 StaticTileDataContainer.Instance.TilemapFOW.SetColor((Vector3Int)neighbor, Color.white);
             }
         }
-        var nearNeighbors = GetNeighbors(coords, viewRange);
+        var nearNeighbors = StaticTileDataContainer.GetNeighbors(coords, viewRange);
         foreach (Vector2Int neighbor in nearNeighbors)
         {
             if (IsWithinMap(neighbor))
@@ -456,15 +525,17 @@ public partial class GameMapHandler : MonoBehaviour
                 {
                     if (StaticTileDataContainer.Instance.gameMapData[x, y] == null)
                     {
-                        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData();
+                        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData(new Vector2Int(x,y));
                     }
+
+                    StaticTileDataContainer.Instance.gameMapData[x, y].pathfingingTileNode.isDiscovered = true;
 
                     if (StaticTileDataContainer.Instance.gameMapData[x, y].CityData != null && StaticTileDataContainer.Instance.gameMapData[x, y].CityData.BeaconBuild)
                     {
                         // discover cities with beacon and fog the surroundings if they are still undiscovered
                         StaticTileDataContainer.Instance.gameMapData[x, y].fow = EnumFogOfWar.Visible;
 
-                        var neighbors = GetNeighbors(new Vector2Int(x, y), 1);
+                        var neighbors = StaticTileDataContainer.GetNeighbors(new Vector2Int(x, y), 1);
                         foreach (var neighbor in neighbors)
                         {
                             if (StaticTileDataContainer.Instance.gameMapData[neighbor.x, neighbor.y].fow.Equals(EnumFogOfWar.Undiscovered))
@@ -477,6 +548,7 @@ public partial class GameMapHandler : MonoBehaviour
                     if (StaticTileDataContainer.Instance.gameMapData[x, y].fow.Equals(EnumFogOfWar.Undiscovered))
                     {
                         StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
+                        StaticTileDataContainer.Instance.gameMapData[x, y].pathfingingTileNode.isDiscovered = false;
                     }
                     else if (StaticTileDataContainer.Instance.gameMapData[x, y].fow.Equals(EnumFogOfWar.Fog))
                     {
@@ -502,116 +574,7 @@ public partial class GameMapHandler : MonoBehaviour
                 x = StaticTileDataContainer.Instance.mapWidth;
                 StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
             }
-
-                    //// copy for 8 other sides
-                    //StaticTileDataContainer.Instance.TilemapFOW.CompressBounds();
-                    //BoundsInt bound = StaticTileDataContainer.Instance.TilemapFOW.cellBounds;
-                    //TileBase[] originalTiles = StaticTileDataContainer.Instance.TilemapFOW.GetTilesBlock(bound);
-
-                    //BoundsInt newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
-                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
-
-                    //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, 0, 0), bound.size);
-                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
-
-                    //newBound = new BoundsInt(bound.position - new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
-
-                    //newBound = new BoundsInt(bound.position + new Vector3Int(0, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
-
-                    //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
-
-                    //newBound = new BoundsInt(bound.position - new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
-
-                    //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
-
-                    //newBound = new BoundsInt(bound.position + new Vector3Int(StaticTileDataContainer.Instance.mapHeight, -1 * StaticTileDataContainer.Instance.mapWidth, 0), bound.size);
-                    //StaticTileDataContainer.Instance.TilemapFOW.SetTilesBlock(newBound, originalTiles);
-
         }
-    }
-
-    public List<Vector2Int> GetMoveableNeighbors(Vector2Int unityCell, int range, bool includeSelf = false)
-    {
-        List<Vector2Int> neighbors = GetNeighbors(unityCell, range, includeSelf);
-        for (int i = neighbors.Count - 1; i >= 0; i--)
-        {
-            Vector3Int cell = new Vector3Int(neighbors[i].x, neighbors[i].y, 0);
-            if (!StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(cell).movability.Equals(EnumTileMovability.ShipMoveable))
-            {
-                neighbors.RemoveAt(i);
-            }
-        }
-
-        return neighbors;
-    }
-
-    public List<Vector2Int> GetNeighbors(Vector2Int unityCell, int range, bool includeSelf = false)
-    {
-        // from https://github.com/Unity-Technologies/2d-extras/issues/69#issuecomment-684190243
-
-        var centerCubePos = UnityCellToCube(unityCell);
-
-        var result = new List<Vector2Int>();
-
-        int min = -range, max = range;
-
-        for (int x = min; x <= max; x++)
-        {
-            for (int y = min; y <= max; y++)
-            {
-                var z = -x - y;
-                if (z < min || z > max)
-                {
-                    continue;
-                }
-
-                var cubePosOffset = new Vector3Int(x, y, z);
-                if (!includeSelf && cubePosOffset == Vector3Int.zero)
-                {
-                    continue;
-                }
-                result.Add(CubeToUnityCell(centerCubePos + cubePosOffset));
-            }
-
-        }
-        return result;
-    }
-    private Vector3Int UnityCellToCube(Vector2Int cell)
-    {
-        var yCell = cell.x;
-        var xCell = cell.y;
-        var x = yCell - (xCell - (xCell & 1)) / 2;
-        var z = xCell;
-        var y = -x - z;
-        return new Vector3Int(x, y, z);
-    }
-    private Vector2Int CubeToUnityCell(Vector3Int cube)
-    {
-        var x = cube.x;
-        var z = cube.z;
-        var col = x + (z - (z & 1)) / 2;
-        var row = z;
-
-        return new Vector2Int(col, row);
-    }
-
-    private float DistanceBetweenCells(Vector2Int cellA, Vector2Int cellB)
-    {
-        int xd = cellA.x - cellB.x;
-        int yd = cellA.y - cellB.y;
-        float dist = MathF.Sqrt((xd*xd) + (yd*yd)); 
-
-
-
-        //int xd = cellA.x - cellB.x;
-        //int yd = cellA.y - ((cellA.x + (cellA.x & 1)) / 2) - (cellB.y - (cellB.x + (cellB.x & 1)) / 2);
-        //int dist = (Mathf.Abs(xd) + Mathf.Abs(xd + yd) + Mathf.Abs(yd)) / 2;
-        return Mathf.RoundToInt(dist);
     }
 
     internal Vector2Int GetCellCoords(Vector3 mouseWorldPosition)

@@ -95,7 +95,7 @@ public partial class DemoController : MonoBehaviour
         Run = 0;
         gameMapHandler = GetComponent<GameMapHandler>();
 
-        if (worldCreator != null)
+        if (worldCreator != null) 
         {
             worldCreator.AddNewIslandPrefabsToAvailable(EnumIslandUnlockEvent.StarterIsland);
         }
@@ -131,13 +131,10 @@ public partial class DemoController : MonoBehaviour
 
         // place Ship
         SetGameState(EnumGameStates.Start);
-        shipController.shipStats.SetShipModel(shipController.shipStats.shipModel);
+        gameMapHandler.shipCoordinates = StaticTileDataContainer.Instance.GetMapStartingCoordinates();
 
-        gameMapHandler.shipCoordinates = StaticTileDataContainer.Instance.GetMapStartingCoordinates(); 
-        shipController.transform.position = StaticTileDataContainer.Instance.TilemapFOW.GetCellCenterWorld((Vector3Int)gameMapHandler.shipCoordinates); // new Vector3(shipWorldPosition.x, shipWorldPosition.y, -10);
-        shipController.gameObject.SetActive(true);
+        shipController.ResetForNewRun();
 
-        shipController.TriggerShipUpdated(); 
         gameMapHandler.StartRun();
     }
 

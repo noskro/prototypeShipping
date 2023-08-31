@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameMapData
@@ -11,6 +12,13 @@ public class GameMapData
 
     public CityLabelView cityLabelOverlay;
 
+    public PathfindingTileNode pathfingingTileNode;
+
+    public GameMapData(Vector2Int cell)
+    {
+        this.pathfingingTileNode = new PathfindingTileNode();
+        this.pathfingingTileNode.setHexPosition(cell);
+    }
 
     internal void Reset(float distanceToStartingCell)
     {
@@ -85,5 +93,21 @@ public class GameMapData
     {
         this.CityData.CityDiscovered = v;
         this.cityLabelOverlay.SetCityDiscovered(v);
+    }
+
+    internal void SetPathfindingNodeMoveable(bool moveable)
+    {
+        if (this.pathfingingTileNode != null)
+        {
+            this.pathfingingTileNode.isMoveable = moveable;
+        }
+    }
+
+    internal void SetPathfindingNodeNeighbors(List<PathfindingTileNode> neighbors)
+    {
+        if (this.pathfingingTileNode != null)
+        {
+            this.pathfingingTileNode.adjacentTiles = neighbors;
+        }
     }
 }
