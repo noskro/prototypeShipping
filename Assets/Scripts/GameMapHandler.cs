@@ -30,8 +30,8 @@ public partial class GameMapHandler : MonoBehaviour
                     int iAttempts = 0;
                     do
                     {
-                        int x = Random.Range(0, StaticTileDataContainer.Instance.mapWidth);
-                        int y = Random.Range(0, StaticTileDataContainer.Instance.mapHeight);
+                        int x = Random.Range(0, StaticTileDataContainer.Instance.MapSize);
+                        int y = Random.Range(0, StaticTileDataContainer.Instance.MapSize);
 
                         if (e.placedOnAnyTile.Contains(GetMapTile(x, y)) && GetObjectTile(x, y) == null)
                         {
@@ -135,7 +135,7 @@ public partial class GameMapHandler : MonoBehaviour
 
     internal bool CanNavigate(Vector2Int targetCoord, Vector2Int sourceCoord)
     {
-        if (targetCoord.x >= 0 && targetCoord.x <StaticTileDataContainer.Instance.mapWidth && targetCoord.y >= 0 && targetCoord.y < StaticTileDataContainer.Instance.mapHeight)
+        if (IsWithinMap(targetCoord)) // StaticTileDataContainer.Instance.gameMapData[targetCoord.x, targetCoord.y] != null) // targetCoord.x >= 0 && targetCoord.x < StaticTileDataContainer.Instance.MapSize && targetCoord.y >= 0 && targetCoord.y < StaticTileDataContainer.Instance.MapSize)
         {
             if (IsNeighbour(sourceCoord, targetCoord))
             {
@@ -152,7 +152,7 @@ public partial class GameMapHandler : MonoBehaviour
 
     internal bool CanTrade(Vector2Int cursorCoords)
     {
-        if (cursorCoords.x >= 0 && cursorCoords.x <StaticTileDataContainer.Instance.mapWidth && cursorCoords.y >= 0 && cursorCoords.y < StaticTileDataContainer.Instance.mapHeight)
+        if (IsWithinMap(cursorCoords)) // StaticTileDataContainer.Instance.gameMapData[cursorCoords.x, cursorCoords.y] != null) //cursorCoords.x >= 0 && cursorCoords.x <StaticTileDataContainer.Instance.mapWidth && cursorCoords.y >= 0 && cursorCoords.y < StaticTileDataContainer.Instance.mapHeight)
         {
             if (IsNeighbour(cursorCoords, shipCoordinates))
             {
@@ -504,12 +504,12 @@ public partial class GameMapHandler : MonoBehaviour
 
     internal bool IsWithinMap(Vector2Int coords)
     {
-        return coords != null && coords.x >= 0 && coords.x < StaticTileDataContainer.Instance.mapWidth && coords.y >= 0 && coords.y < StaticTileDataContainer.Instance.mapHeight;
+        return coords != null && StaticTileDataContainer.Instance.gameMapData[coords.x, coords.y] != null; //coords.x >= 0 && coords.x < StaticTileDataContainer.Instance.mapWidth && coords.y >= 0 && coords.y < StaticTileDataContainer.Instance.mapHeight;
     }
 
     public EnumTileType GetShipTileType()
     {
-        return StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)shipCoordinates).type;
+        return StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>((Vector3Int)shipCoordinates).type;   
     }
 
 
@@ -519,13 +519,14 @@ public partial class GameMapHandler : MonoBehaviour
         {
             StaticTileDataContainer.Instance.TilemapFOW.ClearAllTiles();
 
-            for (int x = 0; x <StaticTileDataContainer.Instance.mapWidth; x++)
+            for (int x = 0; x <StaticTileDataContainer.Instance.MapSize; x++)
             {
-                for (int y = 0; y <StaticTileDataContainer.Instance.mapHeight; y++)
+                for (int y = 0; y <StaticTileDataContainer.Instance.MapSize; y++)
                 {
                     if (StaticTileDataContainer.Instance.gameMapData[x, y] == null)
                     {
-                        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData(new Vector2Int(x,y));
+                        continue;
+                        //StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData(new Vector2Int(x,y));
                     }
 
                     StaticTileDataContainer.Instance.gameMapData[x, y].pathfingingTileNode.isDiscovered = true;
@@ -558,22 +559,22 @@ public partial class GameMapHandler : MonoBehaviour
             }
 
             // create FoW for the outside border
-            for (int x = -1; x < StaticTileDataContainer.Instance.mapWidth+1; x++)
-            {
-                int y = -1;
-                StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
+            //for (int x = -1; x < StaticTileDataContainer.Instance.mapWidth+1; x++)
+            //{
+            //    int y = -1;
+            //    StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
 
-                y = StaticTileDataContainer.Instance.mapHeight;
-                StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
-            }
-            for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
-            {
-                int x = -1;
-                StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
+            //    y = StaticTileDataContainer.Instance.mapHeight;
+            //    StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
+            //}
+            //for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+            //{
+            //    int x = -1;
+            //    StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
 
-                x = StaticTileDataContainer.Instance.mapWidth;
-                StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
-            }
+            //    x = StaticTileDataContainer.Instance.mapWidth;
+            //    StaticTileDataContainer.Instance.TilemapFOW.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileBlack);
+            //}
         }
     }
 

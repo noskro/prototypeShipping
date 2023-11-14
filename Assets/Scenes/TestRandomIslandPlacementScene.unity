@@ -50194,6 +50194,7 @@ MonoBehaviour:
   shipStatusUI: {fileID: 629347419}
   shipStartPosition: {x: 0, y: 0, z: 0}
   shipTargetPosition: {x: 0, y: 0, z: 0}
+  nextScheduledTargets: []
   doShipRotate: 0
   shipMovingTimer: 0
 --- !u!114 &974539787
@@ -53048,6 +53049,7 @@ MonoBehaviour:
   CustomTileBlack: {fileID: 11400000, guid: 2b2b96e80d6ad0c4590a4532740a3e51, type: 2}
   CustomTileBlackFog: {fileID: 11400000, guid: 380f61cb5de020b48b39ee850c84c29c, type: 2}
   CustomTileVillage: {fileID: 11400000, guid: fda355beb698dba43b07816f89feb048, type: 2}
+  CustomTileWorldBorder: {fileID: 11400000, guid: 1e7cade76d1e79f4fa4da26f96136270, type: 2}
   CityLabelPrefab: {fileID: 7886041068766150881, guid: 31a45a7bbf7d89d4ea5899bf5bd9c627, type: 3}
   mapHeight: 30
   mapWidth: 30
@@ -53319,6 +53321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AttackIcon: {fileID: 1157812149}
   MoveToIcon: {fileID: 227353557}
+  pathfindingDots: []
   CoinIcon: {fileID: 1996401947}
   shipCoordinates: {x: 0, y: 0}
   pirateShips:

@@ -629,3 +629,4 @@ MonoBehaviour:
   m_FlatTop: 0
   movability: 1
   type: 0
+  siblingGroup: 2

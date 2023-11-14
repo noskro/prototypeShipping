@@ -1,0 +1,66 @@
+Unlock Meta Quests:
+- Travel X Tiles
+- Travel X Tiles from center
+- Reach world's end/border
+- Discover X Islands
+- Trade with X Cities / TRade for X Gold
+- Destroy X Pirate Ships
+- Kill X sea monsters
+- Survive x storms
+
+
+Things to do in Run:
+- Discover Islands
+- Fight pirates / sea monsters
+- cities:
+	- Trade with cities
+	- Accept missions for cites (city difficulty levels? Mabye based on distance to Spawn? That way further away cities have no doable quests at the start of the round)
+	- Improve relation with cities (better relation = more gold / more things to do)
+	- Improve ship (Maybe min relation is required for upgrades, and max upgrade depends on city difficulty? The further the progress the better upgrades you can aquire)
+
+
+City missions:
+- Defeat nearby pirate(s) (maybe spawn extra pirates for that? maybe with quest marker?)
+- Defeat nearby sea monster(s) (same as pirates)
+- Defeat nearby priate nest/city/island (is it already spawned or does the island only spawn after accepting the quest?)
+- Trade with island X hexes away?
+- Explore X hexes around the cities-island (maybe half/all/70% of hexes in a 10/20/x hex radius)
+- Protect ship on route? (a trade ship is going to the city or from city somewhere else and you need to follow it and protect from pirates/monsters/whatever?)
+- Find and rescue sunken ship/survivors somewhere? (Hint could be "North", or "around 30 hexes away", ...)
+- Discover island of specific Biome?
+- Create new city/colony somewhere??
+
+
+
+Ship improvements:
+- Hull (lives)
+- Storage (trade amount = gold=
+- Sails (speed - how to implement that in game?)
+- Outlook (viewing range)
+- Canons 
+	- at some point (higher level cities or after unlocking), tier 2 canons with 2 hexes range. maybe even more tiers later
+? (Something for crew spaces? How many officers can be drafted? Or is that purely based on ship type?)
+
+- All upgrades:
+	- should have a maximum based on thecurrent ship type
+	
+
+
+Other Ideas:
+- Different Biomes for islands??
+	- Gras / Forest
+	- Jungle
+	- Desert
+	- Ice
+	- Mountain
+	- Maybe different biomes have different bonuses for cities / different quests / whatever
+? How to unlock new officers
+	? From some city quests
+	? From some meta upgrade achievements
+	? From a random pirate ship (e.g. defeated pirates first mate)
+	? from a random discovery (e.g. Shiffsbrüchiger)
+- Probably better with no starting "home port/island"
+? Should there be real trade (pickup/deliver/different prices/values) or is the current "Trade button = get x gold" good/simple enough for now?
+	+ Detailed Trade brings more options/things to do/variety (city quests, achievements, rewards, ...)
+	- Detailed trade with comparing prices are just a pain in the ass and I hate it
+	- Detailed trade is a lot more work (data model, sprites, interfaces, ...)

@@ -3,6 +3,7 @@
     public enum EnumTileSiblingGroup
     {
         None,
-        FoW
+        FoW,
+        DeepWater
     }
 }

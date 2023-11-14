@@ -130,6 +130,7 @@ public partial class DemoController : MonoBehaviour
         gameMapHandler.NewRun();
 
         // place Ship
+        gameMapHandler.shipCoordinates = StaticTileDataContainer.Instance.GetMapStartingCoordinates();
         SetGameState(EnumGameStates.Start);
         gameMapHandler.shipCoordinates = StaticTileDataContainer.Instance.GetMapStartingCoordinates();
 

@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class RandomWorldCreater : MonoBehaviour
 {
+    public int baseWorldRadius;
     public int maxAttemptsToPlaceIsland;
     
     public IslandPrefab HomeIslandPrefab;
@@ -55,34 +56,48 @@ public class RandomWorldCreater : MonoBehaviour
             GameObject.Destroy(child.gameObject);
         }
 
-        for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++)
+        for (int x = 0; x < StaticTileDataContainer.Instance.MapSize; x++)
         {
-            for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+            for (int y = 0; y < StaticTileDataContainer.Instance.MapSize; y++)
             {
-                StaticTileDataContainer.Instance.gameMapData[x, y].Reset(0);
-            }
-        }
-
-        StaticTileDataContainer.Instance.mapWidth = StaticTileDataContainer.Instance.mapHeight = 14 + AvailableIslands.Count * 4; // for reasons of rendering the height must be the double of odd number (e.g 30 = 15*2) / start value is 4 islands * 4 = 16 + 14 = 30
-
-        StaticTileDataContainer.Instance.CreateGameMapDataArray();
-
-        for (int x = -1; x < StaticTileDataContainer.Instance.mapWidth + 1; x++) 
-        { 
-            for (int y = -1; y < StaticTileDataContainer.Instance.mapHeight + 1; y++)
-            {
-                StaticTileDataContainer.Instance.TilemapMap.SetTile(new Vector3Int(x,y,0), StaticTileDataContainer.Instance.CustomTileWater);
-
-                if (x >= 0 && y >= 0 && x < StaticTileDataContainer.Instance.mapWidth && y < StaticTileDataContainer.Instance.mapHeight)
+                if (StaticTileDataContainer.Instance.gameMapData[x, y] != null)
                 {
-                    if (StaticTileDataContainer.Instance.gameMapData[x, y] == null)
-                    {
-                        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData(new Vector2Int(x, y)); // on map extension, create new array entry
-                        // set pathfindingNode
-                    }
+                    StaticTileDataContainer.Instance.gameMapData[x, y].Reset(0);
                 }
             }
         }
+
+        StaticTileDataContainer.Instance.mapRadius = baseWorldRadius + AvailableIslands.Count * 5; // for reasons of rendering the height must be the double of odd number (e.g 30 = 15*2) / start value is 4 islands * 4 = 16 + 14 = 30
+
+        //StaticTileDataContainer.Instance.CreateGameMapDataArray();
+        StaticTileDataContainer.Instance.CreateGameMapDataArrayCircle();
+
+        for (int x = 0; x < StaticTileDataContainer.Instance.MapSize; x++)
+        {
+            for (int y = 0; y < StaticTileDataContainer.Instance.MapSize; y++)
+            {
+                if (StaticTileDataContainer.Instance.gameMapData[x, y] != null)
+                {
+                    StaticTileDataContainer.Instance.TilemapMap.SetTile(new Vector3Int(x, y, 0), StaticTileDataContainer.Instance.CustomTileWater);
+                }
+                else
+                {
+                    StaticTileDataContainer.Instance.TilemapMap.SetTile(new Vector3Int(x, y, 0), null);
+                }
+                //if (x >= 0 && y >= 0 && x < StaticTileDataContainer.Instance.mapWidth && y < StaticTileDataContainer.Instance.mapHeight)
+                //{
+                //    if (StaticTileDataContainer.Instance.gameMapData[x, y] == null)
+                //    {
+                //        StaticTileDataContainer.Instance.gameMapData[x, y] = new GameMapData(new Vector2Int(x, y)); // on map extension, create new array entry
+                //                                                                                                    // set pathfindingNode
+                //    }
+                //}
+            }
+        }
+
+        // calculate distance for circle  from center
+        StaticTileDataContainer.Instance.CreateCircleFromGameMapCenter();
+
 
         PositionHomeIsland = StaticTileDataContainer.Instance.GetHomeIslandStartingCoordinates();
         TryPlaceIslandAtRandomPosition(HomeIsland, PositionHomeIsland);
@@ -96,27 +111,30 @@ public class RandomWorldCreater : MonoBehaviour
         }
 
         // set pathfinding tile notes
-        for (int x = 0; x < StaticTileDataContainer.Instance.mapWidth; x++)
+        for (int x = 0; x < StaticTileDataContainer.Instance.MapSize; x++)
         {
-            for (int y = 0; y < StaticTileDataContainer.Instance.mapHeight; y++)
+            for (int y = 0; y < StaticTileDataContainer.Instance.MapSize; y++)
             {
-                CustomTile tile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(new Vector3Int(x, y, 0));
-                StaticTileDataContainer.Instance.gameMapData[x, y].SetPathfindingNodeMoveable(tile.movability.Equals(EnumTileMovability.ShipMoveable));
-
-                List<Vector2Int> neighbors = StaticTileDataContainer.Instance.GetMoveableNeighbors(new Vector2Int(x, y), 1);
-                List<PathfindingTileNode> neighborTileNodes = new List<PathfindingTileNode>();
-                foreach(Vector2Int n in neighbors)
+                if (StaticTileDataContainer.Instance.gameMapData[x, y] != null)
                 {
-                    try
+                    CustomTile tile = StaticTileDataContainer.Instance.TilemapMap.GetTile<CustomTile>(new Vector3Int(x, y, 0));
+                    StaticTileDataContainer.Instance.gameMapData[x, y].SetPathfindingNodeMoveable(tile.movability.Equals(EnumTileMovability.ShipMoveable));
+
+                    List<Vector2Int> neighbors = StaticTileDataContainer.Instance.GetMoveableNeighbors(new Vector2Int(x, y), 1);
+                    List<PathfindingTileNode> neighborTileNodes = new List<PathfindingTileNode>();
+                    foreach(Vector2Int n in neighbors)
                     {
-                        neighborTileNodes.Add(StaticTileDataContainer.Instance.gameMapData[n.x, n.y].pathfingingTileNode);
+                        try
+                        {
+                            neighborTileNodes.Add(StaticTileDataContainer.Instance.gameMapData[n.x, n.y].pathfingingTileNode);
+                        }
+                        catch (Exception e)
+                        {
+                            int a = 0;
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        int a = 0;
-                    }
+                    StaticTileDataContainer.Instance.gameMapData[x, y].SetPathfindingNodeNeighbors(neighborTileNodes);
                 }
-                StaticTileDataContainer.Instance.gameMapData[x, y].SetPathfindingNodeNeighbors(neighborTileNodes);
             }
         }
 
@@ -149,8 +167,8 @@ public class RandomWorldCreater : MonoBehaviour
             }
             else
             {
-                randomX = Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapWidth - islandWidth));
-                randomY = (Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.mapHeight - islandHeight)) / 2) * 2; // only draw to even number columns
+                randomX = Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.MapSize - islandWidth));
+                randomY = (Mathf.RoundToInt(Random.Range(0, StaticTileDataContainer.Instance.MapSize - islandHeight)) / 2) * 2; // only draw to even number columns
             }
 
             foreach(KeyValuePair<Vector3Int, CustomTile> kbpTile in islandTilesTuple.Item1)
